@@ -1,0 +1,48 @@
+<section class="main-container col1-layout">
+  <div class="main container">
+    <div class="account-login">
+      <div class="page-title">
+        <h2>Login or Create an Account</h2>
+      </div>
+      <fieldset class="col2-set">
+        <legend>Login or Create an Account</legend>
+        <div class="col-1 new-users"><strong>New Customers</strong>
+          <div class="content">
+            <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+            <div class="buttons-set">
+              <!-- <button [routerLink]="['/register']" routerLinkActive="router-link-active"  class="button create-account" type="button"><span>Create an Account</span></button> -->
+              <!-- Button trigger modal -->
+              <button type="button" class="button create-account" data-toggle="modal" data-target="#exampleModalLong">
+                <span>Create an Account</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-center" id="exampleModalLongTitle">CREATE NEW USER</h5>
+              </div>
+              <div class="modal-body">
+                <app-register></app-register>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login Form Component -->
+        <app-login-form></app-login-form>
+        <!-- Login Form Component -->
+        
+      </fieldset>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
+</section>

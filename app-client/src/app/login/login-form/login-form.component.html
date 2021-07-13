@@ -1,0 +1,29 @@
+<div class="col-2 registered-users"><strong>Registered Customers</strong>
+    <div class="content">
+      <p>If you have an account with us, please log in.</p>
+      <form name="form-signin" #f="ngForm" novalidate>
+        <div class="alert alert-danger" role="alert" *ngIf="">{{errorMessage}}</div>           
+        <ul class="form-list">
+          <li>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }"></div>
+            <label for="email">Email Address <span class="required">*</span></label>
+            <br>
+            <input type="text" class="input-text required-entry" id="username" name="username" pattern="[^ @]*@[^ @]*" [(ngModel)]="form.username" #username="ngModel" required />
+            <div *ngIf="f.submitted && !username.valid" class="help-block">Sai tên đăng nhập</div>
+          </li>
+          <li>
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }"></div>
+            <label for="pass">Password <span class="required">*</span></label>
+            <br>
+            <!-- <input type="password" class="input-text required-entry validate-password" id="password" name="password" [(ngModel)]="user.password" #password="ngModel" required /> -->
+            <input type="password" class="input-text required-entry validate-password" id="password" name="password" [(ngModel)]="form.password" #password="ngModel" required />
+            <div *ngIf="f.submitted && !password.valid" class="help-block">Sai mật khẩu</div>
+          </li>
+        </ul>
+        <p class="required">* Required Fields</p>
+        <div class="buttons-set">
+          <button id="send2" name="send" class="button login" (click)="login()"><span>Login</span></button>
+          <a class="forgot-word" [routerLink]="['/register']">Forgot Your Password?</a> </div>
+      </form>
+    </div>
+  </div>
