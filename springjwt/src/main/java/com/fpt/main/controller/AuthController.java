@@ -1,8 +1,14 @@
 package com.fpt.main.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,16 +29,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fpt.main.advice.SendEmailService;
+import com.fpt.main.advice.HandleMultipartFile;
 import com.fpt.main.exception.TokenRefreshException;
 import com.fpt.main.model.ERole;
 import com.fpt.main.model.RefreshToken;
@@ -49,6 +59,7 @@ import com.fpt.main.reponsitory.UserRepository;
 import com.fpt.main.security.jwt.JwtUtils;
 import com.fpt.main.services.RefreshTokenService;
 import com.fpt.main.services.UserDetailsImpl;
+
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -75,6 +86,9 @@ public class AuthController {
 
 	@Autowired
 	RefreshTokenService refreshTokenService;
+	
+	@Autowired
+	HandleMultipartFile handleMultipartFile;
 
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -181,7 +195,16 @@ public class AuthController {
 	}
 	
 	@PostMapping("/profile")
-	public ResponseEntity<?> updateProfile(@Valid @RequestBody User user){
+	public ResponseEntity<?> updateProfile(@Valid @RequestBody User user,
+										   		  @RequestParam(name="fileImage",required = false) MultipartFile multipartFile) throws IOException{
+		
+		
+		//handle MultipartFile
+		if (multipartFile.getSize()> 0) {
+			String fileName = handleMultipartFile.SaveAvatarImage(multipartFile, user.getId());
+			user.setAvatar(fileName);
+		}
+		
 		User currentUser = userReponsitory.findByUserName(user.getUsername()).orElseThrow(() -> new RuntimeException("User not found! Update Profile Failure!" ));
 		if (!user.getId().equals(currentUser.getId())) {return ResponseEntity.badRequest().body(new MessageResponse("Update Profile Failure!"));}
 		userReponsitory.save(user);
@@ -190,7 +213,9 @@ public class AuthController {
 	
 	@GetMapping("/active/{username}/{verifyCode}")
 	@ResponseBody
-	public ResponseEntity<?> activedUserByEmail(@PathVariable String verifyCode, @PathVariable String username) throws URISyntaxException {
+	public ResponseEntity<?> activedUserByEmail(@PathVariable String verifyCode, 
+												@PathVariable String username) throws URISyntaxException {
+		
 		User currentUser = userReponsitory.findByUserName(username).orElseThrow(() -> new RuntimeException("User not found! Update Profile Failure!" ));
 		if (currentUser != null) {
 			if (currentUser.getVerifycationCode().equals(verifyCode)) {
