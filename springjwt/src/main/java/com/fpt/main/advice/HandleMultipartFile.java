@@ -27,13 +27,15 @@ public class HandleMultipartFile {
 		String uploadDir = "/avatar/" + userId;
 
 		Path uploadPath = Paths.get(uploadDir);
-
+		
 		if (!Files.exists(uploadPath)) {
 			Files.createDirectories(uploadPath);
 		}
 
 		try (InputStream inputStream = multipartFile.getInputStream()) {
-			Path filePath = uploadPath.resolve(fileName);
+			Path filePath = uploadPath.resolve(fileName);			
+			System.out.println(filePath.toFile().getAbsolutePath() + "=========================");
+			
 			Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			Files.delete(uploadPath);

@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -170,6 +171,12 @@ public class User {
 
 	public void setVerifycationCode(String verifycationCode) {
 		this.verifycationCode = verifycationCode;
+	}
+	
+	@Transient
+	public String getAvatarImagePath() {
+		if (avatar == null || id == null) return null;
+		return "/avatar/" + id + "/" + avatar;
 	}
 	
 }
