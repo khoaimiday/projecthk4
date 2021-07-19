@@ -2,6 +2,7 @@ package com.fpt.main.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -15,6 +16,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import net.bytebuddy.utility.RandomString;
+import net.minidev.json.JSONArray;
+
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +44,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.fpt.main.advice.SendEmailService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fpt.main.advice.HandleMultipartFile;
 import com.fpt.main.exception.TokenRefreshException;
 import com.fpt.main.model.ERole;
 import com.fpt.main.model.RefreshToken;
+import com.fpt.main.model.Restaurant;
 import com.fpt.main.model.Role;
 import com.fpt.main.model.User;
 import com.fpt.main.payload.request.LoginRequest;
@@ -106,8 +113,15 @@ public class AuthController {
 
 			RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
 			return ResponseEntity
-					.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(), userDetails.getUsername(),
-							userDetails.getEmail(), userDetails.getAddress(), userDetails.getPhonenumber(), roles));
+					.ok(new JwtResponse(
+							jwt, 
+							refreshToken.getToken(), 
+							userDetails.getId(), 
+							userDetails.getUsername(),
+							userDetails.getEmail(), 
+							new ObjectMapper().writeValueAsString(userDetails.getAddress()) , //Convert object to JSON
+							userDetails.getPhonenumber(), 
+							roles));
 		} catch (BadCredentialsException ex) {
 			ex.printStackTrace();
 			error += ex.getMessage();
@@ -170,7 +184,13 @@ public class AuthController {
 		}
 		user.setRoles(roles);			
 		userReponsitory.save(user);	
-		sendEmailService.sendEmail(user);
+		
+		try {
+			sendEmailService.sendEmail(user);
+		} catch (MalformedURLException | UnsupportedEncodingException | MessagingException e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().body(new MessagingException("Error while sending email!"));
+		}
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully! Email just send with active code!"));
 	}
@@ -181,7 +201,7 @@ public class AuthController {
 
 		return refreshTokenService.findByToken(requestRefreshToken).map(refreshTokenService::verifyExpiration)
 				.map(RefreshToken::getUser).map(user -> {
-					String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+					String token = jwtUtils.generateTokenFromUsername(user.getUserName());
 					return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
 				})
 				.orElseThrow(() -> new TokenRefreshException(requestRefreshToken, "Refresh token is not in database!"));
@@ -205,7 +225,7 @@ public class AuthController {
 			user.setAvatar(fileName);
 		}
 		
-		User currentUser = userReponsitory.findByUserName(user.getUsername()).orElseThrow(() -> new RuntimeException("User not found! Update Profile Failure!" ));
+		User currentUser = userReponsitory.findByUserName(user.getUserName()).orElseThrow(() -> new RuntimeException("User not found! Update Profile Failure!" ));
 		if (!user.getId().equals(currentUser.getId())) {return ResponseEntity.badRequest().body(new MessageResponse("Update Profile Failure!"));}
 		userReponsitory.save(user);
 		return ResponseEntity.ok(new MessageResponse("Update Profile Successful!"));		
@@ -229,5 +249,16 @@ public class AuthController {
 		}
 		return ResponseEntity.badRequest().body(new MessageResponse("Can not Active User!"));
 	}
+	
+	/**
+	 * use the RedirectView
+	 * @param url
+	 * @return RedirectView
+	 */
+    public RedirectView localRedirect(String url) {
+        RedirectView redirectView = new RedirectView();
+        redirectView.setUrl(url);
+        return redirectView;
+    }
 	
 }

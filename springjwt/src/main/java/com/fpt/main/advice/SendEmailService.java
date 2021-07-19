@@ -1,18 +1,21 @@
 package com.fpt.main.advice;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.Servlet;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
@@ -26,18 +29,27 @@ public class SendEmailService {
 	private JavaMailSender javaMailSender;
 	
 	//send mail with text basic
-	public void sendEmail(User userInfo) throws MalformedURLException {
+	public void sendEmail(User userInfo) throws MalformedURLException, MessagingException, UnsupportedEncodingException {
+				
+		URL activeUrl = new URL("http://localhost:8080/api/auth/active/" + userInfo.getUserName() + "/" + userInfo.getVerifycationCode());	
 		
-		URL baseUrl = new URL("http://localhost:8080/api/auth/active/" + userInfo.getUsername() + "/" + userInfo.getVerifycationCode());
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
 		
-		String strHello = String.format("Hello, %s \n", userInfo.getUsername());		
+		helper.setFrom("Admin@admin.com", "Admin");
+		helper.setTo(userInfo.getEmail());
 		
-		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setTo(userInfo.getEmail());
-		msg.setSubject("Activation email" );
-		msg.setText(strHello + "Mã kích hoạt bạn là: " +  baseUrl );
+		String subject =  "Here's the link to activation your account.";
 		
-		javaMailSender.send(msg);
+		String content = "<p>Hello," + userInfo.getUserName() + "</p>"
+				+ "You have created account with email: " + userInfo.getEmail()
+				+ " .Click the kubj below to active your acccount."
+				+ "<a href=\"" + activeUrl  + ">Activated account link</a>";
+		
+		helper.setSubject(subject);
+		helper.setText(content, true);
+		
+		javaMailSender.send(message);
 	}
 	
 	//send mail with HTML and attach file
@@ -64,6 +76,5 @@ public class SendEmailService {
         helper.addAttachment("my_photo.png", new ClassPathResource("android.png"));
 
         javaMailSender.send(msg);
-
     }
 }

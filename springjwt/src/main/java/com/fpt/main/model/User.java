@@ -1,6 +1,5 @@
 package com.fpt.main.model;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -25,6 +25,12 @@ import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users",
@@ -32,13 +38,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 				@UniqueConstraint(columnNames = "username"),
 				@UniqueConstraint(columnNames = "email")
 		})
-public class User {
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+@Builder
+public class User extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotBlank
 	@Size(max = 20)
+	@Column(columnDefinition = "nvarchar")
 	private String userName;
 	
 	@NotBlank
@@ -51,127 +64,40 @@ public class User {
 	@JsonIgnore
 	private String password;
 	
-	private String address;
+	@ManyToOne
+	@JoinColumn(name="address_id", nullable=true)
+	private Address address;
 	
 	@Size(max = 15)
+	@Column(name = "phone_number")
 	private String phoneNumber;
 
+	@Column(name = "is_active", columnDefinition = "Bit(1) default false")
 	private boolean isActive;
 	
+	@Column(name = "avatar")
 	private String avatar;
 	
 	@Size(max = 20)
+	@Column(name = "gender")
 	private String gender;
 	
 	@JsonIgnore
-	@Column(updatable = false)
+	@Column(name = "verifycation_code", updatable = false)
 	private String verifycationCode;
 	
-	@Column(updatable = false)
-	private Date createdTime;
+	@JsonIgnore
+	@Column(name = "reset_password_token")
+	private String resetPasswordToken;
 	
+
 	@Fetch(FetchMode.JOIN)
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable( name = "user_roles", 
 				joinColumns = @JoinColumn(name= "user_id"), 
 				inverseJoinColumns= @JoinColumn(name="role_id"))
+	@Builder.Default
 	private Set<Role> roles = new HashSet<>();
-	
-	public User() {}
-
-	public User(String username, String email, String password) {
-		this.userName = username;
-		this.email = email;
-		this.password = password;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getUsername() {
-		return userName;
-	}
-
-	public void setUsername(String username) {
-		this.userName = username;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}	
-	
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPhonenumber() {
-		return phoneNumber;
-	}
-
-	public void setPhonenumber(String phonenumber) {
-		this.phoneNumber = phonenumber;
-	}
-
-	public String getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isactive) {
-		this.isActive = isactive;
-	}
-
-	public String getVerifycationCode() {
-		return verifycationCode;
-	}
-
-	public void setVerifycationCode(String verifycationCode) {
-		this.verifycationCode = verifycationCode;
-	}
 	
 	@Transient
 	public String getAvatarImagePath() {
@@ -179,4 +105,11 @@ public class User {
 		return "/avatar/" + id + "/" + avatar;
 	}
 	
+	//Constructor customized
+	public User(String userName, String email, String password) {
+		this.userName = userName;
+		this.email = email;
+		this.password = password;
+	}
+
 }

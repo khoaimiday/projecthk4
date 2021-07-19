@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fpt.main.model.Address;
 import com.fpt.main.model.User;
 
 public class UserDetailsImpl implements UserDetails{
@@ -24,7 +25,7 @@ public class UserDetailsImpl implements UserDetails{
 	@JsonIgnore
 	private String password;
 	
-	private String address;
+	private Address address;
 	
 	private String phonenumber;
 	
@@ -37,7 +38,7 @@ public class UserDetailsImpl implements UserDetails{
 			String username, 
 			String email, 
 			String password, 
-			String address, 
+			Address address, 
 			String phonenumber,
 			Boolean isActive, 
 			Collection<? extends GrantedAuthority> authorities) {
@@ -58,11 +59,11 @@ public class UserDetailsImpl implements UserDetails{
 		
 		return new UserDetailsImpl(
 				user.getId(), 
-				user.getUsername(), 
+				user.getUserName(), 
 				user.getEmail(), 
 				user.getPassword(), 
 				user.getAddress(), //address
-				user.getPhonenumber(), //phone
+				user.getPhoneNumber(), //phone
 				user.isActive(), //isActive
 				authorities);		
 	}	
@@ -83,11 +84,11 @@ public class UserDetailsImpl implements UserDetails{
 		this.email = email;
 	}
 	
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
-	public void setAddress(String address) {
+	public void setAddress(Address address) {
 		this.address = address;
 	}
 
