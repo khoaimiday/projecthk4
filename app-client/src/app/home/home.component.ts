@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { RestaurantsService } from '../services/restaurants.service';
 
 @Component({
   selector: 'app-home',
@@ -8,18 +8,18 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  
- 
-  constructor(private router: ActivatedRoute,
-              private toastr: ToastrService) { }
+  itemList = new Array(4);
+  restaurants: any[];
+  constructor(private router: Router, private restaurantService: RestaurantsService) { 
+    this.restaurantService.getAllRestaurants().subscribe(res=>{
+      this.restaurants = res;
+    });
+  }
 
-  ngOnInit(): void {
-    // this.router.queryParams
-    // .subscribe(params => {
-    //   if(params.isLogin !== undefined && params.isLogin === 'true') {
-    //     this.toastr.success('Login Successful!');
-    //   }
-    // });
+  ngOnInit() {
+  }
+  goToRestaurant(id){
+    this.router.navigate(['restaurants/101']);
   }
 
 }
