@@ -1,6 +1,8 @@
-import { Component, OnInit,NgModule } from '@angular/core';
+import { Component, OnInit,NgModule, ViewChild, AfterViewInit } from '@angular/core';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material';
 import { Router } from '@angular/router';
-import { RestaurantsService } from '../services/restaurants.service';
+import { Dishes, DishesService } from '../services/dishes.service';
+import { Restaurant, RestaurantsService } from '../services/restaurants.service';
 
 @Component({
   selector: 'app-search',
@@ -9,14 +11,18 @@ import { RestaurantsService } from '../services/restaurants.service';
 })
 export class SearchComponent implements OnInit {
 
-  searchValue: String = '';
+  searchValue: string = '';
+  tabName : string = 'Restaurant';
 
-  value = 'Clear me';
-  products = new Array(6);
-  foodList = new Array(6);
+  dishesList = new Array(6);
   restaurants = new Array();
-  constructor(private router: Router, private restaurantService: RestaurantsService) {
-    
+
+  constructor(private router: Router, 
+              private restaurantService: RestaurantsService,
+              private dishesService: DishesService) {}
+
+  ngOnInit() { 
+        
     //Get all restaurant
     this.restaurantService.getAllRestaurants().subscribe(res => {
       this.restaurants = res;
@@ -24,20 +30,39 @@ export class SearchComponent implements OnInit {
 
     //Get all Food
     this.restaurantService.getAllRestaurants().subscribe(res => {
-      this.foodList = res;
-    });
+      this.dishesList = res;
+    }); 
   }
 
-  ngOnInit() {
+  goToRestaurant(restaurant : Restaurant) {
+    console.log(restaurant)
+    this.router.navigate(['/restaurants', restaurant.id] , {state:{...restaurant} });
   }
 
-  goToRestaurant(id) {
-    this.router.navigate(['restaurants/101']);
-    // this.router.navigate(['restaurants/:id']);
+  goToDishes(dishes : Dishes) {
+    console.log(dishes)
+    this.router.navigate(['dishes', dishes.id]);
   }
 
-  goToFood(id) {
-    this.router.navigate(['food/101/:id']);
+  onTabChange(event : MatTabChangeEvent) {
+    console.log(event.tab.textLabel)
+    this.tabName = event.tab.textLabel;
+  }
+
+  doSearch(){
+    //Search with tab Restaurant
+    if (this.tabName == 'Restaurant') {
+      this.restaurantService.searchRestaurantsContainName(this.searchValue).subscribe(res => {
+        this.restaurants = res;
+      })
+    }
+
+    //Search with tab Dishes
+    if (this.tabName == 'Dishes') {
+      this.dishesService.searchDishesContainName(this.searchValue).subscribe(res => {
+        this.dishesList = res;
+      })
+    }
   }
 
 }

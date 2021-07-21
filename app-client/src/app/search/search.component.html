@@ -2,18 +2,20 @@
     <div class="container-box">
         <div class="middle">
             <mat-form-field appearance="outline" class="search-box">
-                <input matInput placeholder="Seach For Restaurant Or Dishes" class="seach-input-text" [(ngModel)]="searchValue" >
+                <input matInput placeholder="Seach For Restaurant Or Dishes" class="seach-input-text" 
+                [(ngModel)]="searchValue" (keyup.enter)="doSearch()" >
                 <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="this.searchValue=''"
                     style="top: -10px; right: 10px; font-size: 16px; font-weight: 500">
                     <mat-icon>close</mat-icon>
                 </button>
                 <button mat-button matPrefix mat-icon-button aria-label="Clear"
-                    style="top: -10px; left: 20px; font-size: 16px; font-weight: 500">
+                    style="top: -10px; left: 20px; font-size: 16px; font-weight: 500"
+                    (click)="this.doSearch()" >
                     <mat-icon fontSet="material-icons-outlined">search</mat-icon>
                 </button>
             </mat-form-field>
             <div class="result-box">
-                <mat-tab-group>
+                <mat-tab-group (selectedTabChange)="onTabChange($event)">
                     <mat-tab label="Restaurant">
                         <div style="margin-top: 10px">
                             <div class="card-container">
@@ -55,19 +57,19 @@
                                         </div>
                                     </skltn-root>
                                 </ng-container>
-                                <div class="card" *ngFor="let restaurant of restaurants | filter: searchValue " (click)="goToRestaurant(id)">
+                                <div class="card" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(restaurant)">
                                     <div>
-                                        <img alt="Ancient Hyderabad" width="254" height="160" [src]="restaurant.image">
+                                        <img alt="Ancient Hyderabad" width="254" height="160" [src]="restaurant.imageURL">
                                     </div>
                                     <div class="footer">
                                         <div>
-                                            <div class="name">{{restaurant.name}}</div>
-                                            <div class="address">{{restaurant.foodType}}</div>
+                                            <div class="name">{{restaurant.fullName}}</div>
+                                            <div class="address">địa chỉ{{restaurant.foodType}}</div>
                                         </div>
                                         <div class="other">
                                             <div class="rating">
                                                 <mat-icon class="star-icon">star</mat-icon>
-                                                <span class="rate">{{restaurant.rating}}</span>
+                                                <span class="rate">5{{restaurant.rating}}</span>
                                             </div>
                                             <div>&#8226;</div>
                                             <div>32 MINS</div>
@@ -91,7 +93,7 @@
                     <mat-tab label="Dishes">
                         <div style="margin-top: 10px">
                             <div class="mini-card-container">
-                                <div class="mini-card" *ngFor="let food of foodList | filter: searchValue">
+                                <div class="mini-card" *ngFor="let dishes of dishesList" (click)="goToDishes(dishes)">
                                     <div>
                                         <img height="160" width="244" alt=""
                                             src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_366,h_240,c_fill/jb72srvfsyzsklvt8gkn">

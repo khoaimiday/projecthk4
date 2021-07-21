@@ -20,7 +20,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.util.Separators;
-import com.fpt.main.model.User;
+import com.fpt.main.entity.User;
 
 @Component
 public class SendEmailService {
@@ -47,7 +47,7 @@ public class SendEmailService {
 				+ "<a href=\"" + activeUrl  + ">Activated account link</a>";
 		
 		helper.setSubject(subject);
-		helper.setText(content, true);
+		helper.setText(content, true); //enable for HTML
 		
 		javaMailSender.send(message);
 	}

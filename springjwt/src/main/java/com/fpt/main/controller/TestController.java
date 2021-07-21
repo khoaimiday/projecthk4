@@ -1,7 +1,9 @@
 package com.fpt.main.controller;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fpt.main.advice.HandleMultipartFile;
+import com.fpt.main.entity.Dishes;
+import com.fpt.main.reponsitory.DishesRepository;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
+	
+	@Autowired
+	DishesRepository dishesRepository;
 
 	@GetMapping("/all")
 	public String allAccess() {
@@ -50,4 +57,5 @@ public class TestController {
 		}	
 		return null;
 	}
+	
 }

@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.fpt.main.model.RefreshToken;
-import com.fpt.main.model.User;
+import com.fpt.main.entity.RefreshToken;
+import com.fpt.main.entity.User;
 
 @Repository
 public interface RefreshTokenReponsitory extends JpaRepository<RefreshToken, Long>{

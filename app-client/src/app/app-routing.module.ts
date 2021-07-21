@@ -21,6 +21,12 @@ const routes: Routes = [
     path: 'restaurants/:id', component: SingleRestaurantComponent
   },
   {
+    path: 'dishes', component: SingleRestaurantComponent
+  },
+  {
+    path: 'dishes/:id', component: SingleRestaurantComponent
+  },
+  {
     path: 'search', component: SearchComponent
   },
   {

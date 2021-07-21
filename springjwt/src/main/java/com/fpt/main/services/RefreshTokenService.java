@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fpt.main.reponsitory.RefreshTokenReponsitory;
 import com.fpt.main.reponsitory.UserRepository;
+import com.fpt.main.entity.RefreshToken;
 import com.fpt.main.exception.TokenRefreshException;
-import com.fpt.main.model.RefreshToken;
 
 
 @Service

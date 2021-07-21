@@ -58,6 +58,7 @@ import { CartComponent } from './cart/cart.component';
 import { NgxSkltnModule, SkltnConfig } from 'ngx-skltn';
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { RestaurantItemComponent } from './home/restaurant-item/restaurant-item.component';
 
 const skltnConfig: SkltnConfig = {
   rectRadius: 10,
@@ -84,7 +85,8 @@ const skltnConfig: SkltnConfig = {
     SignupComponent,
     SelectAddressComponent,
     OfferComponent,
-    CartComponent
+    CartComponent,
+    RestaurantItemComponent
   ],
   imports: [
     Ng2SearchPipeModule,

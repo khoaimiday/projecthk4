@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { RestaurantsService } from '../services/restaurants.service';
+import { Restaurant, RestaurantsService } from '../services/restaurants.service';
 
 @Component({
   selector: 'app-home',
@@ -8,18 +8,27 @@ import { RestaurantsService } from '../services/restaurants.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+
   itemList = new Array(4);
-  restaurants: any[];
-  constructor(private router: Router, private restaurantService: RestaurantsService) { 
+  restaurants: Restaurant[]= [];
+
+  constructor(private router: Router, 
+              private restaurantService: RestaurantsService) { }
+
+  ngOnInit() {
     this.restaurantService.getAllRestaurants().subscribe(res=>{
       this.restaurants = res;
+      console.log(this.restaurants)
     });
   }
 
-  ngOnInit() {
-  }
-  goToRestaurant(id){
-    this.router.navigate(['restaurants/101']);
+  goToRestaurant(restaurant : Restaurant){
+    console.log(restaurant)
+    this.router.navigate(['/restaurants', restaurant.id] , {state:{...restaurant} });
+
   }
 
 }
+
+
+
