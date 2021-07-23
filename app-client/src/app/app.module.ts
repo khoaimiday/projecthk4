@@ -59,6 +59,9 @@ import { NgxSkltnModule, SkltnConfig } from 'ngx-skltn';
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { RestaurantItemComponent } from './home/restaurant-item/restaurant-item.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TabRestaurantComponentComponent } from './search/tab-restaurant-component/tab-restaurant-component.component';
+import { TabDishesComponentComponent } from './search/tab-dishes-component/tab-dishes-component.component';
 
 const skltnConfig: SkltnConfig = {
   rectRadius: 10,
@@ -86,9 +89,12 @@ const skltnConfig: SkltnConfig = {
     SelectAddressComponent,
     OfferComponent,
     CartComponent,
-    RestaurantItemComponent
+    RestaurantItemComponent,
+    TabRestaurantComponentComponent,
+    TabDishesComponentComponent
   ],
   imports: [
+    NgbModule,
     Ng2SearchPipeModule,
     FormsModule,
     HttpClientModule,

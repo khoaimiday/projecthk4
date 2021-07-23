@@ -17,17 +17,33 @@ export class SearchComponent implements OnInit {
   dishesList = new Array(6);
   restaurants = new Array();
 
+  //properties for panigation
+  thePageNumber: number = 0;
+  thePageSize: number = 5;
+  theTotalElements: number = 0;
+
   constructor(private router: Router, 
               private restaurantService: RestaurantsService,
               private dishesService: DishesService) {}
 
-  ngOnInit() { 
-        
+  ngOnInit() {         
     //Get all restaurant
-    this.restaurantService.getAllRestaurants().subscribe(res => {
-      this.restaurants = res;
-    });
+    this.getListRestaurant();
+    //Get all Food
+    this.getListFood();
+  }
 
+  getListRestaurant(){
+    this.restaurantService.getAllRestaurantsPaginate(this.thePageNumber, this.thePageSize).subscribe(res => {
+      console.log(res)
+      this.restaurants = res._embedded.restaurants;
+      this.thePageNumber = res.page.number +1;
+      this.thePageSize = res.page.size;
+      this.theTotalElements = res.page.totalElements;
+    });
+  }
+
+  getListFood(){   
     //Get all Food
     this.restaurantService.getAllRestaurants().subscribe(res => {
       this.dishesList = res;
@@ -45,23 +61,51 @@ export class SearchComponent implements OnInit {
   }
 
   onTabChange(event : MatTabChangeEvent) {
-    console.log(event.tab.textLabel)
+    // console.log(event.tab.textLabel)
     this.tabName = event.tab.textLabel;
   }
 
   doSearch(){
     //Search with tab Restaurant
+    console.log(this.tabName)
     if (this.tabName == 'Restaurant') {
-      this.restaurantService.searchRestaurantsContainName(this.searchValue).subscribe(res => {
-        this.restaurants = res;
-      })
+      this.restaurantService.searchRestaurantsContainNamePaginate(this.searchValue, 
+                                                                  0, 
+                                                                  this.thePageSize)
+                                                                .subscribe(this.processResult());
     }
 
     //Search with tab Dishes
     if (this.tabName == 'Dishes') {
-      this.dishesService.searchDishesContainName(this.searchValue).subscribe(res => {
-        this.dishesList = res;
-      })
+      this.dishesService.searchDishesContainName(this.searchValue).subscribe(this.processResult());
+    }
+  }
+
+  updatePageSize(numPageSize: string){
+    console.log(numPageSize);
+    this.thePageSize = +numPageSize;
+        //Get all restaurant
+        this.restaurantService.getAllRestaurantsPaginate(1, this.thePageSize).subscribe(res => {
+          console.log(res)
+          this.restaurants = res._embedded.restaurants;
+          this.thePageNumber = 1;
+          this.thePageSize = res.page.size;
+          this.theTotalElements = res.page.totalElements;
+        });
+  }
+
+  processResult(){
+    return res => {
+
+      if (this.tabName == "Restaurant") {
+        this.restaurants = res._embedded.restaurants;
+      }else{
+        this.dishesList = res._embedded.dishes;
+      }
+
+      this.thePageNumber = 1;
+      this.thePageSize = res.page.size;
+      this.theTotalElements = res.page.totalElements;
     }
   }
 

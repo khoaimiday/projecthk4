@@ -10,13 +10,40 @@ export class RestaurantsService {
 
   restaurants : Restaurant[] = [];
 
-  api = "http://localhost:8080/api/restaurants";
+  private api = "http://localhost:8080/api/restaurants";
+  
   constructor(private httpClient: HttpClient) { }
+
+  getAllRestaurantsPaginate(thePage: number, 
+                            thePageSize: number): Observable<GetRestaurantsResponse> {
+    const getUrl = `${this.api}?page=${thePage -1 }&size=${thePageSize}`;
+    console.log(getUrl)
+    return this.httpClient.get<GetRestaurantsResponse>(getUrl)
+  }
 
   getAllRestaurants(): Observable<Restaurant[]> {
     return this.httpClient.get<GetRestaurantsResponse>(this.api).pipe(
       map( response => this.restaurants = response._embedded.restaurants)
     ) 
+  }
+
+  //Function search for searchPage with name contain
+  searchRestaurantsContainNamePaginate(searchValue: string,
+                                      thePage: number,
+                                      thePageSize: number): Observable<any>  {
+    const searchUrl = `${this.api}/search/findByFullNameContaining?name=${searchValue}`
+                    + `&page=${thePage}&size=${thePageSize}`;
+    console.log(searchUrl)
+    return this.httpClient.get<any>(searchUrl);
+  }
+
+  //Function search for searchPage with name contain
+  searchRestaurantsContainName(searchValue: string) {
+    const searchUrl = `${this.api}/search/findByFullNameContaining?name=${searchValue}`;
+    console.log(searchUrl)
+    return this.httpClient.get<GetRestaurantsResponse>(searchUrl).pipe(
+      map( response => this.restaurants = response._embedded.restaurants)
+    )
   }
 
   getRestaurantDetails(theRestaurantId: number): Observable<Restaurant>{
@@ -26,20 +53,17 @@ export class RestaurantsService {
     )
   }
 
-  //Function search for searchPage with name contain
-  // http://localhost:8080/api/restaurants/search/findByFullNameContaining?name=k&page=0&size=20
-  searchRestaurantsContainName(searchValue: string) {
-    const searchUrl = `${this.api}/search/findByFullNameContaining?name=${searchValue}`;
-    console.log(searchUrl)
-    return this.httpClient.get<GetRestaurantsResponse>(searchUrl).pipe(
-      map( response => this.restaurants = response._embedded.restaurants)
-    )
-  }
 }
 
 interface GetRestaurantsResponse {
   _embedded: {
     restaurants: Restaurant[];
+  },
+  page: {
+    size: number, //size off the page
+    totalElements: number,
+    totalPages: number, //total pages available
+    number: number //current page number
   }
 }
 

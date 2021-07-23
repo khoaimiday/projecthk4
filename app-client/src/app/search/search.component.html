@@ -19,76 +19,43 @@
                     <mat-tab label="Restaurant">
                         <div style="margin-top: 10px">
                             <div class="card-container">
-                                <ng-container  *ngIf="restaurants.length == 0">
-                                    <skltn-root class="card" duration="1000" [rectRadius]="10" flareWidth="50%"
-                                        bgFill="#d8d5d1" flareFill="rgba(255,255,255, 0.5)">
-                                        <!-- Card with Avatar -->
-                                        <div class="skltn-card">
-                                            <div skltn-bone class="skltn-card__avatar" type="circle"></div>
-                                            <div class="skltn-card__body">
-                                                <div skltn-bone class="skltn-card__title"></div>
-                                                <div skltn-bone class="skltn-card__line"></div>
-                                                <div skltn-bone class="skltn-card__line"></div>
-                                            </div>
-                                        </div>
-                                    </skltn-root>
-                                    <skltn-root class="card" duration="1000" [rectRadius]="10" flareWidth="50%"
-                                        bgFill="#d8d5d1" flareFill="rgba(255,255,255, 0.5)">
-                                        <!-- Card with Avatar -->
-                                        <div class="skltn-card">
-                                            <div skltn-bone class="skltn-card__avatar" type="circle"></div>
-                                            <div class="skltn-card__body">
-                                                <div skltn-bone class="skltn-card__title"></div>
-                                                <div skltn-bone class="skltn-card__line"></div>
-                                                <div skltn-bone class="skltn-card__line"></div>
-                                            </div>
-                                        </div>
-                                    </skltn-root>
-                                    <skltn-root class="card" duration="1000" [rectRadius]="10" flareWidth="50%"
-                                        bgFill="#d8d5d1" flareFill="rgba(255,255,255, 0.5)">
-                                        <!-- Card with Avatar -->
-                                        <div class="skltn-card">
-                                            <div skltn-bone class="skltn-card__avatar" type="circle"></div>
-                                            <div class="skltn-card__body">
-                                                <div skltn-bone class="skltn-card__title"></div>
-                                                <div skltn-bone class="skltn-card__line"></div>
-                                                <div skltn-bone class="skltn-card__line"></div>
-                                            </div>
-                                        </div>
-                                    </skltn-root>
-                                </ng-container>
-                                <div class="card" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(restaurant)">
-                                    <div>
-                                        <img alt="Ancient Hyderabad" width="254" height="160" [src]="restaurant.imageURL">
-                                    </div>
-                                    <div class="footer">
+                                <div class="row row-cols-4">
+                                    <ng-container  *ngIf="restaurants?.length == 0" class="alert alert-warning col-md-12" role="alert">
+                                        Not found.
+                                    </ng-container>
+                                    <div class="card mb-5" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(restaurant)">
                                         <div>
-                                            <div class="name">{{restaurant.fullName}}</div>
-                                            <div class="address">địa chỉ{{restaurant.foodType}}</div>
+                                            <img alt="Ancient Hyderabad" width="212" height="160" [src]="restaurant.imageURL">
                                         </div>
-                                        <div class="other">
-                                            <div class="rating">
-                                                <mat-icon class="star-icon">star</mat-icon>
-                                                <span class="rate">5{{restaurant.rating}}</span>
+                                        <div class="footer">
+                                            <div>
+                                                <div class="name">{{restaurant.fullName}}</div>
+                                                <div class="address">địa chỉ{{restaurant.foodType}}</div>
                                             </div>
-                                            <div>&#8226;</div>
-                                            <div>32 MINS</div>
-                                            <div>&#8226;</div>
-                                            <div>250 For Two</div>
+                                            <div class="other">
+                                                <div class="rating">
+                                                    <mat-icon class="star-icon">star</mat-icon>
+                                                    <span class="rate">5{{restaurant.rating}}</span>
+                                                </div>
+                                                <div>&#8226;</div>
+                                                <div>32 MINS</div>
+                                                <div>&#8226;</div>
+                                                <div>250 For Two</div>
+                                            </div>
+                                            <div class="offer">
+                                                <mat-icon class="offer-icon" fontSet="material-icons-outlined">local_offer
+                                                </mat-icon>
+                                                <span class="offer-description">40% off | Use coupon SWIGGY40</span>
+                                            </div>
+                                            <!-- <div class="quick-view">
+                                                    <span>Quick Order</span>
+                                                </div> -->
                                         </div>
-                                        <div class="offer">
-                                            <mat-icon class="offer-icon" fontSet="material-icons-outlined">local_offer
-                                            </mat-icon>
-                                            <span class="offer-description">40% off | Use coupon SWIGGY40</span>
-                                        </div>
-                                        <!-- <div class="quick-view">
-                                                <span>Quick Order</span>
-                                            </div> -->
-                                    </div>
+                                    </div> 
                                 </div>
-
+                                
                             </div>
-                        </div>
+                        </div>                       
                     </mat-tab>
                     <mat-tab label="Dishes">
                         <div style="margin-top: 10px">
@@ -117,6 +84,36 @@
                         </div>
                     </mat-tab>
                 </mat-tab-group>
+                <div class="footer-pagination mt-5">
+                    <div class="row">
+                        <div class="col-md-6"></div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-9" style="display: flex;justify-content: flex-end">
+                                    <ngb-pagination [(page)]="thePageNumber"
+                                                    [pageSize]="thePageSize"
+                                                    [collectionSize]="theTotalElements"
+                                                    [maxSize]="5"
+                                                    [boundaryLinks]="true"
+                                                    (pageChange)="getListRestaurant()" >
+
+                                    </ngb-pagination>
+                                </div>
+
+                                <div class="col-md-3" style="text-align: right;">
+                                    <span class="mr-2">Page Size</span>
+                                    
+                                    <select (change)="updatePageSize($event.target.value)">
+                                        <option selected="true">5</option>
+                                        <option>10</option>
+                                        <option>20</option>
+                                        <option>50</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
