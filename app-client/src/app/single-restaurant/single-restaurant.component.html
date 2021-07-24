@@ -1,9 +1,9 @@
 <div class="single-restaurant-container ">
     <div class="header-background">
-        <div class="header-container container">
+        <div class="header-container container" style="box-sizing: content-box;width: 100%;">
             <div class="img-box">
                 <img mat-card-image style="width: 100%;" alt=""
-                    src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/x5zos2bebvlhbhkmi2ok">
+                    src="{{this.restaurant?.imageURL}}">
             </div>
             <div class="description-box">
                 <div>
@@ -95,33 +95,12 @@
             </mat-accordion>
         </div>
         <div class="middle">
-            <div class="list-view">
-                <h1 style="margin: 0;">Recommended</h1>
-                <span class="total-items">14 ITEMS</span>
-                <div class="mini-card-container">
-                    <div class="mini-card" *ngFor="let item of itemList">
-                        <div>
-                            <img height="160" width="244" alt=""
-                                src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_366,h_240,c_fill/jb72srvfsyzsklvt8gkn">
-                        </div>
-                        <div class="item">
-                            <img src="https://img.icons8.com/color/18/000000/vegetarian-food-symbol.png">
-                            <span style="margin-left: 5px;">Idli Sambar (2 Pcs)</span>
-                        </div>
-                        <div class="botom">
-                            <div>₹50</div>
-                            <div class="add-remove-box">
-                                <mat-icon class="star-icon" fontSet="material-icons-outlined">remove</mat-icon>
-                                <span>5</span>
-                                <mat-icon class="star-icon" fontSet="material-icons-outlined">add</mat-icon>
-                            </div>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <router-outlet name="orderFoodList"></router-outlet>
+
         </div>
         <div class="right">
+            
             <h1 style="margin:0">Cart</h1>
             <div>from <span style="font-weight: 600; color: #5d8ed5;">Name of restaurant</span></div>
             <div class="total-items">3 ITEMS</div>
@@ -154,6 +133,7 @@
                     </button>
                 </div>
             </div>
+            <!-- <router-outlet name="cartInRest"></router-outlet> -->
 
         </div>
     </div>

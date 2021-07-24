@@ -11,6 +11,8 @@ import { OrdersComponent } from './account/orders/orders.component';
 import { PaymentsComponent } from './account/payments/payments.component';
 import { OfferComponent } from './offer/offer.component';
 import { CartComponent } from './cart/cart.component';
+import { FoodOrderForRestaurantComponent } from './single-restaurant/food-order-for-restaurant/food-order-for-restaurant.component';
+import {MatButtonModule} from '@angular/material/button';
 
 
 const routes: Routes = [
@@ -18,7 +20,9 @@ const routes: Routes = [
     path: 'restaurants', component: HomeComponent
   },
   {
-    path: 'restaurants/:id', component: SingleRestaurantComponent
+    path: 'restaurants/:id', component: SingleRestaurantComponent, children : [
+        {path: '', outlet : 'orderFoodList', component: FoodOrderForRestaurantComponent},
+    ]
   },
   {
     path: 'dishes', component: SingleRestaurantComponent
@@ -38,6 +42,15 @@ const routes: Routes = [
   {
     path: 'cart', component: CartComponent
   },
+  //--------------------------------------------
+  {
+    path: 'restaurantsTab', component: CartComponent
+  },
+  {
+    path: 'dishesTab', component: CartComponent
+  },
+  //--------------------------------------------
+
   {
     path: 'my-account', component: MyAccountComponent,
     children: [

@@ -46,11 +46,10 @@ export class RestaurantsService {
     )
   }
 
-  getRestaurantDetails(theRestaurantId: number): Observable<Restaurant>{
+  getRestaurantDetails(theRestaurantId: number): Observable<any>{
     const searchUrl = `${this.api}/${theRestaurantId}`;
-    return  this.httpClient.get<Restaurant>(searchUrl).pipe(
-      // map(response => response)
-    )
+    console.log(searchUrl)
+    return  this.httpClient.get<any>(searchUrl)
   }
 
 }

@@ -62,6 +62,7 @@ import { RestaurantItemComponent } from './home/restaurant-item/restaurant-item.
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TabRestaurantComponentComponent } from './search/tab-restaurant-component/tab-restaurant-component.component';
 import { TabDishesComponentComponent } from './search/tab-dishes-component/tab-dishes-component.component';
+import { FoodOrderForRestaurantComponent } from './single-restaurant/food-order-for-restaurant/food-order-for-restaurant.component';
 
 const skltnConfig: SkltnConfig = {
   rectRadius: 10,
@@ -77,6 +78,7 @@ const skltnConfig: SkltnConfig = {
     FooterComponent,
     HomeComponent,
     SingleRestaurantComponent,
+    FoodOrderForRestaurantComponent,
     SearchComponent,
     HelpComponent,
     MyAccountComponent,
@@ -91,7 +93,7 @@ const skltnConfig: SkltnConfig = {
     CartComponent,
     RestaurantItemComponent,
     TabRestaurantComponentComponent,
-    TabDishesComponentComponent
+    TabDishesComponentComponent,
   ],
   imports: [
     NgbModule,

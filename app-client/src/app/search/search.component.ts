@@ -51,12 +51,10 @@ export class SearchComponent implements OnInit {
   }
 
   goToRestaurant(restaurant : Restaurant) {
-    console.log(restaurant)
     this.router.navigate(['/restaurants', restaurant.id] , {state:{...restaurant} });
   }
 
   goToDishes(dishes : Dishes) {
-    console.log(dishes)
     this.router.navigate(['dishes', dishes.id]);
   }
 

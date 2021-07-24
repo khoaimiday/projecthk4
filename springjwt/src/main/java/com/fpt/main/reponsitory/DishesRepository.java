@@ -22,4 +22,5 @@ public interface DishesRepository extends JpaRepository<Dishes, Long> {
 	
 	//http://localhost:8080/api/disheses/search/findAllByDishCategoryId?id=?
 	public Page<Dishes> findAllByDishCategoryId(@RequestParam("id")Long id, Pageable pageable); 
+	
 }
