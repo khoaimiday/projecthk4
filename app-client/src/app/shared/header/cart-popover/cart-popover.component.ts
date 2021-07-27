@@ -20,7 +20,9 @@ export class CartPopoverComponent implements OnInit {
   }
 
   listCartDetail() {
-    this.itemList = this.cartService.cartItems;
+    this.cartService.cartItemsSubject.subscribe(
+      data => this.itemList = data
+    )
 
     this.cartService.totalPrice.subscribe(
       data => this.totalPrice = data
@@ -30,7 +32,7 @@ export class CartPopoverComponent implements OnInit {
       data => this.totalQuantity = data
     )
 
-    this.cartService.computeCartTotal();
+    this.cartService.computeCartTotals();
   }
 
 }

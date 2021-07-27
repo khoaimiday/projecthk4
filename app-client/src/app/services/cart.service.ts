@@ -12,7 +12,21 @@ export class CartService {
   totalPrice: Subject<number> = new Subject<number>();
   totalQuantity: Subject<number> = new Subject<number>();
 
-  constructor() { }
+  cartItemsSubject: Subject<CartItem[]> = new Subject<CartItem[]>();
+
+  storage: Storage = sessionStorage;
+
+  constructor() { 
+    //read data from storage
+    let data = JSON.parse(this.storage.getItem('cartItems'));
+
+    if (data != null) {
+      this.cartItems = data;
+    }
+
+    //compute totals based on the data that is read from storage
+    this.computeCartTotals();
+  }
 
   addToCart(theCartItem: CartItem){
 
@@ -20,7 +34,9 @@ export class CartService {
 
     if (this.cartItems.length > 0) {
       //find the item in the cart based on item id
-      existingCartItem = this.cartItems.find( tempCartItem => tempCartItem.id === theCartItem.id);
+      existingCartItem = this.cartItems.find( (tempCartItem, index) => {
+        return tempCartItem.id === theCartItem.id
+      });
     }
 
     if (existingCartItem != undefined) {
@@ -28,14 +44,17 @@ export class CartService {
     }else{
       this.cartItems.push(theCartItem);
     }
-
+    console.log(this.cartItems)
     //compute cart total price and total quantity
-    this.computeCartTotal();
+    this.computeCartTotals();
   }
 
-  computeCartTotal() {
+  computeCartTotals() {
     let totalPriceValue: number = 0;
     let totalQuantityValue: number = 0;
+
+    this.cartItems = this.cartItems.filter( el => el.quantity > 0)
+    this.cartItemsSubject.next(this.cartItems);
 
     for (const currentCartItem of this.cartItems) {
       totalPriceValue += currentCartItem.quantity * currentCartItem.price;
@@ -48,6 +67,18 @@ export class CartService {
 
     //log cart data just for debugging purposes
     this.logCartData(totalPriceValue, totalQuantityValue);
+
+    //persist cart data
+    this.persistCartItems();
+  }
+
+  persistCartItems(){
+    this.storage.setItem('cartItems', JSON.stringify(this.cartItems));
+  }
+
+  removeCartItems() {
+    this.storage.removeItem('cartItems');
+    this.cartItems = [];
   }
 
   logCartData(totalPriceValue: number, totalQuantityValue: number) {

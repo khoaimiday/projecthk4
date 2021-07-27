@@ -14,6 +14,7 @@ import { DishesService } from '../../services/dishes.service';
 export class FoodOrderForRestaurantComponent implements OnInit {
   
   itemList: Dishes[] = [];
+  restCartItems: Dishes[] = [];
   restaurantId: number;
 
   constructor(private route: ActivatedRoute,
@@ -27,31 +28,66 @@ export class FoodOrderForRestaurantComponent implements OnInit {
       this.dishesService.getDishesByRestaurant(this.restaurantId).subscribe(
         data => {
             this.itemList = data;
-            console.log(this.itemList)
+            
+            this.getCartForRest();          
         }
       )
     });
   }
 
   remove(item: Dishes){
-    if (item.quantity > 0) item.quantity--;
     console.log(item.quantity)
-    console.log(item)
-    this.addToCart(item)
+    if ( item.quantity > 0) {
+        item.quantity--;
+        console.log(item.quantity)
+        console.log(item)
+        this.addToCart(item)
+      }
   }
 
   add(item: Dishes){
-    item.quantity++;
-    console.log(item.quantity)
-    console.log(item);
-    this.addToCart(item)
+    if(this.checkDiffRestaurant()){
+      item.quantity++;
+      console.log(item.quantity)
+      console.log(item);
+      this.addToCart(item);
+    }
   }
 
-  addToCart(item: Dishes) {  
+  checkDiffRestaurant(){   
+    //Logic check if diffrent restaurant --> cart will remove.
+    console.log(this.cartService.cartItems.length)
+    if (this.cartService.cartItems.length > 0) {
+      if(this.cartService.cartItems[0].restanrantId != this.restaurantId){
+        if (confirm("Do you want to add to cart for new restaurant? All cart in previous restaunrant will remove!") == true){
+          this.cartService.removeCartItems();       
+        }else{
+          return false;
+        }
+      }       
+    }
+    return true;
+  }
+
+  addToCart(item: Dishes) { 
     const theCartItem = new CartItem(item);
     theCartItem.restanrantId = this.restaurantId;
-
     this.cartService.addToCart(theCartItem);
+
+  }
+
+
+  getCartForRest() {
+    if (this.itemList.length > 0) {
+      this.itemList.forEach( r => {
+        this.cartService.cartItems.forEach( s => {                 
+            //if food id existed in cart, set quantity
+            if (r.id === s.id) {
+              r.quantity = s.quantity
+            }
+        })
+      })
+    }
   }
 
 }

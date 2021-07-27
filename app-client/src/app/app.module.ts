@@ -64,6 +64,7 @@ import { TabRestaurantComponentComponent } from './search/tab-restaurant-compone
 import { TabDishesComponentComponent } from './search/tab-dishes-component/tab-dishes-component.component';
 import { FoodOrderForRestaurantComponent } from './single-restaurant/food-order-for-restaurant/food-order-for-restaurant.component';
 import { CartPopoverComponent } from './shared/header/cart-popover/cart-popover.component';
+import { CartDetailsForRestComponent } from './single-restaurant/cart-details-for-rest/cart-details-for-rest.component';
 
 const skltnConfig: SkltnConfig = {
   rectRadius: 10,
@@ -96,6 +97,7 @@ const skltnConfig: SkltnConfig = {
     TabRestaurantComponentComponent,
     TabDishesComponentComponent,
     CartPopoverComponent,
+    CartDetailsForRestComponent,
   ],
   imports: [
     NgbModule,

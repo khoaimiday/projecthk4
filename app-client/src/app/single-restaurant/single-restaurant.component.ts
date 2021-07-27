@@ -16,7 +16,6 @@ export class SingleRestaurantComponent implements OnInit {
   dishesList : Dishes[] = [];
 
 
-
   itemList = new Array(4);
   constructor(private restaurantService : RestaurantsService,
               private dishesService : DishesService,
