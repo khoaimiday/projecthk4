@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -64,13 +64,12 @@ public class User extends BaseEntity{
 	@JsonIgnore
 	private String password;
 	
-	@Column(name = "full_name", columnDefinition = "nvarchar")
+	@Column(name = "full_name")
 	@Size(max = 100)
-	private String fullName;
+	private String fullName; 
 	
-	@ManyToOne
-	@JoinColumn(name="address_id", nullable=true)
-	private Address address;
+	@OneToMany(mappedBy = "users")
+	private Set<Address> address;
 	
 	@Size(max = 15)
 	@Column(name = "phone_number")

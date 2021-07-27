@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DishesService } from 'src/app/services/dishes.service';
-import { Cart } from 'src/app/interfaces/cart';
+import { CartItem } from '../../interfaces/cart';
+import { Dishes } from '../../interfaces/dishes';
+import { CartService } from '../../services/cart.service';
+import { DishesService } from '../../services/dishes.service';
 
 
 @Component({
@@ -11,10 +13,11 @@ import { Cart } from 'src/app/interfaces/cart';
 })
 export class FoodOrderForRestaurantComponent implements OnInit {
   
-  itemList: Cart[] = [];
+  itemList: Dishes[] = [];
   restaurantId: number;
 
   constructor(private route: ActivatedRoute,
+              private cartService: CartService,
               private dishesService: DishesService) { }
 
   ngOnInit() {
@@ -30,16 +33,25 @@ export class FoodOrderForRestaurantComponent implements OnInit {
     });
   }
 
-  remove(item: Cart){
-    item.itemCount? item.itemCount-- : item.itemCount= 0;
-    console.log(item.itemCount)
+  remove(item: Dishes){
+    if (item.quantity > 0) item.quantity--;
+    console.log(item.quantity)
     console.log(item)
+    this.addToCart(item)
   }
 
-  add(item: Cart){
-    item.itemCount? item.itemCount++ : item.itemCount = 1;
-    console.log(item.itemCount)
-    console.log(item)
+  add(item: Dishes){
+    item.quantity++;
+    console.log(item.quantity)
+    console.log(item);
+    this.addToCart(item)
+  }
+
+  addToCart(item: Dishes) {  
+    const theCartItem = new CartItem(item);
+    theCartItem.restanrantId = this.restaurantId;
+
+    this.cartService.addToCart(theCartItem);
   }
 
 }

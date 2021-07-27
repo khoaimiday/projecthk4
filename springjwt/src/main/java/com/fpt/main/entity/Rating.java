@@ -35,7 +35,7 @@ public class Rating extends BaseEntity{
 	@Column(name = "rate")
 	private float rate;
 	
-	@Column(name = "note", columnDefinition = "nvarchar")
+	@Column(name = "note")
 	private String note;
 	
 	@ManyToOne

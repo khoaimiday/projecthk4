@@ -15,11 +15,15 @@
         </div>
         <ul class="global-menu">
             <li class="menu-item"  [routerLink]="['/cart']" routerLinkActive="active"> 
+                
+                {{ '' //Cart Status Component---------------}}
+
                 <a class="item-box" [mdePopoverTriggerFor]="cartPopover" mdePopoverTriggerOn="hover"
-                     mdePopoverArrowColor="#db7c38" [mdePopoverOffsetX]="-16" [mdePopoverOffsetY]="-10">
-                    <mat-icon fontSet="material-icons-outlined" matBadgePosition="before" matBadgeColor="warn"  matBadge="4" matBadgeOverlap="true">shopping_cart</mat-icon>
-                    <span> Cart </span>
+                mdePopoverArrowColor="#db7c38" [mdePopoverOffsetX]="-16" [mdePopoverOffsetY]="-10">
+                <mat-icon fontSet="material-icons-outlined" matBadgePosition="before" matBadgeColor="warn"  matBadge="{{this.totalQuantity}}" matBadgeOverlap="true">shopping_cart</mat-icon>
+                <span> Cart </span>
                 </a>
+
             </li>
              <li class="menu-item"  *ngIf="user" [routerLink]="['/my-account']" routerLinkActive="active">
                 <a class="item-box" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover"
@@ -55,6 +59,7 @@
         </ul>
     </div>
 </div>
+
 <mde-popover #appPopover="mdePopover" [mdePopoverCloseOnClick]="true" [mdePopoverOverlapTrigger]="false">
     <div class="popover">
         <ul class="profile-list">
@@ -65,38 +70,11 @@
         </ul>
     </div>
 </mde-popover>
+
 <mde-popover #cartPopover="mdePopover" [mdePopoverCloseOnClick]="true" [mdePopoverOverlapTrigger]="false">
     <div class="cart-popover">
         <div class="main-container">
-            <div class="restaurant-box">
-                <div>
-                    <img height="66" width="66" alt=""
-                        src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_132,h_132,c_fill/oyusdq7j4phsavmal7n0">
-                </div>
-                <div class="restaurant-description">
-                    <div class="name">Name of Restaurant</div>
-                    <div class="address">address</div>
-                </div>
-            </div>
-            <div class="item-info-box">
-                <ul class="items">
-                    <li class="list" *ngFor="let item of itemList">
-                        <div class="item-name">
-                            <img src="https://img.icons8.com/color/15/000000/vegetarian-food-symbol.png">
-                            <span style="margin-left: 10px;">Nawabi Paneer Tikka x 1</span>
-                        </div>
-                        <div style="margin-left: 10px">₹ 1396</div>
-                    </li>
-                </ul>
-            </div>
-            <div class="subtotal-box">
-                <div>Sub Total</div>
-                <div>₹ 5000</div>
-            </div>
-            <div class="checkout-button-box">
-                <button mat-raised-button class="checkoutButton">CHECKOUT</button>
-            </div>
+            <app-cart-popover></app-cart-popover>
         </div>
-
     </div>
 </mde-popover>

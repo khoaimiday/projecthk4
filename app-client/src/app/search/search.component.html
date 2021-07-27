@@ -91,7 +91,7 @@
                     <div class="row">
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
-                            <div class="row">
+                            <div class="row" style="align-items: baseline;">
                                 <div class="col-md-9" style="display: flex;justify-content: flex-end">
                                     <ngb-pagination [(page)]="thePageNumber"
                                                     [pageSize]="thePageSize"
@@ -103,8 +103,8 @@
                                     </ngb-pagination>
                                 </div>
 
-                                <div class="col-md-3" style="text-align: right;">
-                                    <span class="mr-2">Page Size</span>
+                                <div class="col-md-3" >
+                                    <span class="">Page Size</span>
                                     
                                     <select (change)="updatePageSize($event.target.value)">
                                         <option selected="true">5</option>

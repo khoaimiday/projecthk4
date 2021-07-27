@@ -63,6 +63,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TabRestaurantComponentComponent } from './search/tab-restaurant-component/tab-restaurant-component.component';
 import { TabDishesComponentComponent } from './search/tab-dishes-component/tab-dishes-component.component';
 import { FoodOrderForRestaurantComponent } from './single-restaurant/food-order-for-restaurant/food-order-for-restaurant.component';
+import { CartPopoverComponent } from './shared/header/cart-popover/cart-popover.component';
 
 const skltnConfig: SkltnConfig = {
   rectRadius: 10,
@@ -94,6 +95,7 @@ const skltnConfig: SkltnConfig = {
     RestaurantItemComponent,
     TabRestaurantComponentComponent,
     TabDishesComponentComponent,
+    CartPopoverComponent,
   ],
   imports: [
     NgbModule,
@@ -140,4 +142,4 @@ const skltnConfig: SkltnConfig = {
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -12,7 +12,6 @@ import { PaymentsComponent } from './account/payments/payments.component';
 import { OfferComponent } from './offer/offer.component';
 import { CartComponent } from './cart/cart.component';
 import { FoodOrderForRestaurantComponent } from './single-restaurant/food-order-for-restaurant/food-order-for-restaurant.component';
-import {MatButtonModule} from '@angular/material/button';
 
 
 const routes: Routes = [

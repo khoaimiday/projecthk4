@@ -1,18 +1,22 @@
-export class Cart {
+import { Dishes } from "./dishes";
 
-    constructor( public createdAt : Date,
-                public updatedAt: Date,
-                public id: number,
-                public fullName: string,
-                public unit: string,
-                public  quantity: number,
-                public  note: string,
-                public rate: number,
-                public price: number,
-                public like: number,
-                public delivered: number,
-                public imageURL: string,
-                public active: boolean,
-                public itemCount: number){ }
+export class CartItem {
+    public id: number;
+    public restanrantId: number;
+    public fullName: string;
+    public price: number;
+    public imageURL: string;
+
+    public quantity: number;
+
+    constructor(dishes : Dishes){ 
+        this.id = dishes.id;
+        this.fullName = dishes.fullName;
+        this.price = dishes.price;
+        this.imageURL = dishes.imageURL;
+
+        this.quantity = dishes.quantity;
+    }
+
 }
 

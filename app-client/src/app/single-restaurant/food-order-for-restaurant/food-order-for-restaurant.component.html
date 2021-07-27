@@ -1,6 +1,6 @@
 <div class="list-view">
     <h1 style="margin: 0;">Recommended</h1>
-    <span class="total-items">14 ITEMS</span>
+    <span class="total-items">{{itemList.length}} ITEMS</span>
     <div class="mini-card-container">       
         <div class="mini-card" *ngFor="let item of itemList">
             <div>
@@ -17,7 +17,7 @@
                     <button mat-icon-button (click)="remove(item)">
                         <mat-icon class="star-icon" fontSet="material-icons-outlined">remove</mat-icon>
                     </button>
-                    <span>{{item.itemCount || 0}}</span>
+                    <span>{{item.quantity}}</span>
                     <button mat-icon-button (click)="add(item)">
                         <mat-icon class="star-icon" fontSet="material-icons-outlined">add</mat-icon>
                     </button>
@@ -28,6 +28,3 @@
 
     </div>
 </div>
-
-
-<button mat-raised-button color="primary">  <mat-icon class="star-icon" fontSet="material-icons-outlined">remove</mat-icon> </button>

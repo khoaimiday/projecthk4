@@ -1,0 +1,36 @@
+
+        <div class="flex-container">
+            <div>
+                <img height="66" width="66" alt=""
+                    src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_132,h_132,c_fill/oyusdq7j4phsavmal7n0">
+            </div>
+            <div class="mx-2">
+                <div class="name">Name of Restaurant</div>
+                <div class="address">address</div>
+            </div>
+        </div>
+        <hr/>
+        <div class="item-info-box">
+            <ul class="items">
+                <li class="list" *ngFor="let item of itemList">
+                    <div class="flex-container mb-2">
+                        <img height="33" width="33" alt="" src="{{item.imageURL}}">
+                        <div>
+                            <span style="margin-left: 10px;">{{item.fullName}}</span>
+                            <div style="margin-left: 10px">{{item.quantity}} x {{item.price | currency: 'VND'}}</div>
+                        </div>                       
+                    </div>
+                   
+                </li>
+            </ul>
+        </div>
+        <hr/>
+        <div class="flex-container mb-2">
+            <div>Sub Total</div>
+            <div>{{this.totalPrice | currency: 'VND'}}</div>
+        </div>
+        <div class="checkout-button-box">
+            <button mat-raised-button class="checkoutButton">CHECKOUT <mat-icon class="star-icon"
+                    style="margin-top: 2px;" fontSet="material-icons-outlined">arrow_right_alt</mat-icon>
+            </button>
+        </div>

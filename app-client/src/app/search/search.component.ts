@@ -1,7 +1,8 @@
 import { Component, OnInit,NgModule, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material';
 import { Router } from '@angular/router';
-import { Dishes, DishesService } from '../services/dishes.service';
+import { Dishes } from '../interfaces/dishes';
+import { DishesService } from '../services/dishes.service';
 import { Restaurant, RestaurantsService } from '../services/restaurants.service';
 
 @Component({

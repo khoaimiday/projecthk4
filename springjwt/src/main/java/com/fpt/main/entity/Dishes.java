@@ -42,7 +42,7 @@ public class Dishes extends BaseEntity{
 	@Column(name = "unit")
 	private String unit;
 	
-	@Column(name = "quantity")
+	@Column(name = "quantity", columnDefinition = "int default 0")
 	private int quantity;
 	
 	@Column(name = "note")
@@ -53,7 +53,7 @@ public class Dishes extends BaseEntity{
 	
 	private BigDecimal price;
 	
-	@Column(name = "count_like")
+	@Column(name = "like_number")
 	private int like;
 	
 	@Column(name = "delivered")

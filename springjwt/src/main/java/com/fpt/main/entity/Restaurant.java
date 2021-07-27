@@ -1,8 +1,6 @@
 package com.fpt.main.entity;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -11,10 +9,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,12 +20,9 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.FieldNameConstants.Exclude;
 
 @Entity
 @Table(name = "restaurants")
@@ -69,10 +64,8 @@ public class Restaurant extends BaseEntity{
 	@OneToMany(mappedBy = "restaurant")
 	private Collection<Offer> offerList;
 	
-	@ManyToMany(mappedBy = "restaurants")
-	@EqualsAndHashCode.Exclude
-	@Exclude
-	@JsonIgnore
-	private Collection<Address> addressList;
+	@OneToOne
+	@JoinColumn(name = "address_id",  nullable = true)
+	private Address address;
 	
 }
