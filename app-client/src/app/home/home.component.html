@@ -28,7 +28,7 @@
         <div class="card-container">
             <ng-container *ngIf="restaurants.length == 0">
                 <skltn-root class="card" duration="1000" [rectRadius]="10" flareWidth="50%" bgFill="#d8d5d1"
-                    flareFill="rgba(255,255,255, 0.5)" *ngFor="let item of loaderRestaurant">
+                    flareFill="rgba(255,255,255, 0.5)" *ngFor="let item of restaurants">
                     <!-- Card with Avatar -->
                     <div class="skltn-card">
                         <div skltn-bone class="skltn-card__avatar" type="circle"></div>
@@ -40,7 +40,7 @@
                     </div>
                 </skltn-root>
             </ng-container>
-            <div class="card" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(restaurant.id)">
+            <div class="card" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(restaurant)">
                 <div>
                     <img alt="Ancient Hyderabad" width="254" height="160" [src]="restaurant.imageURL">
                     <div class="exclusive"
@@ -56,7 +56,7 @@
                     <div class="other">
                         <div class="rating">
                             <mat-icon class="star-icon">star</mat-icon>
-                            <span class="rate">5{{restaurant.rating}}</span>
+                            <span class="rate">5{{restaurant.rate}}</span>
                         </div>
                         <div>&#8226;</div>
                         <div>32 MINS</div>

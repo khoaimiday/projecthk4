@@ -1,6 +1,20 @@
 <div class="cart-popover">
-    <div class="main-container">
-        <div class="restaurant-box" >
+    <ng-container  *ngIf="itemList?.length == 0">
+        <div class="main-container">
+            <a class="restaurant-box" [routerLink]="['restaurants', this.itemList[0]?.restanrantId]">
+                <div>
+                    <img src="https://i.imgur.com/dCdflKN.png" width="66" height="66">
+                </div>
+                <div class="restaurant-description">
+                    <div class="name">Your Cart is Empty</div>
+                    <div class="address">Add something to make me happy :)</div>
+                </div>
+            </a>
+        </div>
+    </ng-container>
+
+    <div class="main-container"  *ngIf="itemList?.length > 0">
+        <a class="restaurant-box" [routerLink]="['restaurants', this.itemList[0]?.restanrantId]">
             <div>
                 <img height="66" width="66" alt=""
                     src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_132,h_132,c_fill/oyusdq7j4phsavmal7n0">
@@ -9,13 +23,13 @@
                 <div class="name">Name of Restaurant</div>
                 <div class="address">address</div>
             </div>
-        </div>
+        </a>
         <div class="item-info-box">
             <ul class="items">
                 <li class="list" *ngFor="let item of itemList">
                     <div class="item-name">
                         <img src="https://img.icons8.com/color/15/000000/vegetarian-food-symbol.png">
-                        <span style="margin-left: 10px;">{{item.fullName}} x {{item.quantity}}</span>
+                        <span style="margin-left: 10px;">{{item.name}} x {{item.quantity}}</span>
                     </div>
                     <div style="margin-left: 10px">{{ item.quantity * item.price | currency: 'VND'}}</div>
                 </li>
@@ -26,7 +40,9 @@
             <div>{{this.totalPrice | currency: 'VND'}}</div>
         </div>
         <div class="checkout-button-box">
-            <button mat-raised-button class="checkoutButton">CHECKOUT</button>
+            <a [routerLink]="['/cart']">
+                <button mat-raised-button class="checkoutButton">CHECKOUT</button>
+            </a>        
         </div>
     </div>
 

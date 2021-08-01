@@ -25,14 +25,11 @@ import lombok.Setter;
 @Table(name = "offers")
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Builder
 public class Offer extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private Long id;
 	
 	@Column(name = "code")
@@ -54,13 +51,11 @@ public class Offer extends BaseEntity{
 	private String imageURL;
 	
 	@ManyToOne
-	@JoinColumn(name = "restaurant_id", nullable = true)
-	@JsonIgnore
+	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
 	
 	@ManyToOne
-	@JoinColumn(name = "dishes_id", nullable = true)
-	@JsonIgnore
+	@JoinColumn(name = "dishes_id")
 	private Dishes dishes;
 	
 }

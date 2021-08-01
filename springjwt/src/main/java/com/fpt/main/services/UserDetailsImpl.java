@@ -2,6 +2,7 @@ package com.fpt.main.services;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class UserDetailsImpl implements UserDetails{
 	@JsonIgnore
 	private String password;
 	
-	private Address address;
+	private Set<Address> address;
 	
 	private String phonenumber;
 	
@@ -38,7 +39,7 @@ public class UserDetailsImpl implements UserDetails{
 			String username, 
 			String email, 
 			String password, 
-			Address address, 
+//			Set<Address> address, 
 			String phonenumber,
 			Boolean isActive, 
 			Collection<? extends GrantedAuthority> authorities) {
@@ -46,7 +47,7 @@ public class UserDetailsImpl implements UserDetails{
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.address = address;
+//		this.address = address;
 		this.phonenumber = phonenumber;
 		this.isActive = isActive;
 		this.authorities = authorities;
@@ -62,7 +63,7 @@ public class UserDetailsImpl implements UserDetails{
 				user.getUserName(), 
 				user.getEmail(), 
 				user.getPassword(), 
-				user.getAddress(), //address
+//				user.getAddressList(), //address
 				user.getPhoneNumber(), //phone
 				user.isActive(), //isActive
 				authorities);		
@@ -84,11 +85,11 @@ public class UserDetailsImpl implements UserDetails{
 		this.email = email;
 	}
 	
-	public Address getAddress() {
+	public Set<Address> getAddress() {
 		return address;
 	}
 
-	public void setAddress(Address address) {
+	public void setAddress(Set<Address> address) {
 		this.address = address;
 	}
 

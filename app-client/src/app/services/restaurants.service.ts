@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Restaurant } from '../interfaces/restaurant';
+import { AddressService } from './address.service';
+import { Address } from '../interfaces/address';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +12,12 @@ import { map } from 'rxjs/operators';
 export class RestaurantsService {
 
   restaurants : Restaurant[] = [];
+  restaurant: Restaurant;
 
   private api = "http://localhost:8080/api/restaurants";
   
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient,
+              private addressService: AddressService) { }
 
   getAllRestaurantsPaginate(thePage: number, 
                             thePageSize: number): Observable<GetRestaurantsResponse> {
@@ -40,19 +45,33 @@ export class RestaurantsService {
   //Function search for searchPage with name contain
   searchRestaurantsContainName(searchValue: string) {
     const searchUrl = `${this.api}/search/findByFullNameContaining?name=${searchValue}`;
-    console.log(searchUrl)
     return this.httpClient.get<GetRestaurantsResponse>(searchUrl).pipe(
       map( response => this.restaurants = response._embedded.restaurants)
     )
   }
 
-  getRestaurantDetails(theRestaurantId: number): Observable<any>{
+  getRestaurantDetails(theRestaurantId: number): Observable<Restaurant>{
     const searchUrl = `${this.api}/${theRestaurantId}`;
-    console.log(searchUrl)
-    return  this.httpClient.get<any>(searchUrl)
-  }
+    return  this.httpClient.get<Restaurant>(searchUrl).pipe(
+      map (mainData => {
+        this.restaurant = mainData;
+        this.addressService.getAddressForRestaurant(mainData.id).subscribe(
+          data => {
+            this.restaurant.address = data
+          },
+           error => {
+              console.log('address not found!');
+              console.log(this.restaurant.address)
+           }         
+        )      
+        return this.restaurant;
+      })
+    )
+  } 
 
 }
+
+
 
 interface GetRestaurantsResponse {
   _embedded: {
@@ -64,17 +83,4 @@ interface GetRestaurantsResponse {
     totalPages: number, //total pages available
     number: number //current page number
   }
-}
-
-export interface Restaurant {
-  active: boolean;
-  createdAt: Date;
-  email: string;
-  fullName: string;
-  id: number;
-  imageURL: string;
-  navigationId: number
-  phoneNumber: string;
-  rate: number;
-  updatedAt: Date;
 }

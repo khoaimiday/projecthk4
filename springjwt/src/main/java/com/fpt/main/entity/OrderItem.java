@@ -8,35 +8,32 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "order_details")
+@Table(name="order_item")
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-@Builder
-public class OrderDetails extends BaseEntity{
+public class OrderItem extends BaseEntity{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id")
+    private Long id;
+    
+    @Column(name="image_url")
+    private String imageUrl;
 	
-	@Column(name = "description")
-	private String description;
-	
-	@Column(name = "unit_name")
-	private String unitName;
+    @Column(name="unit_price")
+    private BigDecimal unitPrice;
 	
 	@Column(name = "original_price")
 	private BigDecimal originalPrice;
@@ -44,15 +41,14 @@ public class OrderDetails extends BaseEntity{
 	@Column(name = "selling_price")
 	private BigDecimal sellingPrice;
 	
-	@Column(name = "amount")
-	private int amount;
+    @Column(name="quantity")
+    private int quantity;
+    
+	@Column(name = "dishes_id")
+	private Long dishesId;
 	
-	@OneToOne
-	@JoinColumn(name = "order_id", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "order_id")
 	private Order order;
-	
-	@OneToOne
-	@JoinColumn(name = "dishes_id", nullable = false)
-	private Dishes dishes;
-	
+
 }

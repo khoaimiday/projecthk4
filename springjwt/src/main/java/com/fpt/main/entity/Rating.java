@@ -39,15 +39,15 @@ public class Rating extends BaseEntity{
 	private String note;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@JoinColumn(name = "user_id")
 	private User user;
 	
 	@OneToOne
-	@JoinColumn(name = "restaurant_id",  nullable = true)
+	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
 	
 	@OneToOne
-	@JoinColumn(name = "dishes_id", nullable = true)
+	@JoinColumn(name = "dishes_id")
 	private Dishes dishes;
 	
 }

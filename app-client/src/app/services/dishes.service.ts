@@ -27,7 +27,6 @@ export class DishesService {
 
   getDishesByRestaurant(restId: number): Observable<any>{
     const searchUrl = `${this.api}/search/findAllByRestaurantId?id=${restId}`;
-    console.log(searchUrl)
     return this.httpClient.get<GetDishesResponse>(searchUrl).pipe(
       map(response => this.dishes = response._embedded.disheses)
     )
@@ -36,7 +35,7 @@ export class DishesService {
   //Function search for searchPage with name contain
   // http://localhost:8080/api/disheses/search/findByFullNameContaining?name=k&page=0&size=20
   searchDishesContainName(searchValue: string){
-    const searchUrl = `${this.api}/search/findByFullNameContaining?name=${searchValue}`;
+    const searchUrl = `${this.api}/search/findByNameContaining?name=${searchValue}`;
     console.log(searchUrl)
     return this.httpClient.get<GetDishesResponse>(searchValue).pipe(
       map(response => this.dishes = response._embedded.disheses)
@@ -50,9 +49,6 @@ export class DishesService {
       map(response => this.dishes = response._embedded.disheses)
     )
   }
-
-
-
 }
 
 interface GetDishesResponse {

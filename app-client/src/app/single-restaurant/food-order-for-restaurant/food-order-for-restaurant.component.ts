@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { CartItem } from '../../interfaces/cart';
 import { Dishes } from '../../interfaces/dishes';
 import { CartService } from '../../services/cart.service';
@@ -19,7 +20,8 @@ export class FoodOrderForRestaurantComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private cartService: CartService,
-              private dishesService: DishesService) { }
+              private dishesService: DishesService,
+              private restaurantService: RestaurantsService) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(() => {

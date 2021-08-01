@@ -1,4 +1,6 @@
-     
+    .total-items{
+        font-weight: bold;
+    }
     .items{
         width: 100%;
         margin-top: 20px;
@@ -12,7 +14,7 @@
                 font-weight: 400;
                 display: flex;
                 align-items: center;
-                justify-content: space-between;
+                justify-content: flex-start;
                 width: 120px;
             }
         }

@@ -7,14 +7,22 @@ import { HelpComponent } from './shared/help/help.component';
 import { MyAccountComponent } from './account/my-account/my-account.component';
 import { AddressesComponent } from './account/addresses/addresses.component';
 import { FavouritesComponent } from './account/favourites/favourites.component';
-import { OrdersComponent } from './account/orders/orders.component';
 import { PaymentsComponent } from './account/payments/payments.component';
 import { OfferComponent } from './offer/offer.component';
 import { CartComponent } from './cart/cart.component';
 import { FoodOrderForRestaurantComponent } from './single-restaurant/food-order-for-restaurant/food-order-for-restaurant.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
+import { OktaCallbackComponent } from '@okta/okta-angular';
+import { LoginComponent } from './shared/login/login.component';
 
 
 const routes: Routes = [
+  { 
+    path: 'login/callback', component: OktaCallbackComponent
+  },
+  { 
+    path: 'login', component: LoginComponent
+  },
   {
     path: 'restaurants', component: HomeComponent
   },
@@ -60,7 +68,7 @@ const routes: Routes = [
         path: 'favourites', component: FavouritesComponent
       },
       {
-        path: 'orders', component: OrdersComponent
+        path: 'orders', component: OrderHistoryComponent
       },
       {
         path: 'payments', component: PaymentsComponent

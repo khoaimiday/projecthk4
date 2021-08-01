@@ -25,14 +25,14 @@
                 </a>
 
             </li>
-             <li class="menu-item"  *ngIf="user" [routerLink]="['/my-account']" routerLinkActive="active">
+            <li class="menu-item"  *ngIf="isAutenticated" [routerLink]="['/my-account']" routerLinkActive="active">
                 <a class="item-box" [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover"
                     mdePopoverArrowColor="#db7c38" [mdePopoverOffsetX]="-16" [mdePopoverOffsetY]="-10" [mdePopoverArrowOffsetX]="40">
                     <mat-icon fontSet="material-icons-outlined">person</mat-icon>
-                    <span>{{ this.user.email?  this.user.email : this.user.username}} </span>
+                    <span>{{ this.userFullName}} </span>
                 </a>
             </li> 
-            <li class="menu-item"  *ngIf="!user">
+            <li class="menu-item"  *ngIf="!isAutenticated">
                 <a class="item-box" (click) = "openLoginSideNav()">
                     <mat-icon fontSet="material-icons-outlined">person</mat-icon>
                     <span> Sign In </span>

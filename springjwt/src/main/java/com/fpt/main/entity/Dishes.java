@@ -2,7 +2,10 @@ package com.fpt.main.entity;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,7 +40,8 @@ public class Dishes extends BaseEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String fullName;
+	@Column(name = "name")
+	private String name;
 	
 	@Column(name = "unit")
 	private String unit;
@@ -45,19 +49,11 @@ public class Dishes extends BaseEntity{
 	@Column(name = "quantity", columnDefinition = "int default 0")
 	private int quantity;
 	
-	@Column(name = "note")
-	private String note;
-	
 	@Column(name = "rate", columnDefinition = "float default 0.0")
 	private float rate;
-	
+
+	@Column(name = "price")
 	private BigDecimal price;
-	
-	@Column(name = "like_number")
-	private int like;
-	
-	@Column(name = "delivered")
-	private int delivered;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "restaurant_id", nullable = false)
@@ -70,15 +66,33 @@ public class Dishes extends BaseEntity{
 	@Column(name = "is_active", columnDefinition = "Bit(1) default true")
 	private boolean isActive;
 
-	@OneToMany(mappedBy = "dishes")
-	private Collection<Offer> offer;
+	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "dishes")
+	private Set<Offer> offerList = new HashSet<>();
 		
-	@OneToMany(mappedBy = "dishes")
-	private Collection<Rating> rating;
+	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "dishes")
+	private Set<Rating> ratingList = new HashSet<Rating>();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "dish_category_id", nullable = true)
-	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "dish_category_id")
 	private DishCategories dishCategory;
 
+	public void addOffer(Offer item) {
+		if (item != null) {
+			if (offerList == null) {
+				offerList = new HashSet<>();
+			}
+		}
+		offerList.add(item);
+		item.setDishes(this);
+	}
+	
+	public void addRating(Rating item) {
+		if (item != null) {
+			if (ratingList == null) {
+				ratingList = new HashSet<>();
+			}
+		}
+		ratingList.add(item);
+		item.setDishes(this);
+	}
 }

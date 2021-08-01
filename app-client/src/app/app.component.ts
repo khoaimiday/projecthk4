@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import { HelperService } from './services/helper.service';
 
@@ -7,7 +7,7 @@ import { HelperService } from './services/helper.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'swiggyClone';
   addressNavEnable = false;
   loginSideNavEnable = false;
@@ -23,6 +23,9 @@ export class AppComponent {
       this.enableAccount = res;
     });
     
+  }
+
+  ngOnInit(): void {
   }
 
 }

@@ -1,11 +1,11 @@
 package com.fpt.main.entity;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,17 +17,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "restaurants")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class Restaurant extends BaseEntity{
@@ -57,15 +51,32 @@ public class Restaurant extends BaseEntity{
 	@Column(name = "is_active", columnDefinition = "Bit(1) default true")
 	private boolean isActive;
 	
-	@OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
-	@JsonIgnore
-	private List<Dishes> dishesList;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+	private Set<Dishes> dishesList = new HashSet<>();
 	
-	@OneToMany(mappedBy = "restaurant")
-	private Collection<Offer> offerList;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+	private Set<Offer> offerList = new HashSet<Offer>();
 	
-	@OneToOne
-	@JoinColumn(name = "address_id",  nullable = true)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id")
 	private Address address;
+	
+	public void addDishes(Dishes item) {		
+		if (item != null) {
+			if (dishesList == null) {
+				dishesList = new HashSet();
+			}
+		}		
+		dishesList.add(item);
+		item.setRestaurant(this);
+	}
+	
+	public void addOffer(Offer item) {
+		if (item !=null) {
+			offerList = new HashSet<Offer>();
+		}		
+		offerList.add(item);
+		item.setRestaurant(this);
+	}
 	
 }

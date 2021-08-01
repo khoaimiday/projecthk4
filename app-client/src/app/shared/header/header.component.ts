@@ -4,6 +4,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
 import { User } from 'src/app/interfaces/Ilogin';
 import { CartService } from '../../services/cart.service';
+import { OktaAuthService } from '@okta/okta-angular';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,10 @@ import { CartService } from '../../services/cart.service';
 })
 export class HeaderComponent implements OnInit {
   itemList = new Array(3);
-  user: User;
+  
+  isAutenticated: boolean = false;
+  userFullName: string;
+
   
   totalPrice: number = 0.00;
   totalQuantity: number = 0;
@@ -20,13 +24,17 @@ export class HeaderComponent implements OnInit {
   constructor(private helperService: HelperService, 
               private router: Router,
               private cartService : CartService,
-    public loginService: LoginService) {
+              private oktaAuthService: OktaAuthService) {
   }
 
   ngOnInit() {
-    this.loginService.loggedIn.subscribe(next => {
-      this.user = next;
-    });
+
+    this.oktaAuthService.$authenticationState.subscribe(
+      (result) => {
+        this.isAutenticated = result;
+        this.getUserDetails();
+      }
+    )
 
     this.updateCartStatus();
   }
@@ -43,15 +51,32 @@ export class HeaderComponent implements OnInit {
     )
   }
 
+  getUserDetails() {
+    if (this.isAutenticated) {
+      
+      //Fetch the logged in user details ( user's claims)
+      //user fullname is exposed as a property name
+      this.oktaAuthService.getUser().then(
+        (res) => {
+          this.userFullName = res.name;
+        }
+      )  
+    }
+  }
+
+  logout(){
+    // Terminates the session with Okta and removes current tokens
+    this.oktaAuthService.signOut();
+    this
+  }
+
   openAddressSideNav (){
     this.helperService.addressSideNav.next(true);
   }
+
   openLoginSideNav(){
     this.helperService.loginSideNav.next(true);
   }
-  logout() {
-    this.user = null;
-    // this.loginService.loggedIn.next(this.user);
-  }
-  
+
+ 
 }

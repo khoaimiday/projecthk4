@@ -2,8 +2,9 @@ import { Component, OnInit,NgModule, ViewChild, AfterViewInit } from '@angular/c
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material';
 import { Router } from '@angular/router';
 import { Dishes } from '../interfaces/dishes';
+import { Restaurant } from '../interfaces/restaurant';
 import { DishesService } from '../services/dishes.service';
-import { Restaurant, RestaurantsService } from '../services/restaurants.service';
+import { RestaurantsService } from '../services/restaurants.service';
 
 @Component({
   selector: 'app-search',

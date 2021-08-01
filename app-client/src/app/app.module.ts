@@ -36,8 +36,10 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
-  MatBadgeModule
+  MatBadgeModule,
+  MatPaginatorModule 
 } from '@angular/material';
+
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { MdePopoverModule } from '@material-extended/mde';
@@ -56,6 +58,8 @@ import { SelectAddressComponent } from './shared/select-address/select-address.c
 import { OfferComponent } from './offer/offer.component';
 import { CartComponent } from './cart/cart.component';
 import { NgxSkltnModule, SkltnConfig } from 'ngx-skltn';
+import { ReactiveFormsModule } from '@angular/forms';
+
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { RestaurantItemComponent } from './home/restaurant-item/restaurant-item.component';
@@ -65,6 +69,25 @@ import { TabDishesComponentComponent } from './search/tab-dishes-component/tab-d
 import { FoodOrderForRestaurantComponent } from './single-restaurant/food-order-for-restaurant/food-order-for-restaurant.component';
 import { CartPopoverComponent } from './shared/header/cart-popover/cart-popover.component';
 import { CartDetailsForRestComponent } from './single-restaurant/cart-details-for-rest/cart-details-for-rest.component';
+import { CartDetailCheckOutComponent } from './cart/cart-detail-check-out/cart-detail-check-out.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
+
+import {
+  OKTA_CONFIG,
+  OktaAuthModule,
+  OktaCallbackComponent
+} from '@okta/okta-angular';
+
+import myAppConfig from './config/my-app-config';
+import { Router } from '@angular/router';
+
+const oktaConfig = Object.assign({ 
+  onAuthRequired: (injector) => {
+    const router = injector.get(Router);
+
+    router.navigate(['/login']);
+  }
+}, myAppConfig.oidc);
 
 const skltnConfig: SkltnConfig = {
   rectRadius: 10,
@@ -98,14 +121,19 @@ const skltnConfig: SkltnConfig = {
     TabDishesComponentComponent,
     CartPopoverComponent,
     CartDetailsForRestComponent,
+    CartDetailCheckOutComponent,
+    OrderHistoryComponent,
   ],
   imports: [
     NgbModule,
     Ng2SearchPipeModule,
     FormsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
+    OktaAuthModule,
+    
     BrowserAnimationsModule,
     MatAutocompleteModule,
     MatButtonModule,
@@ -134,6 +162,7 @@ const skltnConfig: SkltnConfig = {
     MatStepperModule,
     MatTableModule,
     MatTabsModule,
+    MatPaginatorModule,
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
@@ -141,7 +170,7 @@ const skltnConfig: SkltnConfig = {
     MdePopoverModule,
     NgxSkltnModule.forRoot(skltnConfig)
   ],
-  providers: [],
+  providers: [{provide: OKTA_CONFIG, useValue: oktaConfig}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

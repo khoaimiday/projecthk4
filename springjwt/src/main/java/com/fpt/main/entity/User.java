@@ -3,6 +3,7 @@ package com.fpt.main.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,9 +26,6 @@ import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,15 +36,14 @@ import lombok.Setter;
 				@UniqueConstraint(columnNames = "user_name"),
 				@UniqueConstraint(columnNames = "email")
 		})
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
-@Builder
+@NoArgsConstructor
 public class User extends BaseEntity{
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private Long id;
 	
 	@NotBlank
@@ -67,10 +64,7 @@ public class User extends BaseEntity{
 	@Column(name = "full_name")
 	@Size(max = 100)
 	private String fullName; 
-	
-	@OneToMany(mappedBy = "users")
-	private Set<Address> address;
-	
+
 	@Size(max = 15)
 	@Column(name = "phone_number")
 	private String phoneNumber;
@@ -93,14 +87,38 @@ public class User extends BaseEntity{
 	@Column(name = "reset_password_token")
 	private String resetPasswordToken;
 	
-
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//	private Set<Order> orders = new HashSet<>();
+		
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//	private Set<Address> addressList = new HashSet<>();
+	
 	@Fetch(FetchMode.JOIN)
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable( name = "user_roles", 
 				joinColumns = @JoinColumn(name= "user_id"), 
 				inverseJoinColumns= @JoinColumn(name="role_id"))
-	@Builder.Default
 	private Set<Role> roles = new HashSet<>();
+	
+//	public void addOrder(Order item) {
+//		if (item != null) {
+//			if (orders == null) {
+//				orders = new HashSet<>();
+//			}
+//		}
+//		orders.add(item);
+//		item.setUser(this);
+//	}
+	
+//	public void addAddress(Address item) {
+//		if (item != null) {
+//			if (addressList == null) {
+//				addressList = new HashSet<>();
+//			}
+//		}
+//		addressList.add(item);
+//		item.setUser(this);
+//	}
 	
 	@Transient
 	public String getAvatarImagePath() {

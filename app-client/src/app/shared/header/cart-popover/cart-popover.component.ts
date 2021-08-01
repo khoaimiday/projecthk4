@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CartItem } from '../../../interfaces/cart';
 import { CartService } from '../../../services/cart.service';
 
@@ -13,7 +14,8 @@ export class CartPopoverComponent implements OnInit {
   totalPrice: number = 0;
   totalQuantity:number = 0;
 
-  constructor(private cartService: CartService) { }
+  constructor(private cartService: CartService,
+              private router: Router) { }
 
   ngOnInit() {
     this.listCartDetail();
@@ -33,6 +35,10 @@ export class CartPopoverComponent implements OnInit {
     )
 
     this.cartService.computeCartTotals();
+  }
+
+  goToRestaurant(){
+    this.router.navigate(['restaurants', this.itemList[0].restanrantId]);
   }
 
 }
