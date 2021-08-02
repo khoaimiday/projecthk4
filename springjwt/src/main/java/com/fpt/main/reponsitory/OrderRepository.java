@@ -11,6 +11,6 @@ import com.fpt.main.entity.Order;
 @RepositoryRestResource
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	
-	//	http://localhost:8080/api/orders/search/findByCustomerEmail?email=khoaimiday@gmail.com
-	Page<Order> findByCustomerEmail(@Param("email") String email, Pageable pageable);
+	//	http://localhost:8080/api/orders/search/findByCustomerEmailOrderByCreatedAtDesc?email=khoaimiday@gmail.com
+	Page<Order> findByCustomerEmailOrderByCreatedAtDesc(@Param("email") String email, Pageable pageable);
 }

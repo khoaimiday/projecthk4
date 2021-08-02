@@ -30,6 +30,8 @@ export class CartComponent implements OnInit {
   totalQuantity:number = 0;
   totalPriceExchange: number = 0;
 
+  storage: Storage = sessionStorage;
+
   constructor(private helperService: HelperService,
               private router: Router, 
               public loginService: LoginService,
@@ -47,6 +49,9 @@ export class CartComponent implements OnInit {
       this.user = next;
     });
 
+    //read the user's email address from browser storage
+    const theEmail = JSON.parse(this.storage.getItem("userEmail"));
+
     this.checkoutFormGroup = this.formBuilder.group({
       
       customer: this.formBuilder.group({
@@ -59,7 +64,7 @@ export class CartComponent implements OnInit {
                               [Validators.required, 
                                Validators.pattern("[0-9]{8,11}")]),
                                
-        email: new FormControl('',
+        email: new FormControl(theEmail,
                               [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
 

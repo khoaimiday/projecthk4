@@ -12,7 +12,7 @@ import { OfferComponent } from './offer/offer.component';
 import { CartComponent } from './cart/cart.component';
 import { FoodOrderForRestaurantComponent } from './single-restaurant/food-order-for-restaurant/food-order-for-restaurant.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
-import { OktaCallbackComponent } from '@okta/okta-angular';
+import { OktaAuthGuard, OktaCallbackComponent } from '@okta/okta-angular';
 import { LoginComponent } from './shared/login/login.component';
 
 
@@ -59,7 +59,7 @@ const routes: Routes = [
   //--------------------------------------------
 
   {
-    path: 'my-account', component: MyAccountComponent,
+    path: 'my-account', component: MyAccountComponent, canActivate: [OktaAuthGuard],
     children: [
       {
         path: 'addresses', component: AddressesComponent

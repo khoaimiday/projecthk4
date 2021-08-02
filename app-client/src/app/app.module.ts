@@ -82,7 +82,7 @@ import myAppConfig from './config/my-app-config';
 import { Router } from '@angular/router';
 
 const oktaConfig = Object.assign({ 
-  onAuthRequired: (injector) => {
+  onAuthRequired: (oktaAuth, injector) => {
     const router = injector.get(Router);
 
     router.navigate(['/login']);

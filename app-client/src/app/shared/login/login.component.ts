@@ -23,6 +23,9 @@ export class LoginComponent implements OnInit {
           
                 this.oktaSignin = new OktaSignIn({
                   logo: '',
+                  features: {
+                    registration: true
+                  },
                   baseUrl: myAppConfig.oidc.issuer.split('/oauth2')[0],
                   clientId: myAppConfig.oidc.clientId,
                   redirectUri: myAppConfig.oidc.redirectUri,
@@ -63,5 +66,5 @@ export class LoginComponent implements OnInit {
     this.user.email = '';
     this.loginService.loggedIn.next(this.user);
     this.closeLoginNav();
-}
+  }
 }
