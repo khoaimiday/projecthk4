@@ -39,8 +39,8 @@ public class Restaurant extends BaseEntity{
 	@Email
 	private String email;
 	
-	@Column(name = "rate", columnDefinition = "float default 0.0")
-	private float rate;
+	@Column(name = "rate_total", columnDefinition = "float default 0.0")
+	private float rateTotal;
 	
 	@Column(name = "phone_number")
 	private String phoneNumber;
@@ -50,6 +50,9 @@ public class Restaurant extends BaseEntity{
 	
 	@Column(name = "is_active", columnDefinition = "Bit(1) default true")
 	private boolean isActive;
+	
+	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "restaurant")
+	private Set<Rating> ratingList = new HashSet<Rating>();
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
 	private Set<Dishes> dishesList = new HashSet<>();
@@ -79,4 +82,13 @@ public class Restaurant extends BaseEntity{
 		item.setRestaurant(this);
 	}
 	
+	public void addRating(Rating item) {
+		if (item != null) {
+			if (ratingList == null) {
+				ratingList = new HashSet<>();
+			}
+		}
+		ratingList.add(item);
+		item.setRestaurant(this);
+	}
 }

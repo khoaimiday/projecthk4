@@ -2,7 +2,10 @@ package com.fpt.main.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,15 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -51,11 +49,22 @@ public class Offer extends BaseEntity{
 	private String imageURL;
 	
 	@ManyToOne
-	@JoinColumn(name = "restaurant_id")
+	@JoinColumn(name = "restaurant_id") 
 	private Restaurant restaurant;
 	
-	@ManyToOne
-	@JoinColumn(name = "dishes_id")
-	private Dishes dishes;
+	@OneToMany(mappedBy = "offer", cascade = CascadeType.ALL)
+	private Set<Dishes> dishes = new HashSet<Dishes>();
 	
+	public void add(Dishes item) {
+
+        if (item != null) {
+
+            if (dishes == null) {
+            	dishes = new HashSet<>();
+            }
+
+            dishes.add(item);
+            item.setOffer(this);
+        }
+    }
 }

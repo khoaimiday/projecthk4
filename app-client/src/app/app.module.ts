@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -80,6 +80,7 @@ import {
 
 import myAppConfig from './config/my-app-config';
 import { Router } from '@angular/router';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 const oktaConfig = Object.assign({ 
   onAuthRequired: (oktaAuth, injector) => {
@@ -170,7 +171,8 @@ const skltnConfig: SkltnConfig = {
     MdePopoverModule,
     NgxSkltnModule.forRoot(skltnConfig)
   ],
-  providers: [{provide: OKTA_CONFIG, useValue: oktaConfig}],
+  providers: [{provide: OKTA_CONFIG, useValue: oktaConfig},
+              {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

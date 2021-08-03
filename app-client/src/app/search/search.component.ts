@@ -63,6 +63,7 @@ export class SearchComponent implements OnInit {
   onTabChange(event : MatTabChangeEvent) {
     // console.log(event.tab.textLabel)
     this.tabName = event.tab.textLabel;
+    console.log(this.tabName)
   }
 
   doSearch(){
@@ -77,21 +78,22 @@ export class SearchComponent implements OnInit {
 
     //Search with tab Dishes
     if (this.tabName == 'Dishes') {
-      this.dishesService.searchDishesContainName(this.searchValue).subscribe(this.processResult());
+      this.dishesService.searchDishesContainNamePaginate(this.searchValue, 
+                                                          0, 
+                                                          this.thePageSize)
+                                                        .subscribe(this.processResult());
     }
   }
 
-  updatePageSize(numPageSize: string){
-    console.log(numPageSize);
-    this.thePageSize = +numPageSize;
-        //Get all restaurant
-        this.restaurantService.getAllRestaurantsPaginate(1, this.thePageSize).subscribe(res => {
-          console.log(res)
-          this.restaurants = res._embedded.restaurants;
-          this.thePageNumber = 1;
-          this.thePageSize = res.page.size;
-          this.theTotalElements = res.page.totalElements;
-        });
+  changePaginator({length,pageIndex,pageSize,previousPageIndex}){
+    //Get all restaurant
+    this.restaurantService.getAllRestaurantsPaginate(pageIndex, pageSize).subscribe(res => {
+      console.log(res)
+      this.restaurants = res._embedded.restaurants;
+      this.thePageNumber = 1;
+      this.thePageSize = res.page.size;
+      this.theTotalElements = res.page.totalElements;
+    });
   }
 
   processResult(){
@@ -100,7 +102,8 @@ export class SearchComponent implements OnInit {
       if (this.tabName == "Restaurant") {
         this.restaurants = res._embedded.restaurants;
       }else{
-        this.dishesList = res._embedded.dishes;
+        this.dishesList = res._embedded.disheses;
+        console.table(res)
       }
 
       this.thePageNumber = 1;

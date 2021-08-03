@@ -21,7 +21,7 @@ export class RestaurantsService {
 
   getAllRestaurantsPaginate(thePage: number, 
                             thePageSize: number): Observable<GetRestaurantsResponse> {
-    const getUrl = `${this.api}?page=${thePage -1 }&size=${thePageSize}`;
+    const getUrl = `${this.api}?page=${thePage }&size=${thePageSize}`;
     console.log(getUrl)
     return this.httpClient.get<GetRestaurantsResponse>(getUrl)
   }

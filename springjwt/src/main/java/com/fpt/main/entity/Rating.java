@@ -7,9 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +23,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @Builder
-@Table(name = "ratings",uniqueConstraints = { @UniqueConstraint( columnNames = { "user_id", "restaurant_id", "dishes_id" }) })
+@Table(name = "ratings")
 public class Rating extends BaseEntity{
 	
 	@Id
@@ -39,16 +37,12 @@ public class Rating extends BaseEntity{
 	private String note;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "restaurant_id")
 	private Restaurant restaurant;
-	
-	@OneToOne
-	@JoinColumn(name = "dishes_id")
-	private Dishes dishes;
 	
 }
 

@@ -6,7 +6,6 @@ import com.fpt.main.entity.Address;
 import com.fpt.main.entity.Customer;
 import com.fpt.main.entity.Order;
 import com.fpt.main.entity.OrderItem;
-import com.fpt.main.entity.User;
 
 import lombok.Data;
 
@@ -17,5 +16,4 @@ public class Purchase {
 	private Order order;
 	private Set<OrderItem> orderItem;
 	
-
 }

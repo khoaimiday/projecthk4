@@ -33,13 +33,15 @@ export class DishesService {
   }
 
   //Function search for searchPage with name contain
-  // http://localhost:8080/api/disheses/search/findByFullNameContaining?name=k&page=0&size=20
-  searchDishesContainName(searchValue: string){
-    const searchUrl = `${this.api}/search/findByNameContaining?name=${searchValue}`;
-    console.log(searchUrl)
-    return this.httpClient.get<GetDishesResponse>(searchValue).pipe(
-      map(response => this.dishes = response._embedded.disheses)
-    )
+  //http://localhost:8080/api/disheses/search/findByFullNameContaining?name=k&page=0&size=2
+  //Function search for searchPage with name contain
+  searchDishesContainNamePaginate(searchValue: string,
+    thePage: number,
+    thePageSize: number): Observable<any>  {
+    const searchUrl = `${this.api}/search/findByNameContaining?name=${searchValue}`
+                      + `&page=${thePage}&size=${thePageSize}`;
+                      console.log(searchUrl)
+    return this.httpClient.get<any>(searchUrl);
   }
 
   searchDishesByDishCategory(searchValue: string){

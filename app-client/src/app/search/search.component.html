@@ -66,14 +66,14 @@
                                 <div class="mini-card" *ngFor="let dishes of dishesList" (click)="goToDishes(dishes)">
                                     <div>
                                         <img height="160" width="244" alt=""
-                                            src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_366,h_240,c_fill/jb72srvfsyzsklvt8gkn">
+                                            src="">
                                     </div>
                                     <div class="item">
                                         <img src="https://img.icons8.com/color/18/000000/vegetarian-food-symbol.png">
-                                        <span style="margin-left: 5px;">Idli Sambar (2 Pcs)</span>
+                                        <span style="margin-left: 5px;">{{dishes.name}}</span>
                                     </div>
                                     <div class="botom">
-                                        <div>₹50</div>
+                                        <div>{{dishes.price | currency: 'VND'}} / {{dishes.unit}}</div>
                                         <div class="add-remove-box">
                                             <mat-icon class="star-icon" fontSet="material-icons-outlined">remove
                                             </mat-icon>
@@ -91,29 +91,12 @@
                     <div class="row">
                         <div class="col-md-6"></div>
                         <div class="col-md-6">
-                            <div class="row" style="align-items: baseline;">
-                                <div class="col-md-9" style="display: flex;justify-content: flex-end">
-                                    <ngb-pagination [(page)]="thePageNumber"
-                                                    [pageSize]="thePageSize"
-                                                    [collectionSize]="theTotalElements"
-                                                    [maxSize]="5"
-                                                    [boundaryLinks]="true"
-                                                    (pageChange)="getListRestaurant()" >
-
-                                    </ngb-pagination>
-                                </div>
-
-                                <div class="col-md-3" >
-                                    <span class="">Page Size</span>
-                                    
-                                    <select (change)="updatePageSize($event.target.value)">
-                                        <option selected="true">5</option>
-                                        <option>10</option>
-                                        <option>20</option>
-                                        <option>50</option>
-                                    </select>
-                                </div>
-                            </div>
+                                <mat-paginator  [length]="theTotalElements"
+                                                [pageSize]="thePageSize"
+                                                [pageSizeOptions]="[5,10,20]"
+                                                (page)="changePaginator($event)"
+                                                aria-label="Select page">
+                                </mat-paginator>      
                         </div>
                     </div>
                 </div>
