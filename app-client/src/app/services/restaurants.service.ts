@@ -69,6 +69,18 @@ export class RestaurantsService {
     )
   } 
 
+  getRestaurantByDishesId(theId: number): Restaurant{
+    const searchUrl = `${this.api}/search/findByDishesListId?id=${theId}`;
+    this.httpClient.get<Restaurant>(searchUrl).toPromise().then(
+      result => {
+        this.restaurant = result;
+        this.addressService.getAddressForRestaurant(result.id).toPromise().then(
+          result => this.restaurant.address = result
+        )
+      }
+    )
+    return this.restaurant
+  }
 }
 
 

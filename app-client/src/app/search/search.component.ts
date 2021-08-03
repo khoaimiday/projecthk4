@@ -53,11 +53,17 @@ export class SearchComponent implements OnInit {
   }
 
   goToRestaurant(restaurant : Restaurant) {
+    // navigate to restaurant
     this.router.navigate(['/restaurants', restaurant.id] , {state:{...restaurant} });
+
   }
 
-  goToDishes(dishes : Dishes) {
-    this.router.navigate(['dishes', dishes.id]);
+  async goToDishes(dishes : Dishes) {
+    // get restaurant
+    const theRestaurant: Restaurant = await this.restaurantService.getRestaurantByDishesId(dishes.id);
+
+    // navigate to restaurant
+    this.router.navigate(['/restaurants', theRestaurant.id] , {state:{...theRestaurant} });
   }
 
   onTabChange(event : MatTabChangeEvent) {
