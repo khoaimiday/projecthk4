@@ -4,7 +4,7 @@
             <mat-form-field appearance="outline" class="search-box">
                 <input matInput placeholder="Seach For Restaurant Or Dishes" class="seach-input-text" 
                 [(ngModel)]="searchValue" (keyup.enter)="doSearch()" >
-                <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="this.searchValue=''"
+                <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()"
                     style="top: -10px; right: 10px; font-size: 16px; font-weight: 500">
                     <mat-icon>close</mat-icon>
                 </button>
@@ -15,94 +15,16 @@
                 </button>
             </mat-form-field>
 
-
             <div class="result-box">
-                <mat-tab-group (selectedTabChange)="onTabChange($event)">
-                    <mat-tab label="Restaurant">
-                        <div style="margin-top: 10px">
-                            <div class="card-container">
-                                <div class="row row-cols-4">
-                                    <ng-container  *ngIf="restaurants?.length == 0" class="alert alert-warning col-md-12" role="alert">
-                                        Not found.
-                                    </ng-container>
-                                    <div class="card mb-5" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(restaurant)">
-                                        <div>
-                                            <img alt="Ancient Hyderabad" width="212" height="160" [src]="restaurant.imageURL">
-                                        </div>
-                                        <div class="footer">
-                                            <div>
-                                                <div class="name">{{restaurant.fullName}}</div>
-                                                <div class="address">địa chỉ{{restaurant.foodType}}</div>
-                                            </div>
-                                            <div class="other">
-                                                <div class="rating">
-                                                    <mat-icon class="star-icon">star</mat-icon>
-                                                    <span class="rate">5{{restaurant.rating}}</span>
-                                                </div>
-                                                <div>&#8226;</div>
-                                                <div>32 MINS</div>
-                                                <div>&#8226;</div>
-                                                <div>250 For Two</div>
-                                            </div>
-                                            <div class="offer">
-                                                <mat-icon class="offer-icon" fontSet="material-icons-outlined">local_offer
-                                                </mat-icon>
-                                                <span class="offer-description">40% off | Use coupon SWIGGY40</span>
-                                            </div>
-                                            <!-- <div class="quick-view">
-                                                    <span>Quick Order</span>
-                                                </div> -->
-                                        </div>
-                                    </div> 
-                                </div>
-                                
-                            </div>
-                        </div>                       
+                <mat-tab-group animationDuration="2000ms" (selectedTabChange)="tabChanged($event)">
+                    <mat-tab label="RESTAURANT">
+                        <app-tab-restaurant></app-tab-restaurant>
                     </mat-tab>
-                    
-                    <mat-tab label="Dishes">
-                        <div style="margin-top: 10px">
-                            <div class="mini-card-container">
-                                <div class="mini-card" *ngFor="let dishes of dishesList" (click)="goToDishes(dishes)">
-                                    <div>
-                                        <img height="160" width="244" alt=""
-                                            src="">
-                                    </div>
-                                    <div class="item">
-                                        <img src="https://img.icons8.com/color/18/000000/vegetarian-food-symbol.png">
-                                        <span style="margin-left: 5px;">{{dishes.name}}</span>
-                                    </div>
-                                    <div class="botom">
-                                        <div>{{dishes.price | currency: 'VND'}} / {{dishes.unit}}</div>
-                                        <div class="add-remove-box">
-                                            <mat-icon class="star-icon" fontSet="material-icons-outlined">remove
-                                            </mat-icon>
-                                            <span>5</span>
-                                            <mat-icon class="star-icon" fontSet="material-icons-outlined">add</mat-icon>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <mat-tab label="DISHES">
+                        <app-tab-dishes></app-tab-dishes>
                     </mat-tab>
-                </mat-tab-group>
-                <div class="footer-pagination mt-5">
-                    <div class="row">
-                        <div class="col-md-6"></div>
-                        <div class="col-md-6">
-                                <mat-paginator  [length]="theTotalElements"
-                                                [pageSize]="thePageSize"
-                                                [pageSizeOptions]="[5,10,20]"
-                                                (page)="changePaginator($event)"
-                                                aria-label="Select page">
-                                </mat-paginator>      
-                        </div>
-                    </div>
-                </div>
+                  </mat-tab-group>        
             </div>
-
-
         </div>
     </div>
 

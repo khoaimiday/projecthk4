@@ -59,13 +59,13 @@ import { OfferComponent } from './offer/offer.component';
 import { CartComponent } from './cart/cart.component';
 import { NgxSkltnModule, SkltnConfig } from 'ngx-skltn';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxMaterialRatingModule } from 'ngx-material-rating';
+
 
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { RestaurantItemComponent } from './home/restaurant-item/restaurant-item.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TabRestaurantComponentComponent } from './search/tab-restaurant-component/tab-restaurant-component.component';
-import { TabDishesComponentComponent } from './search/tab-dishes-component/tab-dishes-component.component';
 import { FoodOrderForRestaurantComponent } from './single-restaurant/food-order-for-restaurant/food-order-for-restaurant.component';
 import { CartPopoverComponent } from './shared/header/cart-popover/cart-popover.component';
 import { CartDetailsForRestComponent } from './single-restaurant/cart-details-for-rest/cart-details-for-rest.component';
@@ -81,6 +81,8 @@ import {
 import myAppConfig from './config/my-app-config';
 import { Router } from '@angular/router';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { TabRestaurantComponent } from './search/tab-restaurant/tab-restaurant.component';
+import { TabDishesComponent } from './search/tab-dishes/tab-dishes.component';
 
 const oktaConfig = Object.assign({ 
   onAuthRequired: (oktaAuth, injector) => {
@@ -118,12 +120,12 @@ const skltnConfig: SkltnConfig = {
     OfferComponent,
     CartComponent,
     RestaurantItemComponent,
-    TabRestaurantComponentComponent,
-    TabDishesComponentComponent,
     CartPopoverComponent,
     CartDetailsForRestComponent,
     CartDetailCheckOutComponent,
     OrderHistoryComponent,
+    TabRestaurantComponent,
+    TabDishesComponent,
   ],
   imports: [
     NgbModule,
@@ -134,6 +136,7 @@ const skltnConfig: SkltnConfig = {
     BrowserModule,
     AppRoutingModule,
     OktaAuthModule,
+    NgxMaterialRatingModule,
     
     BrowserAnimationsModule,
     MatAutocompleteModule,

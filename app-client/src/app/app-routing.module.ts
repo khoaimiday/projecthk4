@@ -14,6 +14,8 @@ import { FoodOrderForRestaurantComponent } from './single-restaurant/food-order-
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { OktaAuthGuard, OktaCallbackComponent } from '@okta/okta-angular';
 import { LoginComponent } from './shared/login/login.component';
+import { TabRestaurantComponent } from './search/tab-restaurant/tab-restaurant.component';
+import { TabDishesComponent } from './search/tab-dishes/tab-dishes.component';
 
 
 const routes: Routes = [
@@ -28,7 +30,9 @@ const routes: Routes = [
   },
   {
     path: 'restaurants/:id', component: SingleRestaurantComponent, children : [
-        {path: '', outlet : 'orderFoodList', component: FoodOrderForRestaurantComponent},
+        {
+          path: '', outlet : 'orderFoodList', component: FoodOrderForRestaurantComponent
+        },
     ]
   },
   {
@@ -49,15 +53,6 @@ const routes: Routes = [
   {
     path: 'cart', component: CartComponent
   },
-  //--------------------------------------------
-  {
-    path: 'restaurantsTab', component: CartComponent
-  },
-  {
-    path: 'dishesTab', component: CartComponent
-  },
-  //--------------------------------------------
-
   {
     path: 'my-account', component: MyAccountComponent, canActivate: [OktaAuthGuard],
     children: [

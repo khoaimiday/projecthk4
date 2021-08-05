@@ -9,5 +9,8 @@ export class HelperService {
   addressSideNav = new BehaviorSubject(false);
   loginSideNav = new BehaviorSubject(false);
   enableAccount = new BehaviorSubject('signin');
+
+  searchData = new BehaviorSubject<string>('');
+
   constructor() { }
 }
