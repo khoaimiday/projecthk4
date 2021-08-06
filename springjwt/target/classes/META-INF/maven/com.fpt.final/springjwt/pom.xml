@@ -14,10 +14,7 @@
 	<version>1.0</version>
 	<name>springjwt Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	
-	<properties>
-		<java.version>1.8</java.version>
-	</properties>
+
 
 	<dependencies>
 

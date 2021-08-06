@@ -83,6 +83,7 @@ import { Router } from '@angular/router';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { TabRestaurantComponent } from './search/tab-restaurant/tab-restaurant.component';
 import { TabDishesComponent } from './search/tab-dishes/tab-dishes.component';
+import { RatingComponent } from './rating/rating.component';
 
 const oktaConfig = Object.assign({ 
   onAuthRequired: (oktaAuth, injector) => {
@@ -126,6 +127,7 @@ const skltnConfig: SkltnConfig = {
     OrderHistoryComponent,
     TabRestaurantComponent,
     TabDishesComponent,
+    RatingComponent,
   ],
   imports: [
     NgbModule,

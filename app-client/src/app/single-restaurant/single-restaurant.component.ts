@@ -45,7 +45,6 @@ export class SingleRestaurantComponent implements OnInit {
       this.restaurantService.getRestaurantDetails(this.currentRestaurantId).subscribe(
         data => {
           this.restaurant = data
-          this.restaurant.rate = 4
           console.log(this.restaurant)
         }
       )

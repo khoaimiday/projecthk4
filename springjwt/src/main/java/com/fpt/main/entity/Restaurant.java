@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,6 +43,9 @@ public class Restaurant extends BaseEntity{
 	@Column(name = "rate_total", columnDefinition = "float default 0.0")
 	private float rateTotal;
 	
+	@Column(name = "rate_count", columnDefinition = "int default 0")
+	private int rateCount;
+	
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	
@@ -51,16 +55,16 @@ public class Restaurant extends BaseEntity{
 	@Column(name = "is_active", columnDefinition = "Bit(1) default true")
 	private boolean isActive;
 	
-	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "restaurant")
+	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "restaurant", fetch = FetchType.LAZY)
 	private Set<Rating> ratingList = new HashSet<Rating>();
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant", fetch = FetchType.LAZY)
 	private Set<Dishes> dishesList = new HashSet<>();
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant", fetch = FetchType.LAZY)
 	private Set<Offer> offerList = new HashSet<Offer>();
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")
 	private Address address;
 	

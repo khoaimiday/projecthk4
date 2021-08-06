@@ -16,6 +16,7 @@ import { OktaAuthGuard, OktaCallbackComponent } from '@okta/okta-angular';
 import { LoginComponent } from './shared/login/login.component';
 import { TabRestaurantComponent } from './search/tab-restaurant/tab-restaurant.component';
 import { TabDishesComponent } from './search/tab-dishes/tab-dishes.component';
+import { RatingComponent } from './rating/rating.component';
 
 
 const routes: Routes = [
@@ -52,6 +53,9 @@ const routes: Routes = [
   },
   {
     path: 'cart', component: CartComponent
+  },
+  {
+    path: 'rating', component: RatingComponent
   },
   {
     path: 'my-account', component: MyAccountComponent, canActivate: [OktaAuthGuard],

@@ -11,6 +11,7 @@ export interface Restaurant {
     navigationId: number
     phoneNumber: string;
     address: Address;
-    rate: number;
+    rateTotal: number;
+    rateCount: number;
     updatedAt: Date;
   }

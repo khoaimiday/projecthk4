@@ -48,14 +48,9 @@ public class Order extends BaseEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
 	private Set<OrderItem> orderItem = new HashSet<>();
 	
-//	@ManyToOne
-//	@JoinColumn(name = "user_id")
-//	private User user;
-	
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "shipping_address_id")
