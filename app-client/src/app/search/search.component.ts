@@ -19,9 +19,7 @@ export class SearchComponent {
   @ViewChild(TabRestaurantComponent, { static: false}) restaurantRef : TabRestaurantComponent;
   @ViewChild(TabDishesComponent, { static: false}) dishesRef : TabDishesComponent;
 
-  constructor(private route: Router,
-              private router: ActivatedRoute,
-              private helpService: HelperService) {}
+  constructor() {}
 
   tabChanged(tabChangeEvent: MatTabChangeEvent){
     this.tabIndex = tabChangeEvent.index;
@@ -30,12 +28,11 @@ export class SearchComponent {
   doSearch(){
     //search for restaurant
     if (this.tabIndex === 0 ) {
-      this.restaurantRef.doSearch(this.searchValue);
+      this.restaurantRef.doSearch(this.searchValue.trim());
      
     }else{
        //search for dishes
-       this.dishesRef.doSearch(this.searchValue);
-
+       this.dishesRef.doSearch(this.searchValue.trim());
     }
   }
 

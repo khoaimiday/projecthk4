@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit {
   logout(){
     // Terminates the session with Okta and removes current tokens
     this.oktaAuthService.signOut();
-    this
+    this.storage.removeItem('userEmail');
   }
 
   openAddressSideNav (){

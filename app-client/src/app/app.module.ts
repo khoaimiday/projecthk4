@@ -37,7 +37,8 @@ import {
   MatTooltipModule,
   MatTreeModule,
   MatBadgeModule,
-  MatPaginatorModule 
+  MatPaginatorModule, 
+  MAT_DIALOG_DEFAULT_OPTIONS
 } from '@angular/material';
 
 import { HeaderComponent } from './shared/header/header.component';
@@ -62,7 +63,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaterialRatingModule } from 'ngx-material-rating';
 
 
-
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { RestaurantItemComponent } from './home/restaurant-item/restaurant-item.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -84,6 +84,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { TabRestaurantComponent } from './search/tab-restaurant/tab-restaurant.component';
 import { TabDishesComponent } from './search/tab-dishes/tab-dishes.component';
 import { RatingComponent } from './rating/rating.component';
+import { RatingDialogComponent } from './shared/rating-dialog/rating-dialog.component';
 
 const oktaConfig = Object.assign({ 
   onAuthRequired: (oktaAuth, injector) => {
@@ -128,6 +129,7 @@ const skltnConfig: SkltnConfig = {
     TabRestaurantComponent,
     TabDishesComponent,
     RatingComponent,
+    RatingDialogComponent,
   ],
   imports: [
     NgbModule,
@@ -176,8 +178,12 @@ const skltnConfig: SkltnConfig = {
     MdePopoverModule,
     NgxSkltnModule.forRoot(skltnConfig)
   ],
+  entryComponents:[
+    RatingDialogComponent
+  ],
   providers: [{provide: OKTA_CONFIG, useValue: oktaConfig},
-              {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
+              {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+              {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

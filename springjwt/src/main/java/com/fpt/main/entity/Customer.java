@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,11 +37,14 @@ public class Customer {
 
     @Column(name="email")
     private String email;
+    
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Favourites> favourites = new HashSet<>();
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
     
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Rating> ratings = new HashSet<>();
 
     public void add(Order order) {
@@ -57,7 +61,6 @@ public class Customer {
     }
     
     public void addRating(Rating item) {
-
         if (item != null) {
 
             if (ratings == null) {
@@ -69,6 +72,17 @@ public class Customer {
         }       
     }
 
+    public void addFavourites(Favourites item) {
+        if (item != null) {
+
+            if (favourites == null) {
+            	favourites = new HashSet<>();
+            }
+
+            favourites.add(item);
+            item.setCustomer(this);
+        }
+    }
 }
 
 

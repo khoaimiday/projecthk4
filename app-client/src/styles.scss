@@ -293,6 +293,7 @@ li:active,
             color: #686b78;
             font-size: 13px;
             margin-top: 4px;
+            min-height: 30px;
         }
         .other {
             margin-top: 18px;
@@ -303,7 +304,7 @@ li:active,
             align-items: center;
             .rating {
                 height: 20px;
-                width: 43px;
+                width: 53px;
                 padding: 0 5px;
                 font-weight: 400;
                 background-color: #db7c38;
@@ -425,16 +426,18 @@ li:active,
         color: #282c3f;
         font-weight: 500;
         display: flex;
+        min-height: 45px;
         margin-top: 10px;
+        justify-content: space-between;
+        padding: 0 5px;
     }
     .botom {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-left: 24px;
-        margin-top: 10px;
+        justify-content: flex-end;
+        align-items: right;
         color: #535665;
         font-size: 15px;
+        padding: 0 5px;
     }
 }
 

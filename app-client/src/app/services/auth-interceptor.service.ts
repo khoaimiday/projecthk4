@@ -16,7 +16,9 @@ export class AuthInterceptorService implements HttpInterceptor{
   
   private async handleAccess(request: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>> {
     
-    const securedEndpoints = ['http://localhost:8080/api/orders','http://localhost:8080/api/rating/restaurant','http://localhost:8080/api/checkout/purchase'];
+    const securedEndpoints = ['http://localhost:8080/api/orders','http://localhost:8080/api/rating/restaurant',
+                              'http://localhost:8080/api/checkout/purchase','http://localhost:8080/api/favourites',
+                              'http://localhost:8080/api/rating'];
 
     if (securedEndpoints.some(url => request.urlWithParams.includes(url))) {
       //get accessToken 

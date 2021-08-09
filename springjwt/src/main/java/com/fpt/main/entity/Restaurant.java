@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.PrimaryKeyJoinColumns;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -29,6 +31,7 @@ public class Restaurant extends BaseEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id")
 	private Long id;
 
 	@NotBlank
@@ -67,6 +70,11 @@ public class Restaurant extends BaseEntity{
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "address_id")
 	private Address address;
+      
+	@OneToOne
+	@PrimaryKeyJoinColumn
+	private Favourites favourites;
+
 	
 	public void addDishes(Dishes item) {		
 		if (item != null) {
@@ -95,4 +103,5 @@ public class Restaurant extends BaseEntity{
 		ratingList.add(item);
 		item.setRestaurant(this);
 	}
+	
 }

@@ -32,7 +32,7 @@ export class OrderHistoryComponent implements OnInit ,AfterViewInit {
   }
 
   handleOrderHistory() {
-    
+
     //read the user's email address from browser storage
     let theEmail = JSON.parse(this.storage.getItem("userEmail"));
     if (theEmail == null) {

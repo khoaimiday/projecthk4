@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fpt.main.dto.RatingDto;
+import com.fpt.main.dto.RatingresultDto;
 import com.fpt.main.entity.Restaurant;
 import com.fpt.main.services.RatingService;
 
@@ -25,11 +26,16 @@ public class RatingController {
 	}
 	
 	@PostMapping("/restaurant")
-	public ResponseEntity<Restaurant> ratingForRestaurant(@RequestBody RatingDto ratingDto) throws NotFoundException {
+	public ResponseEntity<RatingresultDto> ratingForRestaurant(@RequestBody RatingDto ratingDto) throws NotFoundException {
 		
 		Restaurant restaurant = ratingService.ratingForRestaurant(ratingDto);
 		
-		return new ResponseEntity<>(restaurant, HttpStatus.OK);
+		RatingresultDto result = new RatingresultDto();
+		result.setRestaurantId(restaurant.getId());
+		result.setRateTotal(restaurant.getRateTotal());
+		result.setRateCount(restaurant.getRateCount());
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 }

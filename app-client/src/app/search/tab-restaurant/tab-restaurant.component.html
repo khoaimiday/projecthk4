@@ -4,33 +4,37 @@
                 <ng-container  *ngIf="restaurants?.length == 0" class="alert alert-warning col-md-12" role="alert">
                     Not found.
                 </ng-container>
-                <div class="card mb-5" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(restaurant)">
-                    <div>
+                <div class="card mb-5" *ngFor="let restaurant of restaurants">
+                    <div (click)="goToRestaurant(restaurant)">
                         <img alt="Ancient Hyderabad" width="212" height="160" [src]="restaurant.imageURL">
                     </div>
                     <div class="footer">
-                        <div>
+                        <div (click)="goToRestaurant(restaurant)">
                             <div class="name">{{restaurant.fullName}}</div>
-                            <div class="address">địa chỉ{{restaurant.foodType}}</div>
+                            <div class="address">{{ this.restaurant.address?.street }}, {{ this.restaurant.address?.ward }}, {{ this.restaurant.address?.district }}</div>
                         </div>
-                        <div class="other">
-                            <div class="rating">
-                                <mat-icon class="star-icon">star</mat-icon>
-                                <span class="rate">5{{restaurant.rating}}</span>
+                        <div class="other" >
+                            <div class="other" (click)="goToRestaurant(restaurant)">
+                                <div class="rating">
+                                    <mat-icon class="star-icon">star</mat-icon>
+                                    <span>{{ restaurant?.rateCount != 0 ? restaurant?.rateTotal : 5}}</span>
+                                </div>
+                                <div class="mx-1">({{restaurant?.rateCount }} rates)</div>
                             </div>
-                            <div>&#8226;</div>
-                            <div>32 MINS</div>
-                            <div>&#8226;</div>
-                            <div>250 For Two</div>
+                            <div class="wish-icon">
+                                <span class="material-icons-outlined" (click)="addWishList(restaurant)">
+                                    bookmark_added
+                                </span>
+                            </div>
                         </div>
                         <div class="offer">
                             <mat-icon class="offer-icon" fontSet="material-icons-outlined">local_offer
                             </mat-icon>
                             <span class="offer-description">40% off | Use coupon SWIGGY40</span>
                         </div>
-                        <!-- <div class="quick-view">
-                                <span>Quick Order</span>
-                            </div> -->
+                        <div class="quick-view">
+                            <button mat-button (click)="openDialog(restaurant)">Rate now..</button>                             
+                        </div>
                     </div>
                 </div> 
             </div>

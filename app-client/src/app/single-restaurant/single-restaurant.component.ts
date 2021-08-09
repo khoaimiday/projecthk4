@@ -22,8 +22,8 @@ export class SingleRestaurantComponent implements OnInit {
 
   color = 'accent';
 
-
   itemList = new Array(4);
+  
   constructor(private restaurantService : RestaurantsService,
               private dishesService : DishesService,
               private addressService: AddressService,

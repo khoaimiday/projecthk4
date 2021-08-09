@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Restaurant } from '../interfaces/restaurant';
 import { AddressService } from './address.service';
 import { Address } from '../interfaces/address';
@@ -20,10 +20,26 @@ export class RestaurantsService {
               private addressService: AddressService) { }
 
   getAllRestaurantsPaginate(thePage: number, 
-                            thePageSize: number): Observable<GetRestaurantsResponse> {
+                            thePageSize: number): Observable<any> {
     const getUrl = `${this.api}?page=${thePage }&size=${thePageSize}`;
-    console.log(getUrl)
-    return this.httpClient.get<GetRestaurantsResponse>(getUrl)
+
+    return this.httpClient.get<any>(getUrl).pipe(
+      map ( response => {
+        
+        response._embedded.restaurants.forEach(element => {
+          this.addressService.getAddressForRestaurant(element.id).subscribe(
+            data => {
+              element.address = data
+            },
+             error => {
+                console.log('address not found!');
+                console.log(this.restaurant.address)
+             }         
+          )
+        });
+        return response;
+      }) 
+    )
   }
 
   getAllRestaurants(): Observable<Restaurant[]> {

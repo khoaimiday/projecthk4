@@ -3,20 +3,20 @@
         <div class="mini-card" *ngFor="let dishes of dishesList" (click)="goToMyRestaurant(dishes)">
             <div>
                 <img height="160" width="244" alt=""
-                    src="{{dishes.imageURL}}">
+                    src="{{dishes?.imageURL}}">
             </div>
             <div class="item">
-                <img src="">
-                <span class="text-name" style="margin-left: 5px;">{{dishes.name}}</span>
+                <span class="text-name" style="margin-left: 5px;">{{dishes?.name}}</span>
+                <span class="text-name" style="margin-left: 5px;">Sell 999+</span>
             </div>
             <div class="botom">
-                <div>{{dishes.price | currency: 'VND'}} / {{dishes.unit}}</div>
-                <div class="add-remove-box">
+                <div>{{dishes?.price | currency: 'VND'}} / {{dishes?.unit}}</div>
+                <!-- <div class="add-remove-box">
                     <mat-icon class="star-icon" fontSet="material-icons-outlined">remove
                     </mat-icon>
                     <span>5</span>
                     <mat-icon class="star-icon" fontSet="material-icons-outlined">add</mat-icon>
-                </div>
+                </div> -->
 
             </div>
         </div>
