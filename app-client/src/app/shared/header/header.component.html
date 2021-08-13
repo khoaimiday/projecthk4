@@ -8,10 +8,18 @@
             </svg>
         </a>
 
-        <div class="address-box" (click) = "openAddressSideNav()">
+        <!-- <div class="address-box" (click) = "openAddressSideNav()">
             <span class="home">Home</span>
-            <span class="address">Marunji Rd, Marunji Village, Hinjawadi, Marunji, Maharashtra 411033, India</span>
+            <span class="address">{{myAddress}}</span>
             <mat-icon fontSet="material-icons-outlined" class="icon">keyboard_arrow_down</mat-icon>
+        </div> -->
+        <div class="address-box"  ngbDropdown #myDrop="ngbDropdown" (mouseover)="$event.stopPropagation(); myDrop.open();" (mouseout)=" $event.stopPropagation();myDrop.close();">
+            <span class="home" >Home</span>
+            <span class="address" id="dropdownManual" ngbDropdownToggle>{{myAddress}}</span>
+            <div ngbDropdownMenu aria-labelledby="dropdownManual">
+                <span ngbDropdownItem>{{myAddress}}</span>
+            </div>
+            
         </div>
         <ul class="global-menu">
             <li class="menu-item"  [routerLink]="['/cart']" routerLinkActive="active"> 

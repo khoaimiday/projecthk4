@@ -7,9 +7,11 @@ export class Address {
     public lane:string;
     public note:string;
     public state:string;
-    public street:string;
+    public street:string
     public type:string;
     public ward:string;
+    public longtitude: number;
+    public latitude: number;
     public createdAt:Date;
     public updatedAt:Date;
 
@@ -25,6 +27,8 @@ export class Address {
                 street:string,
                 type:string,
                 ward:string,
+                longtitude: number,
+                latitude:number,
                 createdAt:Date,
                 updatedAt:Date
                 ){
@@ -38,12 +42,18 @@ export class Address {
                     this.street = street;
                     this.type = type
                     this.ward = ward;
+                    this.longtitude = longtitude;
+                    this.latitude = latitude;
                     this.createdAt = createdAt;
                     this.updatedAt = updatedAt;
                 }
     
     getAddress():string {
         return `${this.street}, ${this.ward}, ${this.district}`
+    }
+    
+    getLocation(): number[]{
+        return [this.longtitude, this.latitude];
     }
 
     get getAddressCity(): string{

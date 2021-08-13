@@ -17,16 +17,15 @@ import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 export class SingleRestaurantComponent implements OnInit {
 
   restaurant : Restaurant;
+  rateTotal = 0;
   currentRestaurantId: number;
   dishesList: Dishes[] = [];
 
   color = 'accent';
-
   itemList = new Array(4);
   
   constructor(private restaurantService : RestaurantsService,
               private dishesService : DishesService,
-              private addressService: AddressService,
               private route: ActivatedRoute,
               config: NgbRatingConfig) {
       
@@ -38,14 +37,11 @@ export class SingleRestaurantComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(() => {
       this.currentRestaurantId = +this.route.snapshot.paramMap.get('id')
-      // this.restaurant = window.history.state;
-      // console.log(this.currentRestaurantId)
-      // console.log(this.restaurant)
       
       this.restaurantService.getRestaurantDetails(this.currentRestaurantId).subscribe(
         data => {
           this.restaurant = data
-          console.log(this.restaurant)
+          this.rateTotal = data.rateTotal
         }
       )
 
@@ -56,14 +52,5 @@ export class SingleRestaurantComponent implements OnInit {
       )
     });
   }
-
-  // getAddress() {
-  //   this.addressService.getAddressForRestaurant(this.currentRestaurantId).subscribe(
-  //     data => {
-  //       this.restaurant.address = data
-  //       console.log(this.restaurant)
-  //     }
-  //   )
-  // }
 
 }

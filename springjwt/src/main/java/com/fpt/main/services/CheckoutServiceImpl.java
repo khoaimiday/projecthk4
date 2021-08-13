@@ -48,7 +48,10 @@ public class CheckoutServiceImpl implements CheckoutService{
 		String theEmail = customer.getEmail();		
 		Customer customerFromDB = customerRespository.findByEmail(theEmail); //return null if not found
 		
-		if (customerFromDB != null) {
+		if (customerFromDB != null) { 
+			if ((customerFromDB.getPhoneNumber() == null  || customerFromDB.getPhoneNumber().isEmpty()) && customer.getPhoneNumber().length() > 0) {
+				customerFromDB.setPhoneNumber(customer.getPhoneNumber());
+			}
 			customer = customerFromDB;
 		}
 		

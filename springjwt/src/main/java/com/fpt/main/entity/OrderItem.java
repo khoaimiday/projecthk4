@@ -2,6 +2,7 @@ package com.fpt.main.entity;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -43,7 +44,7 @@ public class OrderItem extends BaseEntity{
 	@Column(name = "dishes_id")
 	private Long dishesId;
 	
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.MERGE , CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH })
 	@JoinColumn(name = "order_id")
 	private Order order;
 

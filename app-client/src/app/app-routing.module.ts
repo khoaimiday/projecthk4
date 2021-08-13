@@ -52,7 +52,7 @@ const routes: Routes = [
     path: 'offers', component: OfferComponent
   },
   {
-    path: 'cart', component: CartComponent
+    path: 'cart', component: CartComponent, canActivate: [OktaAuthGuard],
   },
   {
     path: 'rating', component: RatingComponent

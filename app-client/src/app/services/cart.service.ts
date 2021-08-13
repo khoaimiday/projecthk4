@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { CartItem } from '../interfaces/cart';
+import { Restaurant } from '../interfaces/restaurant';
+import { RestaurantsService } from './restaurants.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +15,16 @@ export class CartService {
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
   cartItemsSubject: Subject<CartItem[]> = new Subject<CartItem[]>();
+  restaurantInCart: Subject<Restaurant> = new ReplaySubject<Restaurant>(1);
+  $restaurantInCar = this.restaurantInCart.asObservable();
 
+  restaurant : Restaurant;
   storage: Storage = sessionStorage;
 
-  constructor() { 
+  constructor(private restaurantService: RestaurantsService) { 
     //read data from storage
     let data = JSON.parse(this.storage.getItem('cartItems'));
-
+    
     if (data != null) {
       this.cartItems = data;
     }
@@ -28,9 +33,29 @@ export class CartService {
     this.computeCartTotals();
   }
 
+  getRestaurantIncart(){
+    if(this.cartItems.length > 0 ){
+      this.restaurantService.getRestaurantDetails(this.cartItems[0].restanrantId).subscribe(
+        data => {
+          this.restaurant = data
+          this.restaurantInCart.next(this.restaurant);
+        }
+      )
+    }
+  }
+
   addToCart(theCartItem: CartItem){
 
     let existingCartItem: CartItem = undefined;
+
+    if (this.cartItems.length == 0) {
+      this.restaurantService.getRestaurantDetails(theCartItem.restanrantId).subscribe(
+        data => {
+          this.restaurant = data;
+          this.restaurantInCart.next(this.restaurant);
+        }
+      )
+    }
 
     if (this.cartItems.length > 0) {
       //find the item in the cart based on item id
@@ -91,5 +116,7 @@ export class CartService {
     // console.log(`totalPrice: ${totalPriceValue.toFixed(2)}, totalQuantity: ${totalQuantityValue}`);
     // console.log('------------------------')
   }
+
+
 
 }

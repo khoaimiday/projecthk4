@@ -72,10 +72,10 @@ export class FoodOrderForRestaurantComponent implements OnInit {
   }
 
   addToCart(item: Dishes) { 
+
     const theCartItem = new CartItem(item);
     theCartItem.restanrantId = this.restaurantId;
     this.cartService.addToCart(theCartItem);
-
   }
 
 

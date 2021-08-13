@@ -10,6 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -37,15 +40,26 @@ public class Customer {
 
     @Column(name="email")
     private String email;
-    
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Favourites> favourites = new HashSet<>();
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Order> orders = new HashSet<>();
     
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Rating> ratings = new HashSet<>();
+    
+    
+    
+    @ManyToMany()
+    @JoinTable(
+    		name = "favourite",
+	    	joinColumns = {
+    				@JoinColumn(name="customer_id")
+    		},
+    		inverseJoinColumns = {
+    				@JoinColumn(name="restaurant_id")
+    		}
+    )
+    private Set<Restaurant> restaurantFavou = new HashSet<Restaurant>();
 
     public void add(Order order) {
 
@@ -71,18 +85,18 @@ public class Customer {
             item.setCustomer(this);
         }       
     }
-
-    public void addFavourites(Favourites item) {
+    
+    public void addRestaurantFavou(Restaurant item) {
         if (item != null) {
 
-            if (favourites == null) {
-            	favourites = new HashSet<>();
+            if (restaurantFavou == null) {
+            	restaurantFavou = new HashSet<>();
             }
 
-            favourites.add(item);
-            item.setCustomer(this);
-        }
+            restaurantFavou.add(item);
+        }       
     }
+    
 }
 
 

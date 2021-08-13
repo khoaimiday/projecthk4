@@ -4,6 +4,7 @@ package com.fpt.main.reponsitory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
@@ -23,5 +24,7 @@ public interface DishesRepository extends JpaRepository<Dishes, Long> {
 	//http://localhost:8080/api/disheses/search/findAllByDishCategoryId?id=?
 	public Page<Dishes> findAllByDishCategoryId(@Param("id")Long id, Pageable pageable);
 	
+	@Query("Select d.name From Dishes d Where d.id = :id")
+	public String getNameDishById(@Param("id") Long id);
 	
 }

@@ -38,6 +38,9 @@ public class Order extends BaseEntity{
 
     @Column(name="total_price")
     private BigDecimal totalPrice;
+    
+    @Column(name="ship_money")
+    private BigDecimal shippingMoney;
 	
     @Column(name="status")
     private String status;

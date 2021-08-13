@@ -22,6 +22,6 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 //	@Query("SELECT address FROM Address address WHERE address.user.id = :id")
 //	public Page<Address> findAllByUser(@RequestParam("id") Long id, Pageable pageable);
 	
-	public Page<Address> findAllByCustomerId(@Param("id") Long id, Pageable pageable);
+//	public Page<Address> findAllByCustomerId(@Param("id") Long id, Pageable pageable);
 	
 }

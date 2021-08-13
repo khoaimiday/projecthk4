@@ -75,7 +75,7 @@ export class TabRestaurantComponent implements OnInit{
     });
   }
 
-  addWishList(restaurant: Restaurant) {
+  addFavourite(restaurant: Restaurant) {
     this.favouritesService.addWishList(restaurant);
   }
 

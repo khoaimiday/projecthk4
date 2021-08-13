@@ -3,6 +3,7 @@ import { OrderHistory } from '../common/order-history';
 import { OrderHistoryService } from '../services/order-history.service';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import { ReportService } from '../services/report.service';
 
 @Component({
   selector: 'app-order-history',
@@ -13,11 +14,23 @@ export class OrderHistoryComponent implements OnInit ,AfterViewInit {
   
   storage: Storage = sessionStorage;
 
-  displayedColumns: string[] = ['orderTrackingNumber', 'totalPrice', 'totalQuantity', 'status', 'createdAt'];
+  displayedColumns: string[] = ['Report', 'orderTrackingNumber', 'totalPrice', 'status', 'createdAt'];
   dataSource = new MatTableDataSource<OrderHistory>([])
+  
 
+  isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
+  
+  expandedElement: any;
+  test() {
+    console.log('test');
+  }
 
-  constructor(private orderHistoryService: OrderHistoryService) { }
+  cellClicked(element) {
+    console.log(element.name + ' cell clicked');
+  }
+
+  constructor(private orderHistoryService: OrderHistoryService,
+              private reportService: ReportService) { }
   
   @ViewChild(MatPaginator, null) paginator: MatPaginator;
 
@@ -28,7 +41,6 @@ export class OrderHistoryComponent implements OnInit ,AfterViewInit {
   ngOnInit() {
     this.handleOrderHistory();
     console.log(this.displayedColumns)
-
   }
 
   handleOrderHistory() {
@@ -44,6 +56,17 @@ export class OrderHistoryComponent implements OnInit ,AfterViewInit {
       data => {
         console.log(data)
         this.dataSource.data = data._embedded.orders;
+      }
+    )
+  }
+
+  openReport(orderTrackingNumber){
+    this.reportService.getOrderhistoryReport(orderTrackingNumber).subscribe(
+      data => {
+        console.log(data);
+        let file = new Blob([data], {type: 'application/pdf'});
+        let fileURL = URL.createObjectURL(file);
+        window.open(fileURL);
       }
     )
   }

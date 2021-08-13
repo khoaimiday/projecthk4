@@ -426,18 +426,16 @@ li:active,
         color: #282c3f;
         font-weight: 500;
         display: flex;
-        min-height: 45px;
         margin-top: 10px;
-        justify-content: space-between;
-        padding: 0 5px;
     }
     .botom {
         display: flex;
-        justify-content: flex-end;
-        align-items: right;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: 24px;
+        margin-top: 10px;
         color: #535665;
         font-size: 15px;
-        padding: 0 5px;
     }
 }
 

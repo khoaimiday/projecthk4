@@ -61,6 +61,7 @@ import { CartComponent } from './cart/cart.component';
 import { NgxSkltnModule, SkltnConfig } from 'ngx-skltn';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaterialRatingModule } from 'ngx-material-rating';
+import { NgxAutocomPlaceModule } from 'ngx-autocom-place';
 
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -176,7 +177,8 @@ const skltnConfig: SkltnConfig = {
     MatTreeModule,
     MatBadgeModule,
     MdePopoverModule,
-    NgxSkltnModule.forRoot(skltnConfig)
+    NgxSkltnModule.forRoot(skltnConfig),
+    NgxAutocomPlaceModule 
   ],
   entryComponents:[
     RatingDialogComponent

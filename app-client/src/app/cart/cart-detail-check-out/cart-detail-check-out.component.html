@@ -20,8 +20,8 @@
                 src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_100,h_100,c_fill/oyusdq7j4phsavmal7n0">
         </div>
         <div style="margin-left: 20px;">
-            <h3 style="font-weight: 500;">Tamanna Cafeteria</h3>
-            <span style="margin-top: 10px; font-weight: 500; opacity: 0.5;">Hinjewadi</span>
+            <h3 style="font-weight: 500;">{{ restaurantInCart?.fullName}}</h3>
+            <span style="margin-top: 10px; font-weight: 500; opacity: 0.5;">{{ restaurantInCart?.address?.street}}, {{ restaurantInCart?.address?.ward}}, {{restaurantInCart?.address?.district}}</span>
         </div>
 
     </div>
@@ -37,14 +37,29 @@
                 <span>{{ item.quantity }}</span>
                 <mat-icon class="star-icon" fontSet="material-icons-outlined" (click)="add(item)">add</mat-icon>
             </div>
-            <div style="margin-left: 10px">{{ item.price }}</div>
+            <div style="margin-left: 10px">{{ item.price | currency: 'VND'}}</div>
         </li>
     </ul>
+    <div class="items">
+        <div class="">
+            <div class="d-flex justify-content-between">
+                <span style="width: 100px;"></span>
+                <span style="font-size: 14; font-weight: 400;">{{ distance ? distance : 1 }} KM </span> 
+                <span>{{ fee_shipping | currency: 'VND'}}</span>
+                
+            </div>
+            <div class="d-flex justify-content-between my-3">
+                <div>Shipping Money</div>
+                <div>{{ distance * fee_shipping | currency: 'VND'}}</div>
+            </div>
+
+        </div>
+    </div>
     <div class="subtotal">
         <div class="total-amount-box">
             <div>Total Pay</div>
             <div>
-                {{this.totalPrice | currency: 'VND'}}
+                {{this.totalPrice + ( distance * fee_shipping) | currency: 'VND'}}
             </div>
 
         </div>

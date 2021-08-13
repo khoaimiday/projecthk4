@@ -15,13 +15,13 @@
                     <div class="box">
                         <div class="upper-box">
                             <ngx-material-rating [color]="color" [disabled]="false" [dense]="2"
-                                [readonly]="true" [(ngModel)]="restaurant.rateTotal" [max]="5">
+                                [readonly]="true" [(ngModel)]="rateTotal" [max]="5">
                             </ngx-material-rating>
-                            <span>{{restaurant.rateTotal}}</span>
+                            <span>{{restaurant?.rateTotal}}</span>
                         </div>
                         <div class="lower-box">
                             <span>
-                                {{restaurant.rateCount}} Rating
+                                {{restaurant?.rateCount}} Rating
                             </span>
                         </div>
 

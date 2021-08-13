@@ -2,6 +2,20 @@
 
     <div class="cart-container-box container">
         <div class="left-container-box">
+            <!-- <div class="child-box" *ngIf="!isAutenticated">
+                <div>
+                    <h1>Account</h1>
+                    <span style="font-weight: 500; opacity: 0.6; font-size: 16px;">To place your order now, log in to
+                        your existing account or sign up.</span>
+                </div>
+                <div class="button-container">
+                    <div class="button-box">
+                        <button mat-raised-button class="default-button outline-success-button" style="width: 150px;" (click)="openLoginSideNav()">
+                            <span>LOG IN</span>
+                        </button>
+                    </div>
+                </div>
+            </div> -->
             <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
                     <div class="child-box">
                             <!-- customer form group -->
@@ -11,8 +25,7 @@
                                 <div class="row">
                                         <mat-form-field class="example-full-width" appearance="fill">
                                             <mat-label>Full Name</mat-label>
-                                            <input type="text" matInput formControlName="fullName" 
-                                                placeholder="Ex. Huy Dep Dzai het suc">
+                                            <input type="text" matInput formControlName="fullName"  placeholder="Enter your name">
                                             <mat-hint>* min-length 2 characters</mat-hint>
                                             <mat-error *ngIf="fullName.hasError('notOnlyWhitespace') || fullName.hasError('required')">
                                                 Full Name is required
@@ -26,8 +39,7 @@
                                 <div class="row">
                                     <mat-form-field class="example-full-width" appearance="fill">
                                         <mat-label>Phone Number</mat-label>
-                                        <input type="number" matInput formControlName="phoneNumber" 
-                                            placeholder="Ex. 0909656766">
+                                        <input type="number" matInput formControlName="phoneNumber" placeholder="Ex. 0909656766">
                                         <mat-hint>* min-length 8 characters</mat-hint>
                                         <mat-error *ngIf="phoneNumber.hasError('required')">
                                             Phone number is required
@@ -41,8 +53,7 @@
                                 <div class="row">
                                     <mat-form-field class="example-full-width" appearance="fill">
                                         <mat-label>Email</mat-label>
-                                        <input type="email" matInput formControlName="email" 
-                                            placeholder="Ex. pat@example.com">
+                                        <input type="email" matInput formControlName="email" placeholder="Ex. pat@example.com">
                                         <mat-hint>* must requied </mat-hint>
                                         <mat-error *ngIf="email.hasError('notOnlyWhitespace') || email.hasError('required')">
                                             Email is required
@@ -65,7 +76,7 @@
                                     <mat-form-field class="example-full-width" appearance="fill">
                                         <mat-label>Street</mat-label>
                                         <input type="text" matInput formControlName="street" 
-                                            placeholder="Ex. 332/58 Thoai Ngoc Hau">
+                                            placeholder="Enter a place"  ngxAutocomPlace [options]="options" (selectedPlace)="placeChanged($event)">
                                         <mat-hint>* min-length 2 characters</mat-hint>
                                         <mat-error *ngIf="shippingAddressStreet.hasError('notOnlyWhitespace') || shippingAddressStreet.hasError('required')">
                                             Street is required

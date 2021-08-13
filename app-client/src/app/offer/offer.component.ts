@@ -10,6 +10,8 @@ import { RestaurantsService } from '../services/restaurants.service';
 export class OfferComponent implements OnInit {
   loaderRestaurant = new Array(8);
   restaurants = new Array();
+
+  tempIMG = "https://picsum.photos/300"
   constructor(private router: Router, private restaurantService: RestaurantsService) { 
     this.restaurantService.getAllRestaurants().subscribe(res=>{
       this.restaurants = res;
@@ -17,6 +19,10 @@ export class OfferComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  goToRestaurant(restaurant){
+
   }
 
 }

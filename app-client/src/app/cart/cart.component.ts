@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { User } from '../interfaces/Ilogin';
 import { HelperService } from '../services/helper.service';
 import { LoginService } from '../services/login.service';
@@ -12,6 +12,14 @@ import { CheckoutService } from '../services/checkout.service';
 import { Order } from '../common/order';
 import { OrderItem } from '../common/order-item';
 import { Purchase } from '../common/purchase';
+import { OktaAuthService } from '@okta/okta-angular';
+import { getMatAutocompleteMissingPanelError } from '@angular/material';
+import { ProtractorExpectedConditions } from 'protractor';
+import { RestaurantsService } from '../services/restaurants.service';
+import { HttpClient } from '@angular/common/http';
+import { AddressApi } from '../interfaces/address-api';
+import { CartDetailCheckOutComponent } from './cart-detail-check-out/cart-detail-check-out.component';
+import { Address } from '../interfaces/address';
 
 
 @Component({
@@ -19,11 +27,16 @@ import { Purchase } from '../common/purchase';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, AfterViewInit{
   
   checkoutFormGroup: FormGroup;
 
   user: User;
+  isAutenticated: boolean = false;
+  //customer lat & long
+  coordsCustomer = [];
+
+
   items: CartItem[] = [];
 
   totalPrice: number = 0;
@@ -32,18 +45,53 @@ export class CartComponent implements OnInit {
 
   storage: Storage = sessionStorage;
 
+  //places autocomplete
+  selectedPlace: any;
+  json = JSON;
+  options = {
+    componentRestrictions: {
+      country: 'vn'
+    }
+  }
+
+  @ViewChild(CartDetailCheckOutComponent,{ static: true}) cardDetailCheckOut :CartDetailCheckOutComponent;
+
   constructor(private helperService: HelperService,
               private router: Router, 
               public loginService: LoginService,
               private cartService: CartService,
               private formBuilder: FormBuilder,
-              private checkoutService: CheckoutService) {
+              private checkoutService: CheckoutService,
+              private oktaAuthService: OktaAuthService,
+              private ref: ChangeDetectorRef,
+              private restaurantService: RestaurantsService,
+              private httpClient: HttpClient) {
+  }
+
+  ngAfterViewInit(): void {
   }
 
   @ViewChild('paypalRef', {static: true}) private paypalRef: ElementRef;
+  @ViewChild(CartDetailCheckOutComponent,{ static: true}) cartDetailCheckout: CartDetailCheckOutComponent;
+  
   ngOnInit() {
 
+    this.helperService.latLongSubject.subscribe(
+       data => {
+        this.coordsCustomer = data;
+        this.setDeliveryAddress();
+      }
+    )
+
+    this.oktaAuthService.$authenticationState.subscribe(
+      (result) => {
+        this.isAutenticated = result;
+        console.log(result)
+      }
+    )
+
     this.renderButtonPaypal();
+
 
     this.loginService.loggedIn.subscribe(next => {
       this.user = next;
@@ -98,7 +146,6 @@ export class CartComponent implements OnInit {
 
     })
 
-
     this.listCartDetail();
   }
 
@@ -119,8 +166,7 @@ export class CartComponent implements OnInit {
               {
                 amount: {
                   value: this.checkoutFormGroup.invalid ? '0' : `${this.totalPriceExchange.toFixed(2)}`,
-                  currency_code: 'USD',
-                  
+                  currency_code: 'USD',                  
                 }
               }
             ],
@@ -222,6 +268,7 @@ export class CartComponent implements OnInit {
     let order = new Order();
     order.totalPrice = this.totalPrice;
     order.totalQuantity = this.totalQuantity;
+    order.shippingMoney = this.cartDetailCheckout.distance * this.cardDetailCheckOut.fee_shipping;
     order.status = payment;
 
     //get cart items
@@ -269,4 +316,27 @@ export class CartComponent implements OnInit {
     //navigate back to the home page
     this.router.navigateByUrl("/");
   }
+
+  placeChanged(place) {
+    this.selectedPlace = place;
+    console.log(this.selectedPlace)
+    this.ref.detectChanges();
+    // doi co api set long and lat cho shippin adress
 }
+
+  setDeliveryAddress() {
+    const api = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=${this.coordsCustomer[0]}%2C${this.coordsCustomer[1]}`;
+    this.httpClient.get<AddressApi>(api).subscribe(
+      result => {
+        this.checkoutFormGroup.get('shippingAddress.street').setValue(result.address.Address || '')
+        this.checkoutFormGroup.get('shippingAddress.district').setValue(result.address.District || '')
+        this.checkoutFormGroup.get('shippingAddress.ward').setValue(result.address.Neighborhood || '')
+        this.checkoutFormGroup.get('shippingAddress.city').setValue(result.address.City|| '')
+        this.checkoutFormGroup.get('shippingAddress.country').setValue(result.address.CountryCode || '')
+      }
+    )
+  }
+}
+
+
+

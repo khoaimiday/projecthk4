@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HelperService } from 'src/app/services/helper.service';
-import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
-import { User } from 'src/app/interfaces/Ilogin';
 import { CartService } from '../../services/cart.service';
 import { OktaAuthService } from '@okta/okta-angular';
+import { HttpClient } from '@angular/common/http';
+import { AddressApi } from 'src/app/interfaces/address-api';
 
 @Component({
   selector: 'app-header',
@@ -18,18 +18,33 @@ export class HeaderComponent implements OnInit {
   userFullName: string;
 
   storage: Storage = sessionStorage;
-
+  latitude: number;
+  longitude: number;
+  myAddress: string = '';
   
   totalPrice: number = 0.00;
   totalQuantity: number = 0;
   
   constructor(private helperService: HelperService, 
-              private router: Router,
               private cartService : CartService,
-              private oktaAuthService: OktaAuthService) {
+              private oktaAuthService: OktaAuthService,
+              private httpClient: HttpClient) {
   }
 
   ngOnInit() {
+
+    if(!navigator.geolocation){
+      console.log('location is not support!')
+    }
+
+    navigator.geolocation.getCurrentPosition( (position) => {
+      const coords = position.coords;
+      this.latitude = coords.latitude;
+      this.longitude = coords.longitude;
+      this.helperService.latLongSubject.next([this.longitude,this.latitude]);
+      console.log(`lat: ${position.coords.latitude}, long: ${position.coords.longitude}`);
+      this.getMatchAddress();
+    })
 
     this.oktaAuthService.$authenticationState.subscribe(
       (result) => {
@@ -39,6 +54,16 @@ export class HeaderComponent implements OnInit {
     )
 
     this.updateCartStatus();
+  }
+
+  getMatchAddress() {
+    const api = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&featureTypes=&location=${this.longitude}%2C${this.latitude}`;
+    this.httpClient.get<AddressApi>(api).toPromise().then(
+      result => {
+        console.log(result)
+        this.myAddress = `${result.address.Address}, ${result.address.District}, ${result.address.City}`;
+      }
+    )
   }
 
   updateCartStatus() {
@@ -85,6 +110,8 @@ export class HeaderComponent implements OnInit {
   openLoginSideNav(){
     this.helperService.loginSideNav.next(true);
   }
-
  
 }
+
+
+

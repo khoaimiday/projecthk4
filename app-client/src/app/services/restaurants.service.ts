@@ -13,7 +13,7 @@ export class RestaurantsService {
 
   restaurants : Restaurant[] = [];
   restaurant: Restaurant;
-
+  currRestAddr: any;
   private api = "http://localhost:8080/api/restaurants";
   
   constructor(private httpClient: HttpClient,
@@ -33,7 +33,6 @@ export class RestaurantsService {
             },
              error => {
                 console.log('address not found!');
-                console.log(this.restaurant.address)
              }         
           )
         });
@@ -73,11 +72,12 @@ export class RestaurantsService {
         this.restaurant = mainData;
         this.addressService.getAddressForRestaurant(mainData.id).subscribe(
           data => {
-            this.restaurant.address = data
+            this.restaurant.address = data;
+            this.currRestAddr = data;
           },
            error => {
               console.log('address not found!');
-              console.log(this.restaurant.address)
+              this.restaurant.address = undefined;
            }         
         )      
         return this.restaurant;

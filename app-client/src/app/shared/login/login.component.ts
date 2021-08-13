@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
               private oktaAuthService: OktaAuthService) { 
           
                 this.oktaSignin = new OktaSignIn({
-                  logo: '',
+                  logo: 'https://i.pinimg.com/564x/a8/d1/9b/a8d19bfb6d5172adc87d65908c69137a.jpg',
                   features: {
                     registration: true
                   },

@@ -13,7 +13,8 @@ export class LoginService {
 
   isAutenticated: boolean = false;
 
-  constructor(private oktaAuthService: OktaAuthService) { 
+  constructor(private oktaAuthService: OktaAuthService) {
+    
   }
 
   isLoggedIn(): boolean {

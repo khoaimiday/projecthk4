@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -31,6 +29,12 @@ public class Address extends BaseEntity {
 	@Column(name = "note")
 	private String note;
 	
+	@Column(name = "longtitude")
+	private Double longtitude;
+	
+	@Column(name = "latitude")
+	private Double latitude;
+	
 	@Column(name = "country")
 	private String country;
 	
@@ -51,10 +55,6 @@ public class Address extends BaseEntity {
 	
 	@Column(name = "lane")
 	private String lane;
-
-	@ManyToOne
-	@JoinColumn(name = "customer_id")
-	private Customer customer;
 	
 	@OneToOne
     @PrimaryKeyJoinColumn
@@ -63,6 +63,11 @@ public class Address extends BaseEntity {
 	@OneToOne
 	@PrimaryKeyJoinColumn
 	private Order order;
+	
+	public String getFullAddress() {	
+		return String.format("%s, %s, %s ",street, ward, district);
+		
+	}
 	
 }
 

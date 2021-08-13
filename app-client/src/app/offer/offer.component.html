@@ -6,7 +6,7 @@
                 <span> Explore top deals and offers exclusively for you!</span>
             </div>
             <img height="200"
-                src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/KHu24Gqw_md3ham">
+                src="">
         </div>
     </div>
 
@@ -35,9 +35,9 @@
                                 </div>
                             </skltn-root>
                         </ng-container>
-                        <div class="card" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(id)">
+                        <div class="card" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(restaurant)">
                             <div>
-                                <img width="254" height="160" [src]="restaurant.image">
+                                <img width="254" height="160" [src]="tempIMG">
                             </div>
                             <div class="footer">
                                 <div>

@@ -19,11 +19,8 @@ export class CartDetailsForRestComponent implements OnInit {
   totalPrice: number = 0;
   totalQuantity:number = 0;
 
-  constructor(private helperService: HelperService,
-    private router: Router, 
-    public loginService: LoginService,
-    private cartService: CartService) {
-}
+  constructor( public loginService: LoginService,
+               private cartService: CartService) {}
 
 ngOnInit() {
   this.loginService.loggedIn.subscribe(next => {
