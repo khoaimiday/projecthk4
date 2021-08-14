@@ -86,7 +86,7 @@ public class ReportService {
 
 		parameters.put("tracking_number", orderTrackingNumber); 
 		parameters.put("total_price", String.valueOf(itemList.get(0).getOrder().getTotalPrice()));
-		parameters.put("shipping_money", itemList.get(0).getOrder().getShippingMoney());
+		parameters.put("shipping_money", String.valueOf(itemList.get(0).getOrder().getShippingMoney()));
 		parameters.put("payment", itemList.get(0).getOrder().getStatus());
 
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource_);

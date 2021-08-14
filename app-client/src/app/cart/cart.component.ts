@@ -13,13 +13,10 @@ import { Order } from '../common/order';
 import { OrderItem } from '../common/order-item';
 import { Purchase } from '../common/purchase';
 import { OktaAuthService } from '@okta/okta-angular';
-import { getMatAutocompleteMissingPanelError } from '@angular/material';
-import { ProtractorExpectedConditions } from 'protractor';
 import { RestaurantsService } from '../services/restaurants.service';
 import { HttpClient } from '@angular/common/http';
 import { AddressApi } from '../interfaces/address-api';
 import { CartDetailCheckOutComponent } from './cart-detail-check-out/cart-detail-check-out.component';
-import { Address } from '../interfaces/address';
 
 
 @Component({
@@ -72,7 +69,7 @@ export class CartComponent implements OnInit, AfterViewInit{
   }
 
   @ViewChild('paypalRef', {static: true}) private paypalRef: ElementRef;
-  @ViewChild(CartDetailCheckOutComponent,{ static: true}) cartDetailCheckout: CartDetailCheckOutComponent;
+  @ViewChild(CartDetailCheckOutComponent,{ static: true}) CartDetailCheckOutComponentRef: CartDetailCheckOutComponent;
   
   ngOnInit() {
 
@@ -161,6 +158,9 @@ export class CartComponent implements OnInit, AfterViewInit{
         },
 
         createOrder:  (date, actions) => {
+          //exchange money
+          this.getTotalPriceExchange();
+
           return actions.order.create({
             purchase_units: [
               {
@@ -188,6 +188,13 @@ export class CartComponent implements OnInit, AfterViewInit{
     ).render(this.paypalRef.nativeElement);
   }
 
+  getTotalPriceExchange() {
+    let distance = this.CartDetailCheckOutComponentRef.distance;
+    let fee_ship = this.CartDetailCheckOutComponentRef.fee_shipping;
+    let shipping_money = ( distance >= 1) ? ( distance * fee_ship) : (1 * fee_ship);
+    this.totalPriceExchange = (this.totalPrice + shipping_money)/24000;
+  }
+
   listCartDetail() {
     this.cartService.cartItemsSubject.subscribe(
       data => this.items = data
@@ -196,7 +203,6 @@ export class CartComponent implements OnInit, AfterViewInit{
     this.cartService.totalPrice.subscribe(
       data => {
         this.totalPrice = data;
-        this.totalPriceExchange = data/24000;
       }
     )
 
@@ -215,16 +221,12 @@ export class CartComponent implements OnInit, AfterViewInit{
     console.log(item.quantity)
     if ( item.quantity > 0) {
         item.quantity--;
-        console.log(item.quantity)
-        console.log(item)
         this.addToCart(item)
       }
   }
 
   add(item: CartItem){
       item.quantity++;
-      console.log(item.quantity)
-      console.log(item);
       this.addToCart(item);
   }
 
@@ -268,7 +270,9 @@ export class CartComponent implements OnInit, AfterViewInit{
     let order = new Order();
     order.totalPrice = this.totalPrice;
     order.totalQuantity = this.totalQuantity;
-    order.shippingMoney = this.cartDetailCheckout.distance * this.cardDetailCheckOut.fee_shipping;
+    order.shippingMoney =  (this.CartDetailCheckOutComponentRef.distance >= 1)? 
+                                      ( this.CartDetailCheckOutComponentRef.distance * this.cardDetailCheckOut.fee_shipping ): 
+                                              ( 1 * this.cardDetailCheckOut.fee_shipping); 
     order.status = payment;
 
     //get cart items
@@ -306,6 +310,7 @@ export class CartComponent implements OnInit, AfterViewInit{
   resetCart() {
     //reset Cart data
     this.cartService.cartItems = [];
+    this.cartService.removeCartItems();
     this.cartService.totalPrice.next(0);
     this.cartService.totalQuantity.next(0);
     this.cartService.cartItemsSubject.next(this.cartService.cartItems);
@@ -319,9 +324,20 @@ export class CartComponent implements OnInit, AfterViewInit{
 
   placeChanged(place) {
     this.selectedPlace = place;
-    console.log(this.selectedPlace)
     this.ref.detectChanges();
     // doi co api set long and lat cho shippin adress
+    const arrAddress = place.formatted_address.split(", ")
+    this.checkoutFormGroup.get('shippingAddress.street').setValue(arrAddress[0])
+    this.checkoutFormGroup.get('shippingAddress.district').setValue(arrAddress[1])
+    this.checkoutFormGroup.get('shippingAddress.ward').setValue(arrAddress[2])
+    this.checkoutFormGroup.get('shippingAddress.city').setValue(arrAddress[3])
+    this.checkoutFormGroup.get('shippingAddress.country').setValue(arrAddress[4])
+
+    //handle cartdetail
+    this.CartDetailCheckOutComponentRef.LatLngTo = [
+      place.geometry.location.lng(), place.geometry.location.lat()
+    ]
+    this.CartDetailCheckOutComponentRef.computeDistanceBetween();
 }
 
   setDeliveryAddress() {

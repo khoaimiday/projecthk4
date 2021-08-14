@@ -3,6 +3,8 @@ package com.fpt.main.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fpt.main.advice.HandleMultipartFile;
 import com.fpt.main.dto.FavouritesDto;
+import com.fpt.main.entity.Restaurant;
 import com.fpt.main.reponsitory.DishesRepository;
+import com.fpt.main.services.FavouritesService;
+import com.fpt.main.services.FavouritesServiceImpl;
 import com.fpt.main.services.ReportService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -37,26 +43,9 @@ public class TestController {
 	@Autowired
 	private ReportService reportService;
 	
-	@GetMapping(value = "pdf-report", produces = MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<byte[]> getPDFReport() {
-		try {
-//			return new ResponseEntity<byte[]>(reportService.generatePDFReport(), HttpStatus.OK);
-			return new ResponseEntity<byte[]>(HttpStatus.OK);
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+	@Autowired
+	private FavouritesServiceImpl favouritesServiceImpl;
 	
-	 private static void writeBytesToFile(String fileOutput, byte[] bytes)
-		        throws IOException {
-
-		        try (FileOutputStream fos = new FileOutputStream(fileOutput)) {
-		            fos.write(bytes);
-		        }
-
-	 }
 
 	@GetMapping("/all")
 	public String allAccess() {
@@ -64,7 +53,6 @@ public class TestController {
 	}
 	
 	@GetMapping("/user")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
 	public String userAccess() {
 		return "User Content.";
 	}
@@ -72,6 +60,17 @@ public class TestController {
 	@PostMapping("/user")
 	public String userAccess1() {
 		return "User Content.";
+	}
+	
+	@GetMapping("/favourite/{email}")
+	public ResponseEntity<List<Restaurant>> testFavourite(@PathVariable String email) {
+		List<Restaurant> list = favouritesServiceImpl.getFavourites(email);
+		
+		
+		List<Restaurant> list2 = new ArrayList<Restaurant>();
+		list2.add(list.get(0));
+		
+		return new ResponseEntity<List<Restaurant>>(list, HttpStatus.OK);
 	}
 		
 	@PostMapping("/favourite")

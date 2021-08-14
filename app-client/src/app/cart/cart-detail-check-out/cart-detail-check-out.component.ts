@@ -45,7 +45,7 @@ export class CartDetailCheckOutComponent implements OnInit {
   }
 
 
-    async restaurantDetail() {
+  async restaurantDetail() {
      await this.cartService.getRestaurantIncart();
      await this.cartService.$restaurantInCar.subscribe(
        data => {
@@ -75,14 +75,12 @@ export class CartDetailCheckOutComponent implements OnInit {
     console.log(item.quantity)
     if ( item.quantity > 0) {
         item.quantity--;
-        console.log(item)
         this.addToCart(item)
       }
   }
 
   add(item: CartItem){
       item.quantity++;
-      console.log(item);
       this.addToCart(item);
   }
 
@@ -90,31 +88,35 @@ export class CartDetailCheckOutComponent implements OnInit {
     this.cartService.addToCart(theCartItem);
   }
 
+
+  LatLngFrom: number[] = [];
+  LatLngTo: number[] = [];
+
   calShippingPrice(){  
-    let LatLngFrom: number[] = [];
-    let LatLngTo: number[] = [];
 
      this.addressService.getAddressForRestaurant(this.cartService.cartItems[0].restanrantId).subscribe(
        data => {
-        LatLngFrom = [data.longtitude, data.latitude]
+        this.LatLngFrom = [data.longtitude, data.latitude]
       }
     )
+
     this.helperService.latLongSubject.subscribe(
        data => {
-        LatLngTo = data
+        this.LatLngTo = data
       }
     )
 
     setTimeout(() => {
-      console.log(LatLngFrom)
-      console.log(LatLngTo)
-      var distance = (google.maps.geometry.spherical.computeDistanceBetween(
-        new google.maps.LatLng(LatLngFrom[1], LatLngFrom[0]), new google.maps.LatLng(LatLngTo[1], LatLngTo[0]))/1000
-        ).toFixed(2);                           
-      console.log( distance + " KM")
-      this.distance = +distance;
+      this.computeDistanceBetween();
     }, 500);
+  }
 
+  computeDistanceBetween(){
+    var distance = (google.maps.geometry.spherical.computeDistanceBetween(
+      new google.maps.LatLng(this.LatLngFrom[1], this.LatLngFrom[0]), new google.maps.LatLng(this.LatLngTo[1], this.LatLngTo[0]))/1000
+      ).toFixed(2);                           
+    console.log( distance + " KM")
+    this.distance = +distance;
   }
 
 }

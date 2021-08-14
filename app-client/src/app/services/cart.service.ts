@@ -15,6 +15,7 @@ export class CartService {
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
   cartItemsSubject: Subject<CartItem[]> = new Subject<CartItem[]>();
+  
   restaurantInCart: Subject<Restaurant> = new ReplaySubject<Restaurant>(1);
   $restaurantInCar = this.restaurantInCart.asObservable();
 
