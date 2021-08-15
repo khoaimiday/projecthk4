@@ -1,6 +1,8 @@
 package com.fpt.main.reponsitory;
 
 
+import java.util.Set;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,5 +28,16 @@ public interface DishesRepository extends JpaRepository<Dishes, Long> {
 	
 	@Query("Select d.name From Dishes d Where d.id = :id")
 	public String getNameDishById(@Param("id") Long id);
+	
+	@Query(value = "select\r\n"
+			+ "                d.*\r\n"
+			+ "            from\r\n"
+			+ "				dishes d join \r\n"
+			+ "                order_item o on d.id = o.dishes_id\r\n"
+			+ "                order by o.created_at desc\r\n"
+			+ "                limit 8", nativeQuery = true)
+	// http://localhost:8080/api/disheses/search/getDishWithNewOrder
+	public Set<Dishes> getDishWithNewOrder();
+	
 	
 }

@@ -15,8 +15,8 @@
             </skltn-root>
         </ng-container>
 
-        <div class="card" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(id)">
-            <div>
+        <div class="card" *ngFor="let restaurant of restaurants" >
+            <div (click)="goToRestaurant(restaurant)">
                 <img alt="Ancient Hyderabad" width="254" height="160"
                 src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_520,h_520/rng/md/carousel/production/jgpy5pwvor7gtfw6qv8r">
                 <div class="exclusive"
@@ -25,25 +25,28 @@
                 </div>
             </div>
             <div class="footer">
-                <div>
-                    <div class="name">{{restaurant.name}}</div>
-                    <div class="address">{{restaurant.foodType}}</div>
+                <div (click)="goToRestaurant(restaurant)">
+                    <div class="name">{{restaurant.fullName}}</div>
+                    <div class="address">{{restaurant.address}}</div>
                 </div>
-                <div class="other">
-                    <div class="rating">
-                        <mat-icon class="star-icon">star</mat-icon>
-                        <span class="rate">{{restaurant.rating}}</span>
+                <div class="other" >
+                    <div class="other" (click)="goToRestaurant(restaurant)">
+                        <div class="rating">
+                            <mat-icon class="star-icon">star</mat-icon>
+                            <span>{{ restaurant?.rateCount != 0 ? restaurant?.rateTotal : 5}}</span>
+                        </div>
+                        <div class="mx-1">({{restaurant?.rateCount }} rates)</div>
                     </div>
-                    <div>&#8226;</div>
-                    <div>32 MINS</div>
-                    <div>&#8226;</div>
-                    <div>250 For Two</div>
+                    <div class="wish-icon" (click)="removeFavourite(restaurant)">
+                        <span class="material-icons">
+                            block
+                        </span>                            
+                    </div>
                 </div>
                 <div class="offer">
                     <mat-icon class="offer-icon" fontSet="material-icons-outlined">local_offer</mat-icon>
                     <span class="offer-description">40% off | Use coupon SWIGGY40</span>
-                </div>
-
+                </div>                
             </div>
         </div>
 

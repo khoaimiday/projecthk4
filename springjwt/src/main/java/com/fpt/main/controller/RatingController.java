@@ -1,5 +1,6 @@
 package com.fpt.main.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,11 +19,8 @@ import javassist.NotFoundException;
 @RequestMapping("/api/rating")
 public class RatingController {
 
+	@Autowired
 	private RatingService ratingService;
-	
-	private RatingController(RatingService ratingService) {
-		this.ratingService = ratingService;
-	}
 	
 	@PostMapping("/restaurant")
 	public ResponseEntity<RatingresultDto> ratingForRestaurant(@RequestBody RatingDto ratingDto) throws NotFoundException {

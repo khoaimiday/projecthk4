@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fpt.main.dto.FavouriteResponseDto;
 import com.fpt.main.dto.FavouritesDto;
-import com.fpt.main.entity.Restaurant;
 import com.fpt.main.services.FavouritesService;
 
 import javassist.NotFoundException;
@@ -25,17 +25,15 @@ public class FavouritesController {
 	
 	@Autowired
 	FavouritesService favouritesService;	
-	
-	
-	@GetMapping
-	public ResponseEntity<List<Restaurant>> getFavourites(@RequestParam String emailCustomer){
 		
-		List<Restaurant> list = favouritesService.getFavourites(emailCustomer);
+	@GetMapping("/{email}")
+	public ResponseEntity<List<FavouriteResponseDto>> getFavourites(@PathVariable String email){
 		
-		return new ResponseEntity<List<Restaurant>>(list, HttpStatus.OK);
+		List<FavouriteResponseDto> list = favouritesService.getFavourites(email);
+		
+		return new ResponseEntity<List<FavouriteResponseDto>>(list, HttpStatus.OK);
 	}
 	
-
 	@PostMapping
 	public ResponseEntity<Boolean> addFavourite(@RequestBody FavouritesDto dto) throws NotFoundException {
 								
@@ -43,12 +41,12 @@ public class FavouritesController {
 		
 		return new ResponseEntity<>(result ,HttpStatus.OK);
 	}
-	
-	
-	@DeleteMapping
+		
+	@PostMapping("/delete")
 	public ResponseEntity<Boolean> removeFavourite(@RequestBody FavouritesDto dto) throws NotFoundException {
 				
 		boolean result = favouritesService.removeFavourites(dto);		
+		
 		
 		return new ResponseEntity<>(result ,HttpStatus.OK);
 	}

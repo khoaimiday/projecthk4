@@ -22,7 +22,6 @@ export class TabRestaurantComponent implements OnInit{
   restaurants = new Array();
 
   constructor(private route: Router,
-              private router: ActivatedRoute, 
               private restaurantService: RestaurantsService,
               private favouritesService: FavouritesService,
               public dialog: MatDialog) { }

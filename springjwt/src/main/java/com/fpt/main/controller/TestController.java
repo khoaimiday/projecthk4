@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fpt.main.advice.HandleMultipartFile;
+import com.fpt.main.dto.FavouriteResponseDto;
 import com.fpt.main.dto.FavouritesDto;
 import com.fpt.main.entity.Restaurant;
 import com.fpt.main.reponsitory.DishesRepository;
@@ -63,15 +64,12 @@ public class TestController {
 	}
 	
 	@GetMapping("/favourite/{email}")
-	public ResponseEntity<List<Restaurant>> testFavourite(@PathVariable String email) {
-		List<Restaurant> list = favouritesServiceImpl.getFavourites(email);
+	public ResponseEntity<List<FavouriteResponseDto>> testFavourite(@PathVariable String email) {
+		List<FavouriteResponseDto> result = favouritesServiceImpl.getFavourites(email);
 		
-		
-		List<Restaurant> list2 = new ArrayList<Restaurant>();
-		list2.add(list.get(0));
-		
-		return new ResponseEntity<List<Restaurant>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<FavouriteResponseDto>>(result, HttpStatus.OK);
 	}
+	
 		
 	@PostMapping("/favourite")
 	public String testFavourite(@RequestBody FavouritesDto dto) {

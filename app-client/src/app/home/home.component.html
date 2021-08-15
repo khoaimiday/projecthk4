@@ -21,26 +21,14 @@
     </div>
 
     <div class="container">
+        
         <div class="title">
-            <h1>Offers Near You</h1>
+            <h1>Restaurants With Top Rating</h1>
         </div>
 
+
         <div class="card-container">
-            <ng-container *ngIf="restaurants.length == 0">
-                <skltn-root class="card" duration="1000" [rectRadius]="10" flareWidth="50%" bgFill="#d8d5d1"
-                    flareFill="rgba(255,255,255, 0.5)" *ngFor="let item of restaurants">
-                    <!-- Card with Avatar -->
-                    <div class="skltn-card">
-                        <div skltn-bone class="skltn-card__avatar" type="circle"></div>
-                        <div class="skltn-card__body">
-                            <div skltn-bone class="skltn-card__title"></div>
-                            <div skltn-bone class="skltn-card__line"></div>
-                            <div skltn-bone class="skltn-card__line"></div>
-                        </div>
-                    </div>
-                </skltn-root>
-            </ng-container>
-            <div class="card" *ngFor="let restaurant of restaurants" (click)="goToRestaurant(restaurant)">
+            <div class="card" *ngFor="let restaurant of restaurantsWithTopRating | slice:0:4" (click)="goToRestaurant(restaurant)">
                 <div>
                     <img alt="Ancient Hyderabad" width="254" height="160" [src]="restaurant.imageURL">
                     <div class="exclusive"
@@ -71,8 +59,75 @@
                 </div>
             </div>
 
+            <div class="title">
+                <h1>Dish With New Order</h1>
+            </div>
+
+            <div style="margin-top: 10px">
+                <div class="mini-card-container">
+                    <div class="mini-card" *ngFor="let dishes of dishWithNewOrder" (click)="goToMyRestaurant(dishes)">
+                        <div>
+                            <img height="160" width="244" alt=""
+                                src="{{dishes?.imageURL}}">
+                        </div>
+                        <div class="item">
+                            <span class="text-name" style="margin-left: 5px;">{{dishes?.name}} <span class="" style="margin-left: 5px;"> (Sell 999+)</span></span>
+                            
+                        </div>
+                        <div class="botom">
+                            <div>{{dishes?.price | currency: 'VND'}} / {{dishes?.unit}}</div>
+                            <!-- <div class="add-remove-box">
+                                <mat-icon class="star-icon" fontSet="material-icons-outlined">remove
+                                </mat-icon>
+                                <span>5</span>
+                                <mat-icon class="star-icon" fontSet="material-icons-outlined">add</mat-icon>
+                            </div> -->
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+        </div> <!-- container -->
+
+
+        <div class="title">
+            <h1>Restaurants With New Order</h1>
         </div>
-    </div>
+
+        <div class="card-container">
+            <div class="card" *ngFor="let restaurant of restaurantsWithTopRating" (click)="goToRestaurant(restaurant)">
+                <div>
+                    <img alt="Ancient Hyderabad" width="254" height="160" [src]="restaurant.imageURL">
+                    <div class="exclusive"
+                        style="background: rgb(250, 74, 91); color: rgb(255, 255, 255);border-color: rgb(209, 42, 59) transparent;">
+                        exclusive
+                    </div>
+                </div>
+                <div class="footer">
+                    <div>
+                        <div class="name">{{restaurant.fullName}}</div>
+                        <div class="address">Street Food, South Indian, Fast Food</div>
+                    </div>
+                    <div class="other">
+                        <div class="rating">
+                            <mat-icon class="star-icon">star</mat-icon>
+                            <span class="rate">{{restaurant.rateTotal}}</span>
+                        </div>
+                        <div>&#8226;</div>
+                        <div>32 MINS</div>
+                        <div>&#8226;</div>
+                        <div>250 For Two</div>
+                    </div>
+                    <div class="offer">
+                        <mat-icon class="offer-icon" fontSet="material-icons-outlined">local_offer</mat-icon>
+                        <span class="offer-description">40% off | Use coupon SWIGGY40</span>
+                    </div>
+            
+                </div>
+            </div>
+        </div>
 
 
 </div>

@@ -21,10 +21,18 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 	public Restaurant findByDishesListId(@Param("id")Long id);
 	
 	//	http://localhost:8080/api/restaurants/search/findTop10ByOrderByUpdatedAtDesc
-	public List<Restaurant> findTop10ByOrderByUpdatedAtDesc();
+	public List<Restaurant> findTop8ByOrderByUpdatedAtDesc();
 	
 	//	http://localhost:8080/api/restaurants/search/findTop10ByOrderByDishesListUpdatedAtDesc
-	public List<Restaurant> findTop10ByOrderByDishesListUpdatedAtDesc();
+	public List<Restaurant> findTop8ByOrderByDishesListUpdatedAtDesc();	
 	
+	//	http://localhost:8080/api/restaurants/search/findTop10ByOrderByRatingListUpdatedAtDesc
+	public List<Restaurant> findTop8ByOrderByRatingListUpdatedAtDesc();
 	
+	//	http://localhost:8080/api/restaurants/search/findTop8ByOrderByRateCountDesc
+	public List<Restaurant> findTop8ByOrderByRateCountDesc();
+	
+//	http://localhost:8080/api/restaurants/search/findTop8ByOrderByRateTotalDesc
+	public List<Restaurant> findTop8ByOrderByRateTotalDesc();
+
 }

@@ -105,9 +105,9 @@
 				<textFieldExpression><![CDATA[$P{customer_name}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="380" y="180" width="195" height="15" uuid="2d2f365d-7b12-4a8f-990d-ff528a2660bc"/>
+				<reportElement x="380" y="180" width="184" height="20" uuid="2d2f365d-7b12-4a8f-990d-ff528a2660bc"/>
 				<textElement>
-					<font fontName="VN-Arial" size="12" isBold="false"/>
+					<font fontName="VN-Arial" size="9" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{shipping_address}]]></textFieldExpression>
 			</textField>
@@ -152,7 +152,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cbc2b630-423a-408d-afa5-f48b3b7fe47d"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="12"/>
+					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Customer:]]></text>
 			</staticText>
@@ -161,7 +161,7 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cbc2b630-423a-408d-afa5-f48b3b7fe47d"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="12"/>
+					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Phone:]]></text>
 			</staticText>
@@ -170,16 +170,16 @@
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cbc2b630-423a-408d-afa5-f48b3b7fe47d"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Arial" size="12"/>
+					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Email:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="95" y="0" width="205" height="25" uuid="3cd29058-6c8a-493e-939c-f4fc12849abf"/>
+				<reportElement x="95" y="0" width="205" height="25" forecolor="#0D35FF" uuid="3cd29058-6c8a-493e-939c-f4fc12849abf"/>
 				<textElement>
-					<font fontName="VN-Arial" size="12" isBold="false"/>
+					<font fontName="VN-Arial" size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{restaurant_name}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{restaurant_name}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="180" y="70" width="210" height="30" uuid="55e868dd-d613-4edc-b6a5-758e5225ef74"/>
@@ -274,7 +274,7 @@
 				<reportElement style="Detail" positionType="Float" x="111" y="0" width="111" height="37" uuid="67067c46-1880-4ac8-adb0-5eb395b74db6">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4ca8f4c2-c91d-4614-9baa-aac8d7d2ccef"/>
 				</reportElement>
-				<textElement>
+				<textElement textAlignment="Left">
 					<font fontName="VN-Arial" size="12" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
@@ -283,7 +283,7 @@
 				<reportElement style="Detail" positionType="Float" x="222" y="0" width="111" height="37" uuid="9646b56f-aacb-4b48-b237-985fa81b1150">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1944e1ea-7275-4f40-b67d-3c0ca34d9886"/>
 				</reportElement>
-				<textElement>
+				<textElement textAlignment="Center">
 					<font fontName="VN-Arial" size="12" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>

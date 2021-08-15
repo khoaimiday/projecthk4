@@ -97,6 +97,13 @@ public class Customer {
         }       
     }
     
+    public void removeRestaurantFavou(Restaurant item) {
+        if (item != null) {
+            restaurantFavou.remove(item);
+            item.getCustomerToFavou().remove(this);
+        }       
+    }
+    
 }
 
 

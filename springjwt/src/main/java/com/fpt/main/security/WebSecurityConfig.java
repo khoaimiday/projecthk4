@@ -5,14 +5,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	String[] pathArray = new String[] {			
+								"/api/orders/**", 
+								"/api/favourites/**",
+								"/api/rating/**"
+						};
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/api/orders/**")
+				.antMatchers(pathArray)
 				.authenticated()
 				.and()
 				.oauth2ResourceServer()

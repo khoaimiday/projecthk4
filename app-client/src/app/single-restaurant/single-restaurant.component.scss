@@ -141,6 +141,11 @@
         .list-view{
             border-bottom: 2px solid #282c3f;
              margin-top: 10px;
+             .mini-card{
+                 img{
+                     width: 100%;
+                 }
+             }
         }
     }
     

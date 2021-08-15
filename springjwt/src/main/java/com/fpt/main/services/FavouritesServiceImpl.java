@@ -1,12 +1,16 @@
 package com.fpt.main.services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fpt.main.dto.FavouriteResponseDto;
 import com.fpt.main.dto.FavouritesDto;
 import com.fpt.main.entity.Customer;
 import com.fpt.main.entity.Restaurant;
@@ -35,6 +39,7 @@ public class FavouritesServiceImpl implements FavouritesService {
 			customer.setFullName(dto.getCustomerEmail().split("@")[0]);
 		}
 
+		
 		Restaurant restaurant = null;
 		
 		Optional<Restaurant> result = restaurantRepository.findById(dto.getRestaurantId());
@@ -52,7 +57,7 @@ public class FavouritesServiceImpl implements FavouritesService {
 
 	@Override
 	public boolean removeFavourites(FavouritesDto dto) {
-		Customer customer = customerRespository.findByEmail(dto.getCustomerEmail());
+		Customer customer = customerRespository.findByEmail(dto.getCustomerEmail().replace("\"", ""));
 
 		if (customer == null) {
 			return false;
@@ -66,24 +71,46 @@ public class FavouritesServiceImpl implements FavouritesService {
 			return false;
 		}
 		
-		customer.getRestaurantFavou().remove(restaurant);
+		customer.removeRestaurantFavou(restaurant);
 		customerRespository.save(customer);
 		
 		return true;
 	}
 	
-	public List<Restaurant> getFavourites(String email){
+	public List<FavouriteResponseDto> getFavourites(String email){
 		
-		List<Restaurant> list = new ArrayList<Restaurant>();
+		List<FavouriteResponseDto> result = new ArrayList<FavouriteResponseDto>();
 		
-		Customer customer = customerRespository.findByEmail(email);
+		Set<Restaurant> list = new HashSet<Restaurant>();
+		
+		Customer customer = customerRespository.findByEmail(email.replace("\"", ""));
 		
 		if(customer == null) {
-			return list;
+			return result;
 		}
+		list = customer.getRestaurantFavou();
 		
-		list.addAll(customer.getRestaurantFavou());		
-		return list;
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			Restaurant restaurant = (Restaurant) iterator.next();			
+				
+			if (restaurant.isActive()) {
+				
+				FavouriteResponseDto dto = new FavouriteResponseDto();
+				dto.setId(restaurant.getId());
+				dto.setFullName(restaurant.getFullName());
+				dto.setEmail(restaurant.getEmail());
+				dto.setPhoneNumber(restaurant.getPhoneNumber());
+				dto.setImageURL(restaurant.getImageURL());
+				dto.setRateCount(restaurant.getRateCount());
+				dto.setRateTotal(restaurant.getRateTotal());
+				dto.setAddress(restaurant.getAddress().getFullAddress());
+				dto.setActive(restaurant.isActive());
+				
+				result.add(dto);
+			}						
+		}
+	
+		return result;
 		
 	}
 

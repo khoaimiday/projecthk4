@@ -47,6 +47,36 @@ export class RestaurantsService {
     ) 
   }
 
+
+  findTop8ByOrderByDishesListUpdatedAtDesc(): Observable<Restaurant[]> {
+    const searchUrl = `${this.api}/search/findTop10ByOrderByDishesListUpdatedAtDesc`;
+    return this.httpClient.get<GetRestaurantsResponse>(searchUrl).pipe(
+      map( response => this.restaurants = response._embedded.restaurants)
+    ) 
+  }
+
+  findTop8ByOrderByRatingListUpdatedAtDesc(): Observable<Restaurant[]> {
+    const searchUrl = `${this.api}/search/findTop10ByOrderByRatingListUpdatedAtDesc`;
+    return this.httpClient.get<GetRestaurantsResponse>(searchUrl).pipe(
+      map( response => this.restaurants = response._embedded.restaurants)
+    ) 
+  }
+
+  findTop8ByOrderByRateCountDesc(): Observable<Restaurant[]> {
+    const searchUrl = `${this.api}/search/findTop8ByOrderByRateCountDesc`;
+    return this.httpClient.get<GetRestaurantsResponse>(searchUrl).pipe(
+      map( response => this.restaurants = response._embedded.restaurants)
+    ) 
+  }
+
+  findTop8ByOrderByRateTotalDesc(): Observable<Restaurant[]> {
+    const searchUrl = `${this.api}/search/findTop8ByOrderByRateTotalDesc`;
+    return this.httpClient.get<GetRestaurantsResponse>(searchUrl).pipe(
+      map( response => this.restaurants = response._embedded.restaurants)
+    ) 
+  }
+
+
   //Function search for searchPage with name contain
   searchRestaurantsContainNamePaginate(searchValue: string,
                                       thePage: number,
@@ -85,13 +115,14 @@ export class RestaurantsService {
     )
   } 
 
-  getRestaurantByDishesId(theId: number): Restaurant{
+  async getRestaurantByDishesId(theId: number): Promise<Restaurant>{
     const searchUrl = `${this.api}/search/findByDishesListId?id=${theId}`;
-    this.httpClient.get<Restaurant>(searchUrl).toPromise().then(
-      result => {
-        this.restaurant = result;
-        this.addressService.getAddressForRestaurant(result.id).toPromise().then(
-          result => this.restaurant.address = result
+    console.log(searchUrl)
+    await this.httpClient.get<Restaurant>(searchUrl).toPromise().then(
+       result => {
+          this.restaurant = result;
+          this.addressService.getAddressForRestaurant(result.id).toPromise().then(
+            result => this.restaurant.address = result
         )
       }
     )

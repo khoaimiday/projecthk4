@@ -32,6 +32,13 @@ export class DishesService {
     )
   }
 
+  getDishWithNewOrder(): Observable<Dishes[]>{
+    const searchUrl = `${this.api}/search/getDishWithNewOrder`;
+    return this.httpClient.get<GetDishesResponse>(searchUrl).pipe(
+      map(response => this.dishes = response._embedded.disheses)
+    )
+  }
+
   //Function search for searchPage with name contain
   //http://localhost:8080/api/disheses/search/findByFullNameContaining?name=k&page=0&size=2
   //Function search for searchPage with name contain
