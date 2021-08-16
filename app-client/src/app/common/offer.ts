@@ -10,4 +10,6 @@ export class Offer {
     pricePromo: number;
     restaurant: Restaurant;
     dishes: Dishes[];
+    createdAt: Date;
+    updatedAt: Date;
 }

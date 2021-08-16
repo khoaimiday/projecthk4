@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs/internal/Subject';
 import { Restaurant } from 'src/app/interfaces/restaurant';
 import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { FavouritesService } from 'src/app/services/favourites.service';
@@ -16,22 +15,18 @@ export class TabRestaurantComponent implements OnInit{
 
   //properties for panigation
   thePageNumber: number = 0;
-  thePageSize: number = 15;
+  thePageSize: number = 16;
   theTotalElements: number = 0;
 
   restaurants = new Array();
-
   constructor(private route: Router,
               private restaurantService: RestaurantsService,
               private favouritesService: FavouritesService,
               public dialog: MatDialog) { }
 
   ngOnInit() {
-
     this.getListRestaurant();
-
   }
-
 
    getListRestaurant(){
     this.restaurantService.getAllRestaurantsPaginate(this.thePageNumber, this.thePageSize).subscribe(async res => {
@@ -50,13 +45,12 @@ export class TabRestaurantComponent implements OnInit{
   doSearch(key: string){
     //Search with tab Restaurant
       this.restaurantService.searchRestaurantsContainNamePaginate(key,  0, this.thePageSize)
-                                                                                              .subscribe(this.processResult());
+																	.subscribe(this.processResult());
   }
 
   processResult(){
     return res => {
         this.restaurants = res._embedded.restaurants;
-
         this.thePageNumber = 1;
         this.thePageSize = res.page.size;
         this.theTotalElements = res.page.totalElements;

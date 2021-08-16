@@ -58,14 +58,14 @@
                 <mat-expansion-panel [disabled]="true">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            Recommended
+                            <a [routerLink]="['/restaurants',  this.currentRestaurantId ]" >Recoment</a>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                 </mat-expansion-panel>
                 <mat-expansion-panel [disabled]="true">
                     <mat-expansion-panel-header>
                         <mat-panel-title>
-                            Starters
+                            <a  [routerLink]="[{ outlets : { orderFoodList: ['review', this.currentRestaurantId ] }}]" >Review</a>
                         </mat-panel-title>
                     </mat-expansion-panel-header>
                 </mat-expansion-panel>

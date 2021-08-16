@@ -11,12 +11,9 @@ import { RatingService } from 'src/app/services/rating.service';
 export class RatingDialogComponent implements OnInit {
   
   color = 'accent';
-
   rate: number = 0;
   note: string = "";
-
   storage: Storage = sessionStorage;
-
   
   constructor(private ratingService: RatingService,
               public dialogRef: MatDialogRef<RatingDialogComponent>,

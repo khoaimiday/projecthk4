@@ -9,7 +9,6 @@ import { HelperService } from 'src/app/services/helper.service';
 export class SelectAddressComponent implements OnChanges, AfterViewInit {
 
   coords = [];
-
   constructor(private helperService: HelperService) { }
   
   ngAfterViewInit(): void {
@@ -23,15 +22,12 @@ export class SelectAddressComponent implements OnChanges, AfterViewInit {
   
   
   ngOnChanges(changes: SimpleChanges): void {
-   
   }
 
-  ngOnInit() {
-    
+  ngOnInit() {  
   }
 
   computeDistance(){
-    
   }
 
   closeAddressNav(){

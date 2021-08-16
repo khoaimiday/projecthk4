@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { async } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { Restaurant } from 'src/app/interfaces/restaurant';
+import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { CartItem } from '../../../interfaces/cart';
 import { CartService } from '../../../services/cart.service';
 
@@ -13,12 +16,24 @@ export class CartPopoverComponent implements OnInit {
   itemList: CartItem[] = [];
   totalPrice: number = 0;
   totalQuantity:number = 0;
+  restaurantInCart : Restaurant;
 
-  constructor(private cartService: CartService,
+  constructor(public cartService: CartService,
               private router: Router) { }
 
   ngOnInit() {
+    
+    // this.restaurantDetail();
     this.listCartDetail();
+  }
+
+  async restaurantDetail() {
+    await this.cartService.$restaurantInCar.subscribe(
+      data => {
+       this.restaurantInCart = data
+       console.log(data)
+      }
+    )
   }
 
   listCartDetail() {
@@ -42,3 +57,7 @@ export class CartPopoverComponent implements OnInit {
   }
 
 }
+function restaurantDetail() {
+  throw new Error('Function not implemented.');
+}
+

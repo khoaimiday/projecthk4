@@ -36,9 +36,15 @@ public class Dishes extends BaseEntity{
 	
 	@Column(name = "rate_total", columnDefinition = "float default 0.0")
 	private float rateTotal;
+	
+	@Column(name = "rate", columnDefinition = "float default 0.0")
+	private float rate;
 
 	@Column(name = "price")
 	private BigDecimal price;
+	
+	@Column(name ="note")
+	private String note;
 
 	@ManyToOne()
 	@JoinColumn(name = "restaurant_id")

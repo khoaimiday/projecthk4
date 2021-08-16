@@ -32,7 +32,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 	//	http://localhost:8080/api/restaurants/search/findTop8ByOrderByRateCountDesc
 	public List<Restaurant> findTop8ByOrderByRateCountDesc();
 	
-//	http://localhost:8080/api/restaurants/search/findTop8ByOrderByRateTotalDesc
+	//	http://localhost:8080/api/restaurants/search/findTop8ByOrderByRateTotalDesc
 	public List<Restaurant> findTop8ByOrderByRateTotalDesc();
-
+	
 }

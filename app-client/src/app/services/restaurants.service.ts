@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { Restaurant } from '../interfaces/restaurant';
 import { AddressService } from './address.service';
@@ -10,6 +10,9 @@ import { Address } from '../interfaces/address';
   providedIn: 'root'
 })
 export class RestaurantsService {
+
+  restaurantSubject = new BehaviorSubject({});
+  $restaurantSubject= this.restaurantSubject.asObservable();
 
   restaurants : Restaurant[] = [];
   restaurant: Restaurant;
@@ -49,14 +52,14 @@ export class RestaurantsService {
 
 
   findTop8ByOrderByDishesListUpdatedAtDesc(): Observable<Restaurant[]> {
-    const searchUrl = `${this.api}/search/findTop10ByOrderByDishesListUpdatedAtDesc`;
+    const searchUrl = `${this.api}/search/findTop8ByOrderByDishesListUpdatedAtDesc`;
     return this.httpClient.get<GetRestaurantsResponse>(searchUrl).pipe(
       map( response => this.restaurants = response._embedded.restaurants)
     ) 
   }
 
   findTop8ByOrderByRatingListUpdatedAtDesc(): Observable<Restaurant[]> {
-    const searchUrl = `${this.api}/search/findTop10ByOrderByRatingListUpdatedAtDesc`;
+    const searchUrl = `${this.api}/search/findTop8ByOrderByRatingListUpdatedAtDesc`;
     return this.httpClient.get<GetRestaurantsResponse>(searchUrl).pipe(
       map( response => this.restaurants = response._embedded.restaurants)
     ) 
@@ -75,7 +78,6 @@ export class RestaurantsService {
       map( response => this.restaurants = response._embedded.restaurants)
     ) 
   }
-
 
   //Function search for searchPage with name contain
   searchRestaurantsContainNamePaginate(searchValue: string,
@@ -109,7 +111,8 @@ export class RestaurantsService {
               console.log('address not found!');
               this.restaurant.address = undefined;
            }         
-        )      
+        )
+        this.restaurantSubject.next(this.restaurant);    
         return this.restaurant;
       })
     )
@@ -128,8 +131,23 @@ export class RestaurantsService {
     )
     return this.restaurant
   }
+
+  ratingList : [] = [];
+  getAllRatingById(restaurantId: number){
+    const searchUrl = `${this.api}/${restaurantId}/ratingList`;
+    console.log(searchUrl)
+    return this.httpClient.get<RatingResponse>(searchUrl).pipe(
+      map( response => this.ratingList = response._embedded.ratings)
+    )
+  }
 }
 
+
+interface RatingResponse{
+  _embedded: {
+    ratings : []
+  }
+}
 
 
 interface GetRestaurantsResponse {

@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartItem } from 'src/app/interfaces/cart';
 import { User } from 'src/app/interfaces/Ilogin';
+import { Restaurant } from 'src/app/interfaces/restaurant';
 import { CartService } from 'src/app/services/cart.service';
 import { HelperService } from 'src/app/services/helper.service';
 import { LoginService } from 'src/app/services/login.service';
+import { RestaurantsService } from 'src/app/services/restaurants.service';
 
 @Component({
   selector: 'app-cart-details-for-rest',
@@ -18,11 +20,14 @@ export class CartDetailsForRestComponent implements OnInit {
 
   totalPrice: number = 0;
   totalQuantity:number = 0;
+  restaurant: any;
 
   constructor( public loginService: LoginService,
-               private cartService: CartService) {}
+               private cartService: CartService,
+               private restaurantService: RestaurantsService) {}
 
 ngOnInit() {
+
   this.loginService.loggedIn.subscribe(next => {
   this.user = next;
   });

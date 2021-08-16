@@ -86,6 +86,7 @@ import { TabRestaurantComponent } from './search/tab-restaurant/tab-restaurant.c
 import { TabDishesComponent } from './search/tab-dishes/tab-dishes.component';
 import { RatingComponent } from './rating/rating.component';
 import { RatingDialogComponent } from './shared/rating-dialog/rating-dialog.component';
+import { ReviewComponent } from './single-restaurant/review/review.component';
 
 const oktaConfig = Object.assign({ 
   onAuthRequired: (oktaAuth, injector) => {
@@ -131,6 +132,7 @@ const skltnConfig: SkltnConfig = {
     TabDishesComponent,
     RatingComponent,
     RatingDialogComponent,
+    ReviewComponent,
   ],
   imports: [
     NgbModule,

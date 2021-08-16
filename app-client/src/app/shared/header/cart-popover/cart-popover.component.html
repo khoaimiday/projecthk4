@@ -1,7 +1,7 @@
 <div class="cart-popover">
     <ng-container  *ngIf="itemList?.length == 0">
         <div class="main-container">
-            <a class="restaurant-box" [routerLink]="['restaurants', this.itemList[0]?.restanrantId]" >
+            <a class="restaurant-box" [routerLink]="[{ outlets : { primary: ['restaurants', this.itemList[0]?.restanrantId] }}]" >
                 <div>
                     <img src="https://i.imgur.com/dCdflKN.png" width="66" height="66">
                 </div>
@@ -14,14 +14,14 @@
     </ng-container>
 
     <div class="main-container"  *ngIf="itemList?.length > 0">
-        <a class="restaurant-box" [routerLink]="['restaurants', this.itemList[0]?.restanrantId]">
+        <a class="restaurant-box" [routerLink]="[{ outlets : { primary: ['restaurants', this.itemList[0]?.restanrantId] }}]" >
             <div>
                 <img height="66" width="66" alt=""
                     src="https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_132,h_132,c_fill/oyusdq7j4phsavmal7n0">
             </div>
             <div class="restaurant-description">
-                <div class="name">Name of Restaurant</div>
-                <div class="address">address</div>
+                <div class="name">{{ (this.cartService.$restaurantInCar| async)?.fullName | uppercase }}</div>
+                <div class="address">{{ (this.cartService.$restaurantInCar| async)?.address?.street }}</div>
             </div>
         </a>
         <div class="item-info-box">

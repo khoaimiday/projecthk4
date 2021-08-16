@@ -40,7 +40,6 @@ export class OrderHistoryComponent implements OnInit ,AfterViewInit {
 
   ngOnInit() {
     this.handleOrderHistory();
-    console.log(this.displayedColumns)
   }
 
   handleOrderHistory() {

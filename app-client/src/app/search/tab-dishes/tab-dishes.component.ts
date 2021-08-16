@@ -16,9 +16,8 @@ export class TabDishesComponent implements OnInit {
   thePageNumber: number = 0;
   thePageSize: number = 5;
   theTotalElements: number = 0;
-
+  
   dishesList = new Array(6);
-
   constructor(private route: Router,
               private router: ActivatedRoute, 
               private dishesService: DishesService,
@@ -46,7 +45,6 @@ export class TabDishesComponent implements OnInit {
   async goToMyRestaurant(dishes : Dishes) {
     // get restaurant
     const theRestaurant: Restaurant = await this.restaurantService.getRestaurantByDishesId(dishes.id);
-
     // navigate to restaurant
     this.route.navigate(['/restaurants', theRestaurant.id] , {state:{...theRestaurant} });
   }
@@ -54,7 +52,6 @@ export class TabDishesComponent implements OnInit {
   doSearch(value: string){
       this.dishesService.searchDishesContainNamePaginate(value, 0, this.thePageSize)
                                                         .subscribe(this.processResult());
-
   }
 
   processResult(){

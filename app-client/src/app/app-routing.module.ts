@@ -17,6 +17,7 @@ import { LoginComponent } from './shared/login/login.component';
 import { TabRestaurantComponent } from './search/tab-restaurant/tab-restaurant.component';
 import { TabDishesComponent } from './search/tab-dishes/tab-dishes.component';
 import { RatingComponent } from './rating/rating.component';
+import { ReviewComponent } from './single-restaurant/review/review.component';
 
 
 const routes: Routes = [
@@ -33,6 +34,9 @@ const routes: Routes = [
     path: 'restaurants/:id', component: SingleRestaurantComponent, children : [
         {
           path: '', outlet : 'orderFoodList', component: FoodOrderForRestaurantComponent
+        },
+        {
+          path: 'review/:id', outlet : 'orderFoodList', component: ReviewComponent
         },
     ]
   },

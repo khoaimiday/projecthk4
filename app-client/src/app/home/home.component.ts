@@ -78,10 +78,6 @@ export class HomeComponent implements OnInit {
 
     // navigate to restaurant
     this.route.navigate(['/restaurants', theRestaurant.id] , {state:{...theRestaurant} });
-
-    // setTimeout(() => {
-    //   console.log(theRestaurant)
-    // }, 300);
   }
 
 }

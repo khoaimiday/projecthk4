@@ -26,12 +26,8 @@ export class RatingComponent implements OnInit {
       },
       err => {
         console.log(err)
-      }
-      
+      }     
     )
   }
-
-
-  
 
 }

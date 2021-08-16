@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ChangeDetectorRef, Component, OnChanges, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Dishes } from '../interfaces/dishes';
 import { Restaurant } from '../interfaces/restaurant';
-import { AddressService } from '../services/address.service';
 import { DishesService } from '../services/dishes.service';
 import { RestaurantsService } from '../services/restaurants.service';
 import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
@@ -18,7 +17,7 @@ export class SingleRestaurantComponent implements OnInit {
 
   restaurant : Restaurant;
   rateTotal = 0;
-  currentRestaurantId: number;
+  currentRestaurantId: number | undefined;
   dishesList: Dishes[] = [];
 
   color = 'accent';
@@ -26,7 +25,8 @@ export class SingleRestaurantComponent implements OnInit {
   
   constructor(private restaurantService : RestaurantsService,
               private dishesService : DishesService,
-              private route: ActivatedRoute,
+              private router: ActivatedRoute,
+              private route: Router,
               config: NgbRatingConfig) {
       
     //customize default values of ratings used by this component tree
@@ -35,9 +35,8 @@ export class SingleRestaurantComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(() => {
-      this.currentRestaurantId = +this.route.snapshot.paramMap.get('id')
-      
+    this.router.paramMap.subscribe(() => {
+      this.currentRestaurantId =  +this.router.snapshot.paramMap.get('id')
       this.restaurantService.getRestaurantDetails(this.currentRestaurantId).subscribe(
         data => {
           this.restaurant = data

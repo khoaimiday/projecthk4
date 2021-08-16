@@ -16,6 +16,11 @@ export class OfferService {
     return this.httpClient.get<Offer[]>(this.api)
   }
 
+  getOfferForRestautanr(restaurantId: number){
+    const searchUrl = `${this.api}/search/findAllByExpiredDateTimeAndRestaurantId?id=${restaurantId}`;
+    return this.httpClient.get<Offer[]>(searchUrl); 
+  }
+
   getOfferByCode(){
     
   }

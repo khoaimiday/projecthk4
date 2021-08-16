@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    this.user.username = 'Piyush';
+    this.user.username = 'SIU ĐẸP ZAI';
     this.user.email = '';
     this.loginService.loggedIn.next(this.user);
     this.closeLoginNav();
