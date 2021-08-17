@@ -62,6 +62,7 @@ import { NgxSkltnModule, SkltnConfig } from 'ngx-skltn';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaterialRatingModule } from 'ngx-material-rating';
 import { NgxAutocomPlaceModule } from 'ngx-autocom-place';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -144,6 +145,7 @@ const skltnConfig: SkltnConfig = {
     AppRoutingModule,
     OktaAuthModule,
     NgxMaterialRatingModule,
+    QRCodeModule,
     
     BrowserAnimationsModule,
     MatAutocompleteModule,

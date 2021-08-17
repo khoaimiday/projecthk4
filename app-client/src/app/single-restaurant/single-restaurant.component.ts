@@ -19,7 +19,7 @@ export class SingleRestaurantComponent implements OnInit {
   rateTotal = 0;
   currentRestaurantId: number | undefined;
   dishesList: Dishes[] = [];
-
+  public restaurantQrCode = "";
   color = 'accent';
   itemList = new Array(4);
   
@@ -32,6 +32,7 @@ export class SingleRestaurantComponent implements OnInit {
     //customize default values of ratings used by this component tree
       config.max = 5;
       config.readonly = true;
+
   }
 
   ngOnInit() {
@@ -40,7 +41,8 @@ export class SingleRestaurantComponent implements OnInit {
       this.restaurantService.getRestaurantDetails(this.currentRestaurantId).subscribe(
         data => {
           this.restaurant = data
-          this.rateTotal = data.rateTotal
+          this.rateTotal = data.rateTotal;
+          this.restaurantQrCode = `${this.restaurant.fullName} - ${this.restaurant.email}`
         }
       )
 

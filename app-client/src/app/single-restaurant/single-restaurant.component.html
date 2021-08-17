@@ -7,7 +7,10 @@
             </div>
             <div class="description-box">
                 <div>
-                    <h1 class="name">{{this.restaurant?.fullName}}</h1>
+                    <div class="box-name">
+                        <h1 class="name">{{this.restaurant?.fullName}}</h1>
+                        <qrcode [qrdata]="restaurantQrCode" [width]="56" [errorCorrectionLevel]="'M'"></qrcode>
+                    </div>
                     <p *ngIf="this.restaurant?.address != undefined" style="margin-bottom: 0;" class="total-items">{{ this.restaurant.address?.street }}, {{ this.restaurant.address?.ward }}, {{ this.restaurant.address?.district }}</p>
                     <p *ngIf="this.restaurant?.address == undefined" style="margin-bottom: 0;" class="notfound-total-items">Address is updating...</p>
                 </div>
