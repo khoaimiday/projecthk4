@@ -41,9 +41,9 @@
                 </a>
             </li> 
             <li class="menu-item"  *ngIf="!isAutenticated">
-                <a class="item-box" (click) = "openLoginSideNav()">
+                <a class="item-box" [routerLink]="['/login']">
                     <mat-icon fontSet="material-icons-outlined">person</mat-icon>
-                    <span> Sign In </span>
+                    <span> Sign In</span>
                 </a>
             </li>
             <li class="menu-item">
