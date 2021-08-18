@@ -20,6 +20,12 @@ export class DishesService {
     )
   }
 
+  getAllDishesPaginate(thePage: number, 
+                       thePageSize: number): Observable<any>{
+    const getUrl = `${this.api}?page=${thePage }&size=${thePageSize}`;                 
+    return this.httpClient.get<any>(getUrl)               
+  }
+
   getDishDetails(theDishesId : number): Observable<Dishes>{
     const searchUrl = `${this.api}/${theDishesId}`;
     return this.httpClient.get<Dishes>(searchUrl)

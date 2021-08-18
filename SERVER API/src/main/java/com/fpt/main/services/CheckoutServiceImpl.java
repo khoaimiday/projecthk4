@@ -1,12 +1,17 @@
 package com.fpt.main.services;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fpt.main.advice.SendEmailService;
 import com.fpt.main.dto.Purchase;
 import com.fpt.main.dto.PurchaseResponse;
 import com.fpt.main.entity.Customer;
@@ -17,6 +22,9 @@ import com.fpt.main.reponsitory.CustomerRespository;
 @Service
 public class CheckoutServiceImpl implements CheckoutService{
 
+	@Autowired
+	private SendEmailService sendEmailService;
+	
 	private CustomerRespository customerRespository;
 	
 	public CheckoutServiceImpl(CustomerRespository customerRespository) {
@@ -59,6 +67,12 @@ public class CheckoutServiceImpl implements CheckoutService{
 		
 		//save to the database
 		customerRespository.save(customer);
+		
+		try {
+			sendEmailService.sendEmailForInvoice(purchase, orderTrackingNumber);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		//return a response
 		return new PurchaseResponse(orderTrackingNumber);

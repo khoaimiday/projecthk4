@@ -10,7 +10,7 @@
                 <span class="" style="margin-left: 5px;">(Sell 999+)</span>
             </div>
             <div class="botom">
-                <div>{{dishes?.price | currency: 'VND'}} / {{dishes?.unit}}</div>
+                <div>{{dishes?.price | currency: 'VND'}} </div>
                 <!-- <div class="add-remove-box">
                     <mat-icon class="star-icon" fontSet="material-icons-outlined">remove
                     </mat-icon>
@@ -29,7 +29,7 @@
         <div class="col-md-6">
                 <mat-paginator  [length]="theTotalElements"
                                 [pageSize]="thePageSize"
-                                [pageSizeOptions]="[5,10,20]"
+                                [pageSizeOptions]="[8,16,32]"
                                 (page)="changePaginator($event)"
                                 aria-label="Select page">
                 </mat-paginator>      

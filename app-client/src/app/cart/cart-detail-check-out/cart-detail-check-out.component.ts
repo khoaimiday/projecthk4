@@ -72,7 +72,6 @@ export class CartDetailCheckOutComponent implements OnInit {
   }
 
   remove(item: CartItem){
-    console.log(item.quantity)
     if ( item.quantity > 0) {
         item.quantity--;
         this.addToCart(item)
@@ -94,21 +93,21 @@ export class CartDetailCheckOutComponent implements OnInit {
 
   calShippingPrice(){  
 
-     this.addressService.getAddressForRestaurant(this.cartService.cartItems[0].restanrantId).subscribe(
-       data => {
-        this.LatLngFrom = [data.longtitude, data.latitude]
-      }
-    )
-
     this.helperService.latLongSubject.subscribe(
-       data => {
+      data => {
         this.LatLngTo = data
       }
     )
 
-    setTimeout(() => {
-      this.computeDistanceBetween();
-    }, 500);
+    this.addressService.getAddressForRestaurant(this.cartService.cartItems[0].restanrantId).subscribe(
+      data  => {
+          console.log(data)
+          this.LatLngFrom = [data.longtitude, data.latitude]
+          setTimeout(() => {
+            this.computeDistanceBetween();
+          }, 100);
+      }
+    )
   }
 
   computeDistanceBetween(){

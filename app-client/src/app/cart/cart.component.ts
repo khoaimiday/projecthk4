@@ -45,14 +45,15 @@ export class CartComponent implements OnInit, AfterViewInit{
   //places autocomplete
   selectedPlace: any;
   json = JSON;
+
   options = {
+    fields: ["address_component", "adr_address", "geometry"],
     componentRestrictions: {
-      country: 'vn'
+      country: "vn"
     }
-  }
+  } 
 
   @ViewChild(CartDetailCheckOutComponent,{ static: true}) cardDetailCheckOut :CartDetailCheckOutComponent;
-
   constructor(private helperService: HelperService,
               private router: Router, 
               public loginService: LoginService,
@@ -63,6 +64,7 @@ export class CartComponent implements OnInit, AfterViewInit{
               private ref: ChangeDetectorRef,
               private restaurantService: RestaurantsService,
               private httpClient: HttpClient) {
+
   }
 
   ngAfterViewInit(): void {
@@ -353,6 +355,5 @@ export class CartComponent implements OnInit, AfterViewInit{
     )
   }
 }
-
 
 

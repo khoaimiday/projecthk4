@@ -14,10 +14,10 @@ export class TabDishesComponent implements OnInit {
   
   //properties for panigation
   thePageNumber: number = 0;
-  thePageSize: number = 5;
+  thePageSize: number = 16;
   theTotalElements: number = 0;
   
-  dishesList = new Array(6);
+  dishesList = new Array();
   constructor(private route: Router,
               private router: ActivatedRoute, 
               private dishesService: DishesService,
@@ -25,7 +25,7 @@ export class TabDishesComponent implements OnInit {
 
   ngOnInit() {
     const searchKey = this.router.snapshot.paramMap.get('key')!;
-
+    console.log(searchKey)
     if (searchKey) {
         // search by key
         this.doSearch(searchKey);
@@ -37,9 +37,14 @@ export class TabDishesComponent implements OnInit {
 
   getListFood(){   
     //Get all Food
-    this.dishesService.getAllDishes().subscribe(res => {
-      this.dishesList = res;
-    }); 
+    this.dishesService.getAllDishesPaginate(this.thePageNumber, this.thePageSize).subscribe(async res => {
+      console.log(res)
+      this.dishesList = await res._embedded.disheses;
+      this.thePageNumber = res.page.number +1;;
+      this.thePageSize = res.page.size;
+      this.theTotalElements = res.page.totalElements;
+
+    });
   }
   
   async goToMyRestaurant(dishes : Dishes) {
@@ -65,14 +70,14 @@ export class TabDishesComponent implements OnInit {
   }
 
   changePaginator({length,pageIndex,pageSize,previousPageIndex}){
-    //Get all dishes
-    // this.dishesService.getAllDishes(pageIndex, pageSize).subscribe(res => {
-    //   console.log(res)
-    //   this.dishesList = res._embedded.disheses;
-    //   this.thePageNumber = 1;
-    //   this.thePageSize = res.page.size;
-    //   this.theTotalElements = res.page.totalElements;
-    // });
+    // Get all dishes
+    this.dishesService.getAllDishesPaginate(pageIndex, pageSize).subscribe(res => {
+      console.log(res)
+      this.dishesList = res._embedded.disheses;
+      this.thePageNumber = 1;
+      this.thePageSize = res.page.size;
+      this.theTotalElements = res.page.totalElements;
+    });
   }
 
 }

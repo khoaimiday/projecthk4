@@ -1,3 +1,4 @@
+
 <div class="cart-container">
 
     <div class="cart-container-box container">
@@ -76,7 +77,7 @@
                                     <mat-form-field class="example-full-width" appearance="fill">
                                         <mat-label>Street</mat-label>
                                         <input type="text" matInput formControlName="street" 
-                                            placeholder="Enter a place"  ngxAutocomPlace [options]="options" (selectedPlace)="placeChanged($event)">
+                                            placeholder="Enter a place"  ngxAutocomPlace (selectedPlace)="placeChanged($event)">
                                         <mat-hint>* min-length 2 characters</mat-hint>
                                         <mat-error *ngIf="shippingAddressStreet.hasError('notOnlyWhitespace') || shippingAddressStreet.hasError('required')">
                                             Street is required
