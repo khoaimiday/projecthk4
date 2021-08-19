@@ -17,6 +17,7 @@ import { RestaurantsService } from '../services/restaurants.service';
 import { HttpClient } from '@angular/common/http';
 import { AddressApi } from '../interfaces/address-api';
 import { CartDetailCheckOutComponent } from './cart-detail-check-out/cart-detail-check-out.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -63,7 +64,8 @@ export class CartComponent implements OnInit, AfterViewInit{
               private oktaAuthService: OktaAuthService,
               private ref: ChangeDetectorRef,
               private restaurantService: RestaurantsService,
-              private httpClient: HttpClient) {
+              private httpClient: HttpClient,
+              private toastr: ToastrService) {
 
   }
 
@@ -184,6 +186,8 @@ export class CartComponent implements OnInit, AfterViewInit{
         },
 
         onError: error => {
+          this.toastr.error('Your order has been reject.');
+          this.toastr.error('Your must complete the form valid.');
           console.log(error)
         }
       }
@@ -257,7 +261,7 @@ export class CartComponent implements OnInit, AfterViewInit{
   onSubmit() {
 
     if (this.checkoutFormGroup.invalid) {
-      console.log("Cancel submit button");
+      this.toastr.error('Your must complete the form valid.');
       this.checkoutFormGroup.markAllAsTouched();
       return;
     }
@@ -298,10 +302,12 @@ export class CartComponent implements OnInit, AfterViewInit{
     this.checkoutService.placeOrder(purchase).subscribe(
       response => {
         console.log(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`)
+        this.toastr.success('Your order has been received.', 'Toastr fun!');
         this.resetCart();
       },
       error => {
           if (error.status == 200) {
+            this.toastr.error('Your order has been received.');
             this.resetCart();
           }
           console.log(error);         

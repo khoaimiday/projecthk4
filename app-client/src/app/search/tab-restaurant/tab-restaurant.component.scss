@@ -1,9 +1,7 @@
 .card-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
     .row{
-        justify-content: space-evenly;
+        justify-content: end;
+        column-gap: 20px;
         .card{
             .footer{
                 .other{

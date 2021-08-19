@@ -8,12 +8,13 @@ import { RestaurantsService } from '../services/restaurants.service';
   styleUrls: ['./offer.component.scss']
 })
 export class OfferComponent implements OnInit {
-  loaderRestaurant = new Array(8);
+  loaderRestaurant = new Array(6);
   restaurants = new Array();
 
   tempIMG = "https://picsum.photos/300"
   constructor(private router: Router, private restaurantService: RestaurantsService) { 
     this.restaurantService.getAllRestaurants().subscribe(res=>{
+      console.log(res)
       this.restaurants = res;
     });
   }

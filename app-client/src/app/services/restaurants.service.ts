@@ -28,7 +28,7 @@ export class RestaurantsService {
 
     return this.httpClient.get<any>(getUrl).pipe(
       map ( response => {
-        
+
         response._embedded.restaurants.forEach(element => {
           this.addressService.getAddressForRestaurant(element.id).subscribe(
             data => {
@@ -39,14 +39,41 @@ export class RestaurantsService {
              }         
           )
         });
-        return response;
+        return response
+      }) 
+    )
+  }
+
+  
+  //Function search for searchPage with name contain
+  searchRestaurantsContainNamePaginate(searchValue: string,
+    thePage: number,
+    thePageSize: number): Observable<any>  {
+  const searchUrl = `${this.api}/search/findByFullNameContaining?name=${searchValue}`
+  + `&page=${thePage}&size=${thePageSize}`;
+  console.log(searchUrl)
+  // return this.httpClient.get<any>(searchUrl);
+  return this.httpClient.get<any>(searchUrl).pipe(
+    map ( response => {
+
+        response._embedded.restaurants.forEach(element => {
+          this.addressService.getAddressForRestaurant(element.id).subscribe(
+            data => {
+              element.address = data
+            },
+            error => {
+                console.log('address not found!');
+            }         
+          )
+        });
+        return response
       }) 
     )
   }
 
   getAllRestaurants(): Observable<Restaurant[]> {
     return this.httpClient.get<GetRestaurantsResponse>(this.api).pipe(
-      map( response => this.restaurants = response._embedded.restaurants)
+      map( response => this.restaurants = response._embedded.restaurants.filter( r => r.active))
     ) 
   }
 
@@ -77,16 +104,6 @@ export class RestaurantsService {
     return this.httpClient.get<GetRestaurantsResponse>(searchUrl).pipe(
       map( response => this.restaurants = response._embedded.restaurants)
     ) 
-  }
-
-  //Function search for searchPage with name contain
-  searchRestaurantsContainNamePaginate(searchValue: string,
-                                      thePage: number,
-                                      thePageSize: number): Observable<any>  {
-    const searchUrl = `${this.api}/search/findByFullNameContaining?name=${searchValue}`
-                    + `&page=${thePage}&size=${thePageSize}`;
-    console.log(searchUrl)
-    return this.httpClient.get<any>(searchUrl);
   }
 
   //Function search for searchPage with name contain

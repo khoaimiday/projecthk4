@@ -1,10 +1,13 @@
 // COLORS
-
-.mini-card{
-    width: 250px;
-    border: 1px gainsboro solid;
-    .botom{
-        flex-direction: row-reverse;
-        font-weight: 600;
+.mini-card-container{
+    justify-content: end;
+    column-gap: 20px;
+    .mini-card{
+        width: 250px;
+        border: 1px gainsboro solid;
+        .botom{
+            flex-direction: row-reverse;
+            font-weight: 600;
+        }
     }
 }

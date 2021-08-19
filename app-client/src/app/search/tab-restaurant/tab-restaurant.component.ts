@@ -5,6 +5,7 @@ import { RestaurantsService } from 'src/app/services/restaurants.service';
 import { FavouritesService } from 'src/app/services/favourites.service';
 import { MatDialog } from '@angular/material';
 import { RatingDialogComponent } from 'src/app/shared/rating-dialog/rating-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tab-restaurant',
@@ -22,6 +23,7 @@ export class TabRestaurantComponent implements OnInit{
   constructor(private route: Router,
               private restaurantService: RestaurantsService,
               private favouritesService: FavouritesService,
+              private toastr: ToastrService,
               public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -49,8 +51,8 @@ export class TabRestaurantComponent implements OnInit{
   }
 
   processResult(){
-    return res => {
-        this.restaurants = res._embedded.restaurants;
+    return async res => {
+        this.restaurants = await res._embedded.restaurants;
         this.thePageNumber = 1;
         this.thePageSize = res.page.size;
         this.theTotalElements = res.page.totalElements;
@@ -70,6 +72,7 @@ export class TabRestaurantComponent implements OnInit{
 
   addFavourite(restaurant: Restaurant) {
     this.favouritesService.addWishList(restaurant);
+    this.toastr.info('Success!', null, { timeOut: 300})
   }
 
   openDialog(restaurant: Restaurant){
