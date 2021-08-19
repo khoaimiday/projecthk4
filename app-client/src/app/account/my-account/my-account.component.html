@@ -8,9 +8,9 @@
                     <span style="margin-left: 20px">Khoaimiday05@gmail.com</span>
                 </span>
             </div>
-            <div class="edit-button-box">
+            <!-- <div class="edit-button-box">
                 <button mat-raised-button class="edit-button-text">Edit Profile</button>
-            </div>
+            </div> -->
         </div>
         <div class="body container">
             <div class="list-view ">
@@ -52,7 +52,7 @@
                                 </span>
                             </span>
                         </li>
-                        <li class="item" [ngClass]="{'active_item': currentRoute == 'addresses'}" (click)="changeChildRoute('addresses')" [routerLink]="['/my-account/addresses']" routerLinkActive="active">
+                        <li class="item" [ngClass]="{'active_item': currentRoute == 'addresses'}" (click)="changeChildRoute('profile')" [routerLink]="['/my-account/profile']" routerLinkActive="active">
                             <span class="text flex-view-row">
                                 <span style="transform: translateY(2px);">
                                     <mat-icon fontSet="material-icons-outlined" class="icon">
@@ -60,7 +60,7 @@
                                     </mat-icon>
                                 </span>
                                 <span style="margin-left: 10px;">
-                                    Addresses
+                                    Profile
                                 </span>
                             </span>
                         </li>

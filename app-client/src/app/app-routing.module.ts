@@ -65,7 +65,7 @@ const routes: Routes = [
     path: 'my-account', component: MyAccountComponent, canActivate: [OktaAuthGuard],
     children: [
       {
-        path: 'addresses', component: AddressesComponent
+        path: 'profile', component: AddressesComponent
       },
       {
         path: 'favourites', component: FavouritesComponent

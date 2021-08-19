@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OktaAuthService } from '@okta/okta-angular';
 
 @Component({
   selector: 'app-addresses',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddressesComponent implements OnInit {
 
-  constructor() { }
+  claims: Array<Claim>;
+  constructor( public oktaAuth: OktaAuthService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const userClaims = await this.oktaAuth.getUser();
+    this.claims = Object.entries(userClaims).map(
+          entry => ({ claim: entry[0], value: entry[1] })
+    );
+    console.log(this.claims)
   }
 
 }

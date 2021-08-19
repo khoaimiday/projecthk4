@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { OktaAuthService } from '@okta/okta-angular';
 
 @Component({
   selector: 'app-my-account',
@@ -9,15 +10,19 @@ import { ActivatedRoute } from '@angular/router';
 export class MyAccountComponent implements OnInit {
 
   currentRoute = "orders";
+
   constructor(private activetedRoute: ActivatedRoute) { 
     this.activetedRoute.url.subscribe(res=>{
      console.log(res);
-    });
+    })
+
   }
   changeChildRoute(name){
     this.currentRoute = name;
   }
+
   ngOnInit() {
   }
 
 }
+
